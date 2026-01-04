@@ -1,78 +1,87 @@
 import type { MetadataRoute } from "next"
+import colorMeaning from "@/lib/color-meaning.json"
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.colormean.com"
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean-project.vercel.app"
 
-  // Generate sitemap entries for popular colors
-  const popularColors = [
-    "ff0000",
-    "00ff00",
-    "0000ff",
-    "ffffff",
-    "000000",
-    "ff00ff",
-    "00ffff",
-    "ffff00",
-    "808080",
-    "c0c0c0",
-    "800000",
-    "808000",
-    "008000",
-    "800080",
-    "008080",
-    "000080",
+  const staticRoutes = [
+    "/",
+    "/colors",
+    "/color-meanings",
+    "/color-wheel",
+    "/color-picker",
+    "/contrast-checker",
+    "/color-blindness-simulator",
+    "/image-color-picker",
+    "/palette-from-image",
+    "/screen-color-picker",
+    "/about-us",
+    "/contact",
+    "/privacy-policy",
+    "/terms-and-conditions",
+    "/disclaimer",
+    "/editorial-policy",
+    "/cokie-policy",
   ]
 
-  const colorPages = popularColors.map((hex) => ({
-    url: `${baseUrl}/colors/${hex}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
+  const now = new Date()
+
+  const entries: MetadataRoute.Sitemap = staticRoutes.map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: now,
+    changeFrequency: path === "/" ? "weekly" : "monthly",
+    priority: path === "/" ? 1 : 0.9,
   }))
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/colors`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/color-wheel`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/color-picker`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/contrast-checker`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/color-blindness-simulator`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/image-color-picker`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    ...colorPages,
-  ]
+  const colorEntries = Object.entries(colorMeaning)
+    .filter(([, v]: any) => v?.hex && v?.meaning)
+    .map(([hex, v]: any) => {
+      const normalized = String(hex).toLowerCase()
+      return {
+        url: `${baseUrl}/colors/${normalized}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      }
+    })
+
+  async function fetchWPUrls() {
+    try {
+      const res = await fetch("https://cms.colormean.com/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `
+            query SitemapEntries {
+              posts(where: { status: PUBLISH }, first: 200) {
+                nodes { uri date }
+              }
+              pages(where: { status: PUBLISH }, first: 200) {
+                nodes { uri date }
+              }
+            }
+          `,
+        }),
+        // small cache to avoid hammering CMS during builds
+        next: { revalidate: 600 },
+      })
+      const json = await res.json()
+      const posts: Array<{ uri: string; date?: string }> = json?.data?.posts?.nodes || []
+      const pages: Array<{ uri: string; date?: string }> = json?.data?.pages?.nodes || []
+      const normalize = (u: string) => (u?.startsWith("/") ? u : `/${u || ""}`)
+      const toEntry = (u: string, d?: string): MetadataRoute.Sitemap[number] => ({
+        url: `${baseUrl}${normalize(u)}`,
+        lastModified: d ? new Date(d) : now,
+        changeFrequency: "weekly",
+        priority: 0.7,
+      })
+      return [...posts.map((p) => toEntry(p.uri, p.date)), ...pages.map((p) => toEntry(p.uri, p.date))]
+    } catch {
+      return []
+    }
+  }
+
+  const wpEntries = await fetchWPUrls()
+
+  return [...entries, ...colorEntries, ...wpEntries]
 }
