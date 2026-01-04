@@ -1,0 +1,332 @@
+{
+    "B0BF1A": { 
+         "name": "Acid Green", 
+         "hex": "#B0BF1A", 
+         "meaning": "Acid Green (#B0BF1A) signals high-energy alertness, artificial vibrancy, and disruptive innovation. Its sharp yellow-green tone mimics fluorescence under ultraviolet light, which explains its frequent use in safety gear, digital interfaces, and avant-garde fashion. Psychologically, Acid Green (#B0BF1A) triggers immediate visual attention and conveys a sense of urgency without the aggression of red. Because it sits at the intersection of organic and synthetic, this color bridges natural renewal with technological excess. Designers use Acid Green to disrupt visual norms and energize minimalist palettes with unexpected contrast.\n\nCulturally, Acid Green (#B0BF1A) gained prominence in 1980s and 1990s rave culture, symbolizing rebellion, futurism, and chemical euphoria. It also appears in environmental campaigns ironically—juxtaposing artificiality against natural green tones to critique pollution or false eco-claims. Spiritually, Acid Green lacks traditional grounding; instead, it represents transformation through destabilization. In branding, Acid Green (#B0BF1A) works best for products targeting youth markets, tech startups, or sustainability disruptors who want to stand out without conforming to earthy conventions.", 
+         "hsl": { 
+             "h": 65, 
+             "s": 76, 
+             "l": 43 
+         } 
+     }, 
+     "7CB9E8": { 
+         "name": "Aero", 
+         "hex": "#7CB9E8", 
+         "meaning": "Aero (#7CB9E8) embodies clarity, open horizons, and clean technological optimism. This soft sky blue leans slightly toward cyan, giving it a crisp, breathable quality often associated with aviation, digital interfaces, and modern healthcare. Psychologically, Aero (#7CB9E8) reduces stress by evoking cloudless skies and calm weather. Unlike deeper blues that suggest authority or melancholy, Aero promotes approachability, transparency, and mental refreshment. It serves well in user interfaces where cognitive load must remain low and trust must remain high.\n\nHistorically, Aero emerged as a named color with the rise of aerospace aesthetics in the mid-20th century. Today, Aero (#7CB9E8) conveys a seamless blend of human and machine—cool but not cold, efficient but not sterile. In branding, it appeals to eco-conscious tech firms, telehealth platforms, and clean energy startups. Spiritually, Aero suggests ascension without detachment; it lifts perspective while maintaining emotional accessibility. Use Aero (#7CB9E8) when you need to signal reliability without rigidity, or innovation without intimidation.", 
+         "hsl": { 
+             "h": 206, 
+             "s": 70, 
+             "l": 70 
+         }
+     },
+     "C9FFE5": {
+        "name": "Aero Blue",
+        "hex": "#C9FFE5",
+        "meaning": "Aero Blue (#C9FFE5) is a pale, icy cyan that suggests clinical precision, hygiene, and futuristic minimalism. Its high brightness and low saturation give it a near-white appearance, often used as a subtle background tint in web design or medical packaging. Psychologically, Aero Blue evokes coolness and sterility, making it effective for conveying cleanliness or high-tech efficiency. It lacks the warmth of turquoise or the depth of teal, positioning itself as a purely functional, airy hue.",
+        "hsl": {
+            "h": 151,
+            "s": 100,
+            "l": 89
+        }
+    },
+    "B284BE": {
+        "name": "African Violet",
+        "hex": "#B284BE",
+        "meaning": "African Violet (#B284BE) is a dusty, muted purple that communicates nostalgia, gentle spirituality, and creative introspection. Unlike royal purple, which commands power, this shade feels accessible and personal. It is often found in vintage aesthetics and floral designs. Psychologically, African Violet encourages quiet contemplation and is less stimulating than brighter purples, making it suitable for spaces dedicated to rest or meditation.",
+        "hsl": {
+            "h": 288,
+            "s": 31,
+            "l": 63
+        }
+    },
+    "5D8AA8": {
+        "name": "Air Force Blue",
+        "hex": "#5D8AA8",
+        "meaning": "Air Force Blue (#5D8AA8) is a steel-blue shade that represents discipline, duty, and professional reliability. Its gray undertone gives it a serious, grounded character, distinguishing it from more playful sky blues. It is widely used in uniforms and corporate branding to signal stability and trust. Psychologically, this color commands respect without being aggressive, embodying the quiet strength of authority and technical expertise.",
+        "hsl": {
+            "h": 204,
+            "s": 30,
+            "l": 51
+        }
+    },
+    "00308F": {
+        "name": "Air Force Blue (USAF)",
+        "hex": "#00308F",
+        "meaning": "Air Force Blue (USAF) (#00308F) is a deep, commanding blue that symbolizes strength, excellence, and national pride. It is darker and more intense than other air force blues, reflecting the gravity and power of military aviation. This color is associated with leadership, technological superiority, and unwavering commitment. In design, it is used to evoke a sense of heritage, formal authority, and high-performance capability.",
+        "hsl": {
+            "h": 220,
+            "s": 100,
+            "l": 28
+        }
+    },
+    "72A0C1": {
+        "name": "Air Superiority Blue",
+        "hex": "#72A0C1",
+        "meaning": "Air Superiority Blue (#72A0C1) is a functional, muted blue-gray designed for camouflage against the sky. It represents adaptability, stealth, and tactical advantage. Unlike decorative blues, this shade is utilitarian and understated. Psychologically, it suggests blending in, observing from a distance, and maintaining a cool, detached perspective. It is often used in designs that prioritize function over form or seek to convey a modern, tactical aesthetic.",
+        "hsl": {
+            "h": 205,
+            "s": 39,
+            "l": 60
+        }
+    },
+    "A32638": {
+        "name": "Alabama Crimson",
+        "hex": "#A32638",
+        "meaning": "Alabama Crimson (#A32638) is a deep, rich red that embodies passion, tradition, and competitive spirit. Associated with collegiate athletics, it conveys energy, pride, and a fighting spirit. Unlike bright fire-engine red, this crimson has a slightly darker, more mature tone, suggesting history and legacy. It grabs attention and stirs emotion, making it a powerful choice for branding that wants to communicate heritage and intense loyalty.",
+        "hsl": {
+            "h": 351,
+            "s": 62,
+            "l": 39
+        }
+    },
+    "F0F8FF": {
+        "name": "Alice Blue",
+        "hex": "#F0F8FF",
+        "meaning": "Alice Blue (#F0F8FF) is an extremely pale tint of azure that suggests innocence, purity, and delicate softness. Named after Alice Roosevelt, it carries a hint of historical elegance. Because it is almost white, it is often used as a background color to reduce glare while maintaining a sense of airiness. Psychologically, Alice Blue is calming and sanitary, frequently used in web design to create a clean, spacious feel without the starkness of pure white.",
+        "hsl": {
+            "h": 208,
+            "s": 100,
+            "l": 97
+        }
+    },
+    "E32636": {
+        "name": "Alizarin Crimson",
+        "hex": "#E32636",
+        "meaning": "Alizarin Crimson (#E32636) is a vivid, historically significant red pigment derived from the madder root. It symbolizes artistic tradition, raw emotion, and visceral intensity. This color has a slightly cooler, bluer undertone compared to scarlet, giving it a sophisticated and dramatic depth. It is often associated with classical painting and fine art. Psychologically, Alizarin Crimson evokes deep feelings, romantic passion, and creative expression.",
+        "hsl": {
+            "h": 355,
+            "s": 77,
+            "l": 52
+        }
+    },
+    "C46210": {
+        "name": "Alloy Orange",
+        "hex": "#C46210",
+        "meaning": "Alloy Orange (#C46210) is a warm, earthy brownish-orange that suggests ruggedness, durability, and industrial strength. It resembles rusted metal or baked clay, evoking a sense of time-worn resilience. Unlike bright safety orange, this shade is grounded and organic. It is often used in rustic designs or to convey a sense of autumn and harvest. Psychologically, Alloy Orange provides comfort and stability, connecting the viewer to the physical, material world.",
+        "hsl": {
+            "h": 27,
+            "s": 85,
+            "l": 42
+        }
+    },
+    "EFDECD": {
+        "name": "Almond",
+        "hex": "#EFDECD",
+        "meaning": "Almond (#EFDECD) is a pale, creamy beige that represents neutrality, wholesomeness, and natural simplicity. It is a soft, unobtrusive color that serves as an excellent neutral background. Psychologically, Almond is soothing and unpretentious, evoking the comfort of natural materials like wood, stone, and unbleached fabric. It suggests organic purity and is frequently used in interiors and packaging to convey a sense of calm and natural quality.",
+        "hsl": {
+            "h": 30,
+            "s": 52,
+            "l": 87
+        }
+    },
+    "E52B50": {
+        "name": "Amaranth",
+        "hex": "#E52B50",
+        "meaning": "Amaranth (#E52B50) is a reddish-rose color named after the amaranth flower, which symbolizes immortality and unfading love. It is vibrant, energetic, and slightly exotic. This color combines the passion of red with the playfulness of pink. Psychologically, Amaranth suggests vitality, eternal youth, and lasting beauty. It is an attention-grabbing hue that feels both modern and timeless, often used to signal bold femininity or artistic flair.",
+        "hsl": {
+            "h": 348,
+            "s": 78,
+            "l": 53
+        }
+    },
+    "F19CBB": {
+        "name": "Amaranth Pink",
+        "hex": "#F19CBB",
+        "meaning": "Amaranth Pink (#F19CBB) is a soft, sweet shade of pink that conveys gentleness, affection, and youthful charm. It is lighter and more delicate than the bold Amaranth red. Psychologically, this color evokes feelings of care, nurturing, and innocent romance. It is often used in designs targeting younger audiences or products that want to communicate softness and approachability. It feels friendly, non-threatening, and delightfully sugary.",
+        "hsl": {
+            "h": 338,
+            "s": 76,
+            "l": 78
+        }
+    },
+    "AB274F": {
+        "name": "Amaranth Purple",
+        "hex": "#AB274F",
+        "meaning": "Amaranth Purple (#AB274F) is a rich, deep reddish-purple that suggests mystery, creativity, and spiritual depth. It balances the energy of red with the stability of blue, resulting in a color that feels both dynamic and introspective. Psychologically, Amaranth Purple is associated with non-conformity and artistic expression. It avoids the regal stiffness of royal purple, offering instead a more bohemian, expressive, and emotional vibe.",
+        "hsl": {
+            "h": 342,
+            "s": 63,
+            "l": 41
+        }
+    },
+    "3B7A57": {
+        "name": "Amazon",
+        "hex": "#3B7A57",
+        "meaning": "Amazon (#3B7A57) is a deep, lush green that symbolizes nature, growth, and ecological richness. Named after the vast rainforest, it represents vitality, abundance, and the untamed natural world. Psychologically, Amazon green is restorative and balancing. It reduces anxiety by connecting the viewer to the soothing properties of plant life. It is often used in branding for environmental organizations, health products, and outdoor lifestyle brands to signal sustainability and health.",
+        "hsl": {
+            "h": 147,
+            "s": 35,
+            "l": 35
+        }
+    },
+    "FFBF00": {
+        "name": "Amber",
+        "hex": "#FFBF00",
+        "meaning": "Amber (#FFBF00) is a warm, glowing yellow-orange that represents energy, preservation, and caution. Historically associated with the fossilized resin, it suggests timelessness and natural value. In modern contexts, it is the color of traffic signals, indicating awareness and preparation. Psychologically, Amber is stimulating and cheerful, promoting optimism and mental activity. It radiates a friendly warmth, making it inviting and energetic without the aggression of red.",
+        "hsl": {
+            "h": 45,
+            "s": 100,
+            "l": 50
+        }
+    },
+    "FF7E00": {
+        "name": "Amber (SAE/ECE)",
+        "hex": "#FF7E00",
+        "meaning": "Amber (SAE/ECE) (#FF7E00) is a highly visible, vibrant orange designed for automotive signaling. It represents safety, warning, and attention. This specific shade is engineered to be seen through fog and distance. Psychologically, it triggers an immediate alertness response. It is less about warmth and emotion and more about functional communication and hazard awareness. It commands attention and signals a change in status or a need for caution.",
+        "hsl": {
+            "h": 30,
+            "s": 100,
+            "l": 50
+        }
+    },
+    "9966CC": {
+        "name": "Amethyst",
+        "hex": "#9966CC",
+        "meaning": "Amethyst (#9966CC) is a moderate violet associated with spiritual healing, clarity, and royalty. Named after the gemstone, it suggests luxury, wisdom, and protection against intoxication (historically). Psychologically, Amethyst promotes calmness and balance, bridging the physical and spiritual realms. It is often used in wellness and luxury branding to convey a sense of mystical elegance and high-quality tranquility.",
+        "hsl": {
+            "h": 270,
+            "s": 50,
+            "l": 60
+        }
+    },
+    "A4C639": {
+        "name": "Android Green",
+        "hex": "#A4C639",
+        "meaning": "Android Green (#A4C639) is a modern, tech-focused yellow-green that symbolizes innovation, open-source culture, and digital growth. Made famous by the mobile operating system, it represents friendliness, accessibility, and futuristic technology. Psychologically, it is an energetic and optimistic color that feels fresh and new. It bridges the gap between organic life and artificial intelligence, suggesting a harmonious integration of technology and humanity.",
+        "hsl": {
+            "h": 74,
+            "s": 55,
+            "l": 50
+        }
+    },
+    "CD9575": {
+        "name": "Antique Brass",
+        "hex": "#CD9575",
+        "meaning": "Antique Brass (#CD9575) is a warm, brownish-orange that evokes history, durability, and classic craftsmanship. It suggests something aged, valuable, and enduring. Psychologically, this color provides a sense of comfort and stability, reminiscent of old metalwork and heritage interiors. It is often used to convey a vintage aesthetic, authenticity, and a connection to the past, appealing to those who value tradition and timeless quality.",
+        "hsl": {
+            "h": 22,
+            "s": 47,
+            "l": 63
+        }
+    },
+    "665D1E": {
+        "name": "Antique Bronze",
+        "hex": "#665D1E",
+        "meaning": "Antique Bronze (#665D1E) is a dark, olive-toned brown that represents resilience, history, and earthy strength. It suggests the patina of age and the endurance of metal. Unlike shiny gold, it is understated and dignified. Psychologically, Antique Bronze conveys reliability and a grounded nature. It is often used in designs that want to project a sense of established authority, old-world charm, and solid, unbreakable quality.",
+        "hsl": {
+            "h": 53,
+            "s": 55,
+            "l": 26
+        }
+    },
+    "915C83": {
+        "name": "Antique Fuchsia",
+        "hex": "#915C83",
+        "meaning": "Antique Fuchsia (#915C83) is a muted, dusty purplish-red that combines feminine elegance with vintage sophistication. It is less aggressive than bright fuchsia, offering a more mature and refined aesthetic. Psychologically, it evokes nostalgia, romance, and quiet confidence. It is often found in Victorian-inspired designs and fashion, suggesting a sense of faded grandeur and timeless beauty.",
+        "hsl": {
+            "h": 316,
+            "s": 22,
+            "l": 46
+        }
+    },
+    "841B2D": {
+        "name": "Antique Ruby",
+        "hex": "#841B2D",
+        "meaning": "Antique Ruby (#841B2D) is a deep, dark red that symbolizes wealth, passion, and historical luxury. It suggests the depth of precious stones and the richness of velvet. Psychologically, Antique Ruby conveys intense emotion and a sense of exclusivity. It is a dramatic color often used in high-end branding and interior design to create an atmosphere of opulence, warmth, and dramatic flair.",
+        "hsl": {
+            "h": 350,
+            "s": 66,
+            "l": 31
+        }
+    },
+    "FAEBD7": {
+        "name": "Antique White",
+        "hex": "#FAEBD7",
+        "meaning": "Antique White (#FAEBD7) is a warm, creamy off-white that represents age, softness, and classic elegance. It mimics the color of old paper or lace, evoking a sense of history and nostalgia. Psychologically, it is less harsh than pure white, offering a more inviting and comfortable visual experience. It is widely used in backgrounds to create a warm, readable, and non-straining environment, suggesting traditional values and gentle sophistication.",
+        "hsl": {
+            "h": 34,
+            "s": 78,
+            "l": 91
+        }
+    },
+    "008000": {
+        "name": "Ao (English)",
+        "hex": "#008000",
+        "meaning": "Ao (English) (#008000) represents a standard, solid green that symbolizes nature, growth, and safety. In the context of English color terminology, it aligns with 'green' as a primary category. Psychologically, it is the color of balance and harmony, sitting in the center of the visible spectrum. It represents renewal, environmental awareness, and stability. It is the universal signal for 'go' and approval, conveying a positive and affirming message.",
+        "hsl": {
+            "h": 120,
+            "s": 100,
+            "l": 25
+        }
+    },
+    "8DB600": {
+        "name": "Apple Green",
+        "hex": "#8DB600",
+        "meaning": "Apple Green (#8DB600) is a fresh, crisp yellow-green that embodies vitality, health, and new beginnings. It is the color of spring and fresh produce. Psychologically, Apple Green is energizing and appetizing. It suggests tartness and zest, making it popular in food branding and designs related to nutrition and wellness. It conveys a sense of youthful energy, playfulness, and natural freshness.",
+        "hsl": {
+            "h": 74,
+            "s": 100,
+            "l": 36
+        }
+    },
+    "FBCEB1": {
+        "name": "Apricot",
+        "hex": "#FBCEB1",
+        "meaning": "Apricot (#FBCEB1) is a soft, pale orange-pink that represents warmth, friendliness, and delicate sweetness. It is less intense than orange and more nurturing than pink. Psychologically, Apricot is inviting and comforting. It evokes the tactile fuzziness of the fruit and the gentle light of early sunset. It is used to convey approachability, social connection, and a soft, healthy glow, often found in cosmetics and wellness branding.",
+        "hsl": {
+            "h": 24,
+            "s": 90,
+            "l": 84
+        }
+    },
+    "00FFFF": {
+        "name": "Aqua",
+        "hex": "#00FFFF",
+        "meaning": "Aqua (#00FFFF) is a brilliant, electric cyan that represents water, electricity, and digital clarity. It is synonymous with energy, fluidity, and refreshment. Psychologically, Aqua is invigorating and stimulating. It combines the calming properties of blue with the uplifting energy of yellow (hidden in the green mix). It suggests cleanliness, hydration, and futuristic technology. It is often used to grab attention and convey a sense of modern, clean efficiency.",
+        "hsl": {
+            "h": 180,
+            "s": 100,
+            "l": 50
+        }
+    },
+    "7FFFD4": {
+        "name": "Aquamarine",
+        "hex": "#7FFFD4",
+        "meaning": "Aquamarine (#7FFFD4) is a pale, bright blue-green that symbolizes the clarity of tropical waters and emotional healing. Named after the gemstone, it suggests tranquility, youth, and happiness. Psychologically, Aquamarine is calming and cooling. It encourages open communication and emotional release. It is a lighthearted color that feels airy and spacious, often used in designs related to travel, spas, and relaxation to evoke a carefree, oceanic vibe.",
+        "hsl": {
+            "h": 160,
+            "s": 100,
+            "l": 75
+        }
+    },
+    "D0FF14": {
+        "name": "Arctic Lime",
+        "hex": "#D0FF14",
+        "meaning": "Arctic Lime (#D0FF14) is an intense, electric neon green with a cool undertone, representing extreme energy, digital culture, and high-visibility action. It is disruptive and impossible to ignore. Psychologically, Arctic Lime is stimulating and slightly jarring, designed to cut through visual clutter. It is popular in sportswear and digital interfaces to signal peak performance, modernity, and a bold, unapologetic attitude.",
+        "hsl": {
+            "h": 72,
+            "s": 100,
+            "l": 54
+        }
+    },
+    "4B5320": {
+        "name": "Army Green",
+        "hex": "#4B5320",
+        "meaning": "Army Green (#4B5320) is a dark, desaturated olive that symbolizes camouflage, resilience, and military strength. It represents a connection to the earth and the ability to endure harsh conditions. Psychologically, Army Green conveys discipline, seriousness, and protection. It is a utilitarian color that suggests reliability and ruggedness. In fashion and design, it is often used to evoke a sense of toughness, functionality, and grounded stability.",
+        "hsl": {
+            "h": 69,
+            "s": 44,
+            "l": 23
+        }
+    },
+    "8F9779": {
+        "name": "Artichoke",
+        "hex": "#8F9779",
+        "meaning": "Artichoke (#8F9779) is a muted, grayish-green that represents organic subtlety, sophistication, and savory flavors. It is an earthy color that feels cultivated rather than wild. Psychologically, Artichoke is calming and neutral. It suggests maturity, health, and a connection to the culinary world. It is often used in home decor and food branding to convey a sense of natural elegance, sustainability, and understated taste.",
+        "hsl": {
+            "h": 76,
+            "s": 13,
+            "l": 53
+        }
+    }
+}
