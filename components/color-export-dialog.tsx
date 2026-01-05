@@ -95,7 +95,7 @@ export function ColorExportDialog({ open, onOpenChange, title = "Export Colors",
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <ColorCombination colors={colors} baseHex={baseHex} height={72} />
+          <ColorCombination colors={colors} baseHex={baseHex} height={64} />
 
           <div className="grid grid-cols-2 gap-2">
             <Button onClick={downloadCombinedImage} className="gap-2">

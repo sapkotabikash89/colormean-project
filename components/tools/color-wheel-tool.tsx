@@ -351,7 +351,7 @@ export function ColorWheelTool() {
               </div>
               <div className="space-y-2">
                 <div className="w-full">
-                  <ColorCombination colors={harmonies} baseHex={baseColor} height={64} />
+                  <ColorCombination colors={harmonies} baseHex={baseColor} height={56} />
                 </div>
               </div>
             </div>

@@ -453,7 +453,7 @@ export function ImageColorPickerTool() {
                         Export
                       </Button>
                     </div>
-                    <div className="flex rounded-lg overflow-hidden border-2 border-border h-12">
+                    <div className="flex rounded-lg overflow-hidden border-2 border-border h-10">
                       {palette.map((color, index) => (
                         <div
                           key={index}

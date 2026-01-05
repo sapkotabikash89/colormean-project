@@ -31,7 +31,6 @@ import {
 } from "@/lib/color-utils"
 import { CustomColorPicker } from "@/components/custom-color-picker"
 import { ColorCombination } from "@/components/color-combination"
-import { ColorSwatchGrid } from "@/components/color-swatch-grid"
 import { ColorSwatch as Swatch } from "@/components/color-swatch"
 import { Share, Heart, Check, Copy } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
@@ -373,13 +372,31 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
                 <TabsTrigger value="tones">Tones</TabsTrigger>
               </TabsList>
               <TabsContent value="tints" className="mt-4">
-                <ColorSwatchGrid colors={tints} limit={10} smallGap={true} showHex={true} />
+                <div className="flex justify-center">
+                  <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
+                    {tints.slice(0, 10).map((c, idx) => (
+                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
               <TabsContent value="shades" className="mt-4">
-                <ColorSwatchGrid colors={shades} limit={10} smallGap={true} showHex={true} />
+                <div className="flex justify-center">
+                  <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
+                    {shades.slice(0, 10).map((c, idx) => (
+                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
               <TabsContent value="tones" className="mt-4">
-                <ColorSwatchGrid colors={tones} limit={10} smallGap={true} showHex={true} />
+                <div className="flex justify-center">
+                  <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
+                    {tones.slice(0, 10).map((c, idx) => (
+                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </>
@@ -416,7 +433,7 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
                     </Button>
                   </div>
                   <p className="text-sm text-muted-foreground">{harmonyDescriptions[type]}</p>
-                  <ColorCombination colors={harmony.colors} baseHex={hex} height={60} />
+                  <ColorCombination colors={harmony.colors} baseHex={hex} />
                 </div>
               ))}
             </div>
@@ -594,7 +611,13 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
               harmonious alternatives and complementary options that work well alongside this color in comprehensive color
               schemes.
             </p>
-            <ColorSwatchGrid colors={relatedColors} limit={10} smallGap={true} showHex={true} />
+            <div className="flex justify-center">
+              <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
+                {relatedColors.slice(0, 10).map((c, idx) => (
+                  <Swatch key={`${c}-${idx}`} color={c} showHex />
+                ))}
+              </div>
+            </div>
           </>
         ) : null}
       </Card>
@@ -680,7 +703,9 @@ function ColorCodeItem({ label, value }: { label: string; value: string }) {
 
 function ColorBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
   const percentage = (value / max) * 100
-
+  const whiteLabels = new Set(["Red", "Blue", "Key (Black)"])
+  const blackLabels = new Set(["Green", "Yellow", "Cyan", "Magenta"])
+  const textColor = whiteLabels.has(label) ? "#FFFFFF" : blackLabels.has(label) ? "#000000" : getContrastColor(color)
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
@@ -695,7 +720,7 @@ function ColorBar({ label, value, max, color }: { label: string; value: number; 
           style={{
             width: `${percentage}%`,
             backgroundColor: color,
-            color: percentage > 50 ? "#000" : "#FFF",
+            color: textColor,
           }}
         >
           {percentage > 10 && `${percentage.toFixed(0)}%`}

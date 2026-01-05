@@ -257,7 +257,7 @@ export function PaletteFromImageTool() {
                       ))}
                     </div>
 
-                    <div className="flex rounded-lg overflow-hidden border-2 border-border h-20">
+                    <div className="flex rounded-lg overflow-hidden border-2 border-border h-16">
                       {palette.map((item, index) => (
                         <div
                           key={index}
