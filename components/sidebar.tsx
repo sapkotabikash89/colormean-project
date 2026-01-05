@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getColorHarmony } from "@/lib/color-utils"
@@ -17,6 +18,7 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
   const [color, setColor] = useState(initialColor)
   const [harmonyType, setHarmonyType] = useState("analogous")
   const [exportOpen, setExportOpen] = useState(false)
+  const [latestPosts, setLatestPosts] = useState<Array<{ title: string; uri: string }>>([])
 
   useEffect(() => {
     const handleColorUpdate = (e: CustomEvent) => {
@@ -53,6 +55,32 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
     }
   }
 
+  useEffect(() => {
+    const fetchLatest = async () => {
+      try {
+        const res = await fetch("https://cms.colormean.com/graphql", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `
+              query LatestPosts {
+                posts(first: 4, where: { orderby: { field: DATE, order: DESC } }) {
+                  nodes { title uri }
+                }
+              }
+            `,
+          }),
+        })
+        const json = await res.json()
+        const nodes = json?.data?.posts?.nodes || []
+        setLatestPosts(nodes.filter((n: any) => !!n?.title && !!n?.uri))
+      } catch {
+        setLatestPosts([])
+      }
+    }
+    fetchLatest()
+  }, [])
+
   return (
     <aside className="w-full lg:w-96 space-y-6 sticky top-24 self-start">
       <div className="bg-card border border-border rounded-lg p-6 space-y-4">
@@ -87,6 +115,37 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
 
         <ColorCombination colors={harmonies} baseHex={color} height={72} />
       </div>
+
+      {latestPosts.length > 0 && (
+        <div className="bg-card border border-border rounded-lg p-6 space-y-4">
+          <h3 className="font-semibold text-lg">Latest Posts</h3>
+          <ul className="space-y-3">
+            {latestPosts.map((p, idx) => {
+              const numBg = color
+              const numColor = getContrastColor(numBg)
+              return (
+                <li key={`${p.uri}-${idx}`} className="flex items-center gap-3">
+                  <span
+                    className="inline-flex items-center justify-center rounded-full shrink-0"
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      backgroundColor: numBg,
+                      color: numColor,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {idx + 1}
+                  </span>
+                  <Link href={p.uri} className="hover:underline line-clamp-1">
+                    {p.title}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
       <ColorExportDialog
         open={exportOpen}
         onOpenChange={setExportOpen}

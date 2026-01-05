@@ -711,7 +711,7 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
       description: node.seo.opengraphDescription || node.seo.metaDesc || "",
       type: node.seo.opengraphType || "article",
       url: canonical,
-      siteName: node.seo.opengraphSiteName || "ColorMean",
+      siteName: "ColorMean",
       publishedTime: node.seo.opengraphPublishedTime || undefined,
       modifiedTime: node.seo.opengraphModifiedTime || undefined,
       authors: node.seo.opengraphAuthor ? [node.seo.opengraphAuthor] : undefined,
