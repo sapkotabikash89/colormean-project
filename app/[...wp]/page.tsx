@@ -10,6 +10,8 @@ import { WPColorContext } from "@/components/wp-color-context"
 import { ColorPageContent } from "@/components/color-page-content"
 import { WPSEOHead } from "@/components/wpseo-head"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { CopyButton } from "@/components/copy-button"
+import { getContrastColor, hexToRgb, rgbToHsl } from "@/lib/color-utils"
 
 async function fetchPostByUri(uri: string) {
   const variants = Array.from(
@@ -860,7 +862,13 @@ export default async function WPPostPage({ params }: WPPageProps) {
       ) : null}
       <WPColorContext color={postColor} />
       <Header />
-      <section className="bg-muted/30 py-8 px-4">
+      <section
+        className="py-12 px-4 transition-colors"
+        style={{
+          backgroundColor: shortcodeHex || postColor,
+          color: getContrastColor(shortcodeHex || postColor),
+        }}
+      >
         <div className="container mx-auto">
           <BreadcrumbNav items={crumbs} />
           <BreadcrumbSchema
@@ -871,10 +879,67 @@ export default async function WPPostPage({ params }: WPPageProps) {
             ]}
           />
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-left sm:text-center">{node.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">{node.title}</h1>
+            {(() => {
+              const HEX = (shortcodeHex || postColor).toUpperCase()
+              const rgb = hexToRgb(HEX)
+              const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
+              return (
+                <div className="max-w-4xl mx-auto">
+                  <div className="font-mono text-xs md:text-sm flex flex-wrap justify-center gap-4">
+                    <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${HEX}`} value={HEX} />
+                    {rgb && (
+                      <CopyButton
+                        showIcon={false}
+                        variant="ghost"
+                        size="sm"
+                        className="p-0 h-auto"
+                        label={`RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
+                        value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
+                      />
+                    )}
+                    {hsl && (
+                      <CopyButton
+                        showIcon={false}
+                        variant="ghost"
+                        size="sm"
+                        className="p-0 h-auto"
+                        label={`HSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
+                        value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
+                      />
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         </div>
       </section>
+      <div className="w-full py-3 px-4">
+        <div className="container mx-auto">
+          <div className="flex flex-wrap justify-center items-center gap-1 text-black font-medium text-[11px] sm:text-sm">
+            <a href="#definition" className="px-0.5 text-purple-600">Definition</a>
+            <span>|</span>
+            <a href="#history" className="px-0.5 text-purple-600">History</a>
+            <span>|</span>
+            <a href="#symbolism" className="px-0.5 text-purple-600">Symbolism</a>
+            <span>|</span>
+            <a href="#spiritual-meaning" className="px-0.5 text-purple-600">Spiritual Meaning</a>
+            <span>|</span>
+            <a href="#psychology" className="px-0.5 text-purple-600">Psychology</a>
+            <span>|</span>
+            <a href="#personality" className="px-0.5 text-purple-600">Personality</a>
+            <span>|</span>
+            <a href="#cultural-meaning" className="px-0.5 text-purple-600">Cultural Meaning</a>
+            <span>|</span>
+            <a href="#dreams-meaning" className="px-0.5 text-purple-600">Dreams Meaning</a>
+            <span>|</span>
+            <a href="#uses" className="px-0.5 text-purple-600">Uses</a>
+            <span>|</span>
+            <a href="#technical-information" className="px-0.5 text-purple-600">Technical Information</a>
+          </div>
+        </div>
+      </div>
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
@@ -1211,6 +1276,30 @@ function enhanceContentHtml(html: string, accentColor: string): string {
   out = out.replace(/style='([^']*)'/gi, (m, s1) => {
     return `style='${adjustStyleColor(s1)}'`
   })
+  const stripHtml = (s: string) => s.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
+  const addAnchors = (input: string) => {
+    return input.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (m, attrs, inner) => {
+      const text = stripHtml(inner).toLowerCase()
+      let id = ""
+      if (/^what is the color\b/.test(text)) id = "definition"
+      else if (/^history of the color\b/.test(text)) id = "history"
+      else if (/^symbolism and representation of\b/.test(text)) id = "symbolism"
+      else if (/^meaning of the color\b.*\bin spirituality\b/.test(text)) id = "spiritual-meaning"
+      else if (/^the psychological meaning of\b/.test(text)) id = "psychology"
+      else if (/^color\b.*\b personality traits\b/.test(text)) id = "personality"
+      else if (/^cultural and religious significance of\b/.test(text)) id = "cultural-meaning"
+      else if (/^dream interpretations of the color\b/.test(text)) id = "dreams-meaning"
+      else if (/^how to use the color\b/.test(text)) id = "uses"
+      else if (/^technical information$/.test(text)) id = "technical-information"
+      if (!id) return m
+      const hasId = /\bid\s*=/.test(attrs || "")
+      if (hasId) return `<h2${attrs}>${inner}</h2>`
+      const trimmed = (attrs || "").trim()
+      const extra = trimmed.length ? ` ${trimmed}` : ""
+      return `<h2${extra} id="${id}">${inner}</h2>`
+    })
+  }
+  out = addAnchors(out)
   return out
 }
 

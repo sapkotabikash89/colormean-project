@@ -5,7 +5,7 @@ import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorPageContent } from "@/components/color-page-content"
 import { normalizeHex, isValidHex, getContrastColor, hexToRgb, rgbToHsl, rgbToCmyk, getColorHarmony } from "@/lib/color-utils"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { BreadcrumbSchema, FAQSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
 import { generateFAQs } from "@/lib/category-utils"
@@ -50,6 +50,11 @@ export default async function ColorPage({ params }: ColorPageProps) {
 
   if (!isValidHex(normalizedHex)) {
     notFound()
+  }
+
+  const redirected = await maybeRedirectToBlog(normalizedHex)
+  if (redirected) {
+    redirect(redirected)
   }
 
   const contrastColor = getContrastColor(normalizedHex)
@@ -138,4 +143,47 @@ export default async function ColorPage({ params }: ColorPageProps) {
       <Footer />
     </div>
   )
+}
+
+async function maybeRedirectToBlog(hex: string): Promise<string | null> {
+  const site = "https://www.colormean.com"
+  const searchTerm = hex.toUpperCase()
+  try {
+    const res = await fetch("https://cms.colormean.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+          query SearchByHex($q: String!) {
+            posts(where: { search: $q }, first: 3) {
+              nodes { uri content }
+            }
+            pages(where: { search: $q }, first: 3) {
+              nodes { uri content }
+            }
+          }
+        `,
+        variables: { q: searchTerm },
+      }),
+      next: { revalidate: 600, tags: [`wp:shortcode:${searchTerm}`] },
+    })
+    const json = await res.json()
+    const nodes: Array<{ uri: string; content: string }> = [
+      ...((json?.data?.posts?.nodes as any[]) || []),
+      ...((json?.data?.pages?.nodes as any[]) || []),
+    ]
+    const clean = searchTerm.replace("#", "").toLowerCase()
+    for (const n of nodes) {
+      const html = (n?.content || "") as string
+      if (matchesShortcode(html, clean)) {
+        if (n?.uri) return new URL(n.uri, site).toString()
+      }
+    }
+  } catch {}
+  return null
+}
+
+function matchesShortcode(html: string, cleanHexLower: string): boolean {
+  const re = new RegExp(`\\[colormean[^\\]]*hex\\s*=\\s*['"]?#?${cleanHexLower}['"]?`, "i")
+  return re.test(html || "")
 }
