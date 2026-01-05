@@ -15,25 +15,19 @@ function CombinationStripe({
   onClick: () => void
 }) {
   const stripeRef = useRef<HTMLButtonElement>(null)
-  const contrast = getContrastColor(hex)
-  const border = isOriginal ? `2px solid ${contrast}` : "0px solid transparent"
   return (
     <div className="flex-1 min-w-0 flex flex-col items-center group">
       <button
         ref={stripeRef}
-        className="w-full h-full relative transition-transform group-hover:scale-105"
-        style={{ backgroundColor: hex, border }}
+        className="w-full h-full relative transition-transform group-hover:scale-105 first:rounded-l-2xl last:rounded-r-2xl"
+        style={{ backgroundColor: hex }}
         onClick={onClick}
         title={hex}
       >
-        {isOriginal ? (
-          <span
-            className="absolute top-1 right-1 text-[10px] font-bold"
-            style={{ color: contrast }}
-          >
-            o
-          </span>
-        ) : null}
+        {!isOriginal ? null : (
+          <span className="absolute top-1 right-1 text-[10px] font-bold text-background">o</span>
+        )}
+        <span className="absolute left-0 top-0 h-full w-[2px] bg-background" aria-hidden />
       </button>
       <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <CopyButton

@@ -15,7 +15,7 @@ export function ColorSwatchGrid({
   showHex?: boolean
 }) {
   const items = useMemo(() => colors.slice(0, limit), [colors, limit])
-  const gapClass = smallGap ? "gap-1.5" : "gap-3"
+  const gapClass = smallGap ? "gap-[2px]" : "gap-3"
   return (
     <div className={`grid grid-cols-5 md:grid-cols-10 justify-center ${gapClass} place-items-center`}>
       {items.map((hex, i) => (
