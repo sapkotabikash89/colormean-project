@@ -1338,8 +1338,15 @@ function extractShortcodeHex(html: string): string | null {
     decoded.match(/hex\s*=\s*([^\s"']+)/i)
   const val = m?.[1]?.trim()
   if (!val) return null
-  const clean = val.replace(/^#/, "")
-  if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null
+  const raw = val.replace(/^#/, "").toLowerCase()
+  let clean = ""
+  if (/^[0-9a-f]{6}$/.test(raw)) {
+    clean = raw
+  } else if (/^[0-9a-f]{3}$/.test(raw)) {
+    clean = `${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}`
+  } else {
+    return null
+  }
   return `#${clean.toUpperCase()}`
 }
 

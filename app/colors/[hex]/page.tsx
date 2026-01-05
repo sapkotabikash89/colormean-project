@@ -172,10 +172,10 @@ async function maybeRedirectToBlog(hex: string): Promise<string | null> {
       ...((json?.data?.posts?.nodes as any[]) || []),
       ...((json?.data?.pages?.nodes as any[]) || []),
     ]
-    const clean = searchTerm.replace("#", "").toLowerCase()
     for (const n of nodes) {
       const html = (n?.content || "") as string
-      if (matchesShortcode(html, clean)) {
+      const scHex = parseShortcodeHex(html)
+      if (scHex && scHex.toUpperCase() === searchTerm.toUpperCase()) {
         if (n?.uri) return new URL(n.uri, site).toString()
       }
     }
@@ -183,7 +183,36 @@ async function maybeRedirectToBlog(hex: string): Promise<string | null> {
   return null
 }
 
-function matchesShortcode(html: string, cleanHexLower: string): boolean {
-  const re = new RegExp(`\\[colormean[^\\]]*hex\\s*=\\s*['"]?#?${cleanHexLower}['"]?`, "i")
-  return re.test(html || "")
+function parseShortcodeHex(html: string): string | null {
+  const tag = (html || "").match(/\[colormean\b([^\]]*)\]/i)
+  if (!tag) return null
+  const attrs = tag[1] || ""
+  const decoded = attrs
+    .replace(/&quot;/gi, '"')
+    .replace(/&apos;/gi, "'")
+    .replace(/&ldquo;/gi, '"')
+    .replace(/&rdquo;/gi, '"')
+    .replace(/&lsquo;/gi, "'")
+    .replace(/&rsquo;/gi, "'")
+    .replace(/&#34;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&#8220;/gi, '"')
+    .replace(/&#8221;/gi, '"')
+    .replace(/&#8216;/gi, "'")
+    .replace(/&#8217;/gi, "'")
+    .replace(/\u201C|\u201D/g, '"')
+    .replace(/\u2018|\u2019/g, "'")
+  const m =
+    decoded.match(/hex\s*=\s*"([^"]+)"/i) ||
+    decoded.match(/hex\s*=\s*'([^']+)'/i) ||
+    decoded.match(/hex\s*=\s*([^\s"']+)/i)
+  const val = m?.[1]?.trim()
+  if (!val) return null
+  const raw = val.replace(/^#/, "").toLowerCase()
+  if (/^[0-9a-f]{6}$/.test(raw)) return `#${raw.toUpperCase()}`
+  if (/^[0-9a-f]{3}$/.test(raw)) {
+    const exp = `${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}`
+    return `#${exp.toUpperCase()}`
+  }
+  return null
 }

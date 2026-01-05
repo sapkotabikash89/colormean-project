@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Palette } from "lucide-react"
 
 export function Footer() {
   return (
@@ -9,9 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent">
-                <Palette className="w-5 h-5 text-primary-foreground" />
-              </div>
+              <img src="/logo.png" alt="ColorMean logo" className="h-8 w-auto rounded-lg" />
               <span>ColorMean</span>
             </Link>
             <p className="text-sm text-muted-foreground">
