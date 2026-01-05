@@ -184,7 +184,12 @@ async function maybeRedirectToBlog(hex: string): Promise<string | null> {
 }
 
 function parseShortcodeHex(html: string): string | null {
-  const tag = (html || "").match(/\[colormean\b([^\]]*)\]/i)
+  const pre = (html || "")
+    .replace(/&#91;/gi, "[")
+    .replace(/&#93;/gi, "]")
+    .replace(/\u005B/g, "[")
+    .replace(/\u005D/g, "]")
+  const tag = pre.match(/\[\s*colormean\b([\s\S]*?)\]/i)
   if (!tag) return null
   const attrs = tag[1] || ""
   const decoded = attrs

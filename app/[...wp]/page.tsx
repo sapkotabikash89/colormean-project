@@ -1311,7 +1311,12 @@ function shortTitle(title: string): string {
 }
 
 function extractShortcodeHex(html: string): string | null {
-  const tag = html.match(/\[colormean\b([^\]]*)\]/i)
+  const pre = (html || "")
+    .replace(/&#91;/gi, "[")
+    .replace(/&#93;/gi, "]")
+    .replace(/\u005B/g, "[")
+    .replace(/\u005D/g, "]")
+  const tag = pre.match(/\[\s*colormean\b([\s\S]*?)\]/i)
   if (!tag) return null
   const attrs = tag[1] || ""
   const decoded = attrs
@@ -1351,5 +1356,8 @@ function extractShortcodeHex(html: string): string | null {
 }
 
 function removeShortcode(html: string): string {
-  return html.replace(/\[colormean\b[^\]]*\]/gi, "")
+  return (html || "")
+    .replace(/&#91;/gi, "[")
+    .replace(/&#93;/gi, "]")
+    .replace(/\[\s*colormean\b[\s\S]*?\]/gi, "")
 }
