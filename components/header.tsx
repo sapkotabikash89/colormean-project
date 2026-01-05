@@ -66,9 +66,7 @@ export function Header() {
       <div className="container max-w-7xl mx-auto flex justify-center h-16 items-center gap-4 px-[5px] sm:px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent">
-            <Palette className="w-5 h-5 text-primary-foreground" />
-          </div>
+          <img src="/logo.png" alt="ColorMean logo" className="h-8 w-auto" />
           <span className="hidden sm:inline-block">ColorMean</span>
         </Link>
 

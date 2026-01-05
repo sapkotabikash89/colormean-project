@@ -124,7 +124,7 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
               const numBg = color
               const numColor = getContrastColor(numBg)
               return (
-                <li key={`${p.uri}-${idx}`} className="flex items-center gap-3">
+                <li key={`${p.uri}-${idx}`} className="flex items-start gap-3">
                   <span
                     className="inline-flex items-center justify-center rounded-full shrink-0"
                     style={{
@@ -137,7 +137,7 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
                   >
                     {idx + 1}
                   </span>
-                  <Link href={p.uri} className="hover:underline line-clamp-1">
+                  <Link href={p.uri} className="hover:underline whitespace-normal break-words">
                     {p.title}
                   </Link>
                 </li>

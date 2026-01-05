@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     title: "ColorMean - Know Your Color",
     description: "Explore colors with detailed information, meanings, conversions, and professional tools.",
   },
+  icons: { icon: "/favicon.png" },
   robots: {
     index: true,
     follow: true,
