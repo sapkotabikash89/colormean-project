@@ -1013,22 +1013,24 @@ export default async function WPPostPage({ params }: WPPageProps) {
 }
 
 function parseContentPieces(html: string): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
-  const input = html || ""
+  const norm = (html || "")
+    .replace(/&amp;#91;|&#91;|&#x005[bB];|&#x5[bB];|&lsqb;/g, "[")
+    .replace(/&amp;#93;|&#93;|&#x005[dD];|&#x5[dD];|&rsqb;/g, "]")
   const re =
-    /(\[|&#91;|&#x005[bB];|&#x5[bB];)\s*colormean\b([\s\S]*?)(\]|&#93;|&#x005[dD];|&#x5[dD];)/gi
+    /(\[)\s*colormean\b([\s\S]*?)(\])/gi
   const out: Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> = []
   let last = 0
-  for (const m of input.matchAll(re) as any) {
+  for (const m of norm.matchAll(re) as any) {
     const start = m.index as number
     const full = m[0] as string
     const attrs = m[2] as string
-    const prev = input.slice(last, start)
+    const prev = norm.slice(last, start)
     if (prev) out.push({ kind: "html", html: prev })
     const hex = parseAttrsHex(attrs)
     if (hex) out.push({ kind: "shortcode", hex })
     last = start + full.length
   }
-  const rest = input.slice(last)
+  const rest = norm.slice(last)
   if (rest) out.push({ kind: "html", html: rest })
   return out
 }
