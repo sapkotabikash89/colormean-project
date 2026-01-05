@@ -16,8 +16,8 @@ export default function EditorialPolicyPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "Editorial Policy", item: "https://www.colormean.com/editorial-policy" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "Editorial Policy", item: "https://colormean.com/editorial-policy" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">

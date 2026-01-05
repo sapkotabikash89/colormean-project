@@ -15,8 +15,8 @@ export default function TermsAndConditionsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "Terms and Conditions", item: "https://www.colormean.com/terms-and-conditions" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "Terms and Conditions", item: "https://colormean.com/terms-and-conditions" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
@@ -26,7 +26,7 @@ export default function TermsAndConditionsPage() {
             <h1 className="text-3xl font-bold mb-4">Terms and Conditions</h1>
             <div className="prose dark:prose-invert max-w-none space-y-6 text-muted-foreground">
               <p>
-                Welcome to <strong>ColorMean</strong>. These Terms and Conditions outline the rules and guidelines for using our website, located at <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a>.
+                Welcome to <strong>ColorMean</strong>. These Terms and Conditions outline the rules and guidelines for using our website, located at <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a>.
               </p>
               <p>
                 By accessing this website, you accept these Terms and Conditions in full. If you do not agree with any part of these terms, please discontinue use of ColorMean.
@@ -146,7 +146,7 @@ export default function TermsAndConditionsPage() {
               <p>If you have any questions about these Terms and Conditions, you may contact us at:</p>
               <div className="bg-muted p-4 rounded-lg">
                 <p><strong>Email:</strong> <a href="mailto:info@colormean.com" className="text-primary hover:underline">info@colormean.com</a></p>
-                <p><strong>Website:</strong> <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a></p>
+                <p><strong>Website:</strong> <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a></p>
               </div>
               <p className="font-medium text-lg pt-4 text-foreground">
                 By continuing to use ColorMean, you confirm that you understand and agree to these Terms and Conditions.

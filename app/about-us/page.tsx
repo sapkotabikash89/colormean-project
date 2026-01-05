@@ -16,8 +16,8 @@ export default function AboutUsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "About Us", item: "https://www.colormean.com/about-us" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "About Us", item: "https://colormean.com/about-us" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
@@ -132,7 +132,7 @@ export default function AboutUsPage() {
               </p>
               <div className="bg-muted p-4 rounded-lg">
                 <p><strong>Email:</strong> <a href="mailto:info@colormean.com" className="text-primary hover:underline">info@colormean.com</a></p>
-                <p><strong>Website:</strong> <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a></p>
+                <p><strong>Website:</strong> <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a></p>
               </div>
               <p>
                 If you have ideas for improvement, spot a technical issue, or want to collaborate, feel free to reach out.

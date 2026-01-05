@@ -13,18 +13,18 @@ export const metadata: Metadata = {
     "Upload an image and extract color values by clicking anywhere on it. Get hex, RGB, and other color codes from your images instantly.",
   keywords: ["image color picker", "extract colors", "eyedropper tool", "color from image"],
   alternates: {
-    canonical: "https://www.colormean.com/image-color-picker",
+    canonical: "https://colormean.com/image-color-picker",
   },
   openGraph: {
     title: "Image Color Picker - Extract Colors from Images | ColorMean",
     description:
       "Upload an image and extract color values by clicking anywhere on it. Get hex, RGB, and other color codes from your images instantly.",
-    url: "https://www.colormean.com/image-color-picker",
+    url: "https://colormean.com/image-color-picker",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Image Color Picker tool by ColorMean",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Image Color Picker - Extract Colors from Images | ColorMean",
     description:
       "Upload an image and extract color values by clicking anywhere on it.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -44,8 +44,8 @@ export default function ImageColorPickerPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Image Color Picker", item: "https://www.colormean.com/image-color-picker" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Image Color Picker", item: "https://colormean.com/image-color-picker" }
       ]} />
       <Header />
 

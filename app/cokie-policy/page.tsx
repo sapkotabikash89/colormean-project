@@ -16,8 +16,8 @@ export default function CokiePolicyPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "Cookie Policy", item: "https://www.colormean.com/cokie-policy" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "Cookie Policy", item: "https://colormean.com/cokie-policy" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
@@ -27,7 +27,7 @@ export default function CokiePolicyPage() {
             <h1 className="text-3xl font-bold mb-4">Cookie Policy</h1>
             <div className="prose dark:prose-invert max-w-none space-y-6 text-muted-foreground">
               <p>
-                This Cookie Policy explains how <strong>ColorMean</strong> (<a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a>) uses cookies and similar technologies to recognize visitors, improve user experience, and analyze website performance.
+                This Cookie Policy explains how <strong>ColorMean</strong> (<a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a>) uses cookies and similar technologies to recognize visitors, improve user experience, and analyze website performance.
               </p>
               <p>
                 By continuing to use our website, you consent to our use of cookies as described in this policy.
@@ -133,7 +133,7 @@ export default function CokiePolicyPage() {
                   <strong>Email:</strong> <a href="mailto:info@colormean.com" className="text-primary hover:underline">info@colormean.com</a>
                 </p>
                 <p>
-                  <strong>Website:</strong> <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a>
+                  <strong>Website:</strong> <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a>
                 </p>
               </div>
 

@@ -11,18 +11,18 @@ export const metadata: Metadata = {
   title: "Color Picker - ColorMean",
   description: "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
   alternates: {
-    canonical: "https://www.colormean.com/color-picker",
+    canonical: "https://colormean.com/color-picker",
   },
   openGraph: {
     title: "Color Picker - ColorMean",
     description:
       "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
-    url: "https://www.colormean.com/color-picker",
+    url: "https://colormean.com/color-picker",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Color Picker tool by ColorMean",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Color Picker - ColorMean",
     description:
       "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -42,8 +42,8 @@ export default function ColorPickerPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Color Picker", item: "https://www.colormean.com/color-picker" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Color Picker", item: "https://colormean.com/color-picker" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">

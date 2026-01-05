@@ -680,7 +680,7 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
     node.seo?.twitterImage?.mediaItemUrl ||
     node.seo?.twitterImage?.sourceUrl ||
     undefined
-  const site = "https://www.colormean.com"
+  const site = "https://colormean.com"
   const canonical = node?.uri ? new URL(node.uri, site).toString() : node.seo?.canonical || node.seo?.opengraphUrl || undefined
   const robotsIndex = node.seo?.metaRobotsNoindex === "noindex" ? false : true
   const robotsFollow = node.seo?.metaRobotsNofollow === "nofollow" ? false : true
@@ -799,7 +799,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const img = node?.featuredImage?.node?.sourceUrl
   const alt = node?.featuredImage?.node?.altText || node?.title
   const schemaRaw = node?.seo?.schema?.raw || undefined
-  const site = "https://www.colormean.com"
+  const site = "https://colormean.com"
   const canonical = node?.uri ? new URL(node.uri, site).toString() : undefined
   const postColor = detectColorFromTitle(node.title) || "#000000"
   const pieces = parseContentPieces(node.content || "", postColor)
@@ -1131,8 +1131,8 @@ function enhanceContentHtml(html: string, accentColor: string): string {
       .cm-wrap a { color: #1D4ED8; }
       .cm-wrap a[href^="/"],
       .cm-wrap a[href*="//colormean.com"],
-      .cm-wrap a[href*="//www.colormean.com"] { text-decoration: underline; }
-      .cm-wrap a[href^="http"]:not([href*="//colormean.com"]):not([href*="//www.colormean.com"]) { text-decoration: none; }
+      .cm-wrap a[href*="//colormean.com"] { text-decoration: underline; }
+      .cm-wrap a[href^="http"]:not([href*="//colormean.com"]):not([href*="//colormean.com"]) { text-decoration: none; }
       .cm-wrap [style*="background-color"],
       .cm-wrap [style*="background:"] { padding-top: 0.75rem; padding-bottom: 0.75rem; }
       .cm-wrap [style*="background-color"],
@@ -1229,12 +1229,12 @@ function enhanceContentHtml(html: string, accentColor: string): string {
   out = addClass(out, "ul", ul)
   out = addClass(out, "ol", ol)
   const rewriteHref = (url: string) => {
-    const site = "https://www.colormean.com"
+    const site = "https://colormean.com"
     try {
       const u = new URL(url, site)
       if (u.hostname === "localhost" || u.hostname === "cms.colormean.com") {
         u.protocol = "https:"
-        u.hostname = "www.colormean.com"
+        u.hostname = "colormean.com"
         return u.toString()
       }
       return u.toString()

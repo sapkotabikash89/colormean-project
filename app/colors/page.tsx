@@ -20,8 +20,8 @@ export default function ColorsPage({ searchParams }: { searchParams: { q?: strin
     <div className="flex flex-col min-h-screen">
       <SoftwareApplicationSchema />
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Color Library", item: "https://www.colormean.com/colors" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Color Library", item: "https://colormean.com/colors" }
       ]} />
       <Header />
 

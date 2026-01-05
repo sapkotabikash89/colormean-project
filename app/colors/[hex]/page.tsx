@@ -63,9 +63,9 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const cmyk = rgb ? rgbToCmyk(rgb.r, rgb.g, rgb.b) : null
 
   const breadcrumbItems = [
-    { name: "ColorMean", item: "https://www.colormean.com" },
-    { name: "Color Names", item: "https://www.colormean.com/colors" },
-    { name: normalizedHex, item: `https://www.colormean.com/colors/${hex}` },
+    { name: "ColorMean", item: "https://colormean.com" },
+    { name: "Color Names", item: "https://colormean.com/colors" },
+    { name: normalizedHex, item: `https://colormean.com/colors/${hex}` },
   ]
 
   const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : []
@@ -146,7 +146,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
 }
 
 async function maybeRedirectToBlog(hex: string): Promise<string | null> {
-  const site = "https://www.colormean.com"
+  const site = "https://colormean.com"
   const searchTerm = hex.toUpperCase()
   try {
     const res = await fetch("https://cms.colormean.com/graphql", {

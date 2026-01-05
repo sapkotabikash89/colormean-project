@@ -13,18 +13,18 @@ export const metadata: Metadata = {
     "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations. Professional color theory tool for designers.",
   keywords: ["color wheel", "color harmony", "complementary colors", "analogous colors", "color theory"],
   alternates: {
-    canonical: "https://www.colormean.com/color-wheel",
+    canonical: "https://colormean.com/color-wheel",
   },
   openGraph: {
     title: "Color Wheel - Interactive Color Harmony Tool | ColorMean",
     description:
       "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations. Professional color theory tool for designers.",
-    url: "https://www.colormean.com/color-wheel",
+    url: "https://colormean.com/color-wheel",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Color Wheel - Interactive Color Harmony Tool",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Color Wheel - Interactive Color Harmony Tool | ColorMean",
     description:
       "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -44,8 +44,8 @@ export default function ColorWheelPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Color Wheel", item: "https://www.colormean.com/color-wheel" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Color Wheel", item: "https://colormean.com/color-wheel" }
       ]} />
       <Header />
 

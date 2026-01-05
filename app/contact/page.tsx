@@ -16,8 +16,8 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "Contact", item: "https://www.colormean.com/contact" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "Contact", item: "https://colormean.com/contact" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
@@ -36,7 +36,7 @@ export default function ContactPage() {
               <h2 className="text-2xl font-bold text-foreground">How You Can Reach Us</h2>
               <div className="bg-muted p-4 rounded-lg">
                 <p><strong>Email:</strong> <a href="mailto:info@colormean.com" className="text-primary hover:underline">info@colormean.com</a></p>
-                <p><strong>Website:</strong> <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a></p>
+                <p><strong>Website:</strong> <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a></p>
               </div>
               <p>For faster assistance, please include clear details in your message such as:</p>
               <ul className="list-disc pl-6 space-y-2">

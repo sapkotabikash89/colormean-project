@@ -13,18 +13,18 @@ export const metadata: Metadata = {
   description:
     "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
   alternates: {
-    canonical: "https://www.colormean.com/palette-from-image",
+    canonical: "https://colormean.com/palette-from-image",
   },
   openGraph: {
     title: "Palette from Image - ColorMean",
     description:
       "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
-    url: "https://www.colormean.com/palette-from-image",
+    url: "https://colormean.com/palette-from-image",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Palette from Image tool by ColorMean",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Palette from Image - ColorMean",
     description:
       "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -44,8 +44,8 @@ export default function PaletteFromImagePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Palette from Image", item: "https://www.colormean.com/palette-from-image" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Palette from Image", item: "https://colormean.com/palette-from-image" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">

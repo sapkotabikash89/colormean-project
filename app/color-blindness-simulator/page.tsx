@@ -12,19 +12,19 @@ export const metadata: Metadata = {
   description:
     "Simulate how colors appear to people with different types of color vision deficiency. Test your designs for accessibility.",
   alternates: {
-    canonical: "https://www.colormean.com/color-blindness-simulator",
+    canonical: "https://colormean.com/color-blindness-simulator",
   },
   openGraph: {
     title: "Color Blindness Simulator - ColorMean",
     description:
       "Simulate how colors appear to people with different types of color vision deficiency. Test your designs for accessibility.",
-    url: "https://www.colormean.com/color-blindness-simulator",
+    url: "https://colormean.com/color-blindness-simulator",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/color-blindness-simulator-og.jpg",
-        secureUrl: "https://www.colormean.com/color-blindness-simulator-og.jpg",
+        url: "https://colormean.com/color-blindness-simulator-og.jpg",
+        secureUrl: "https://colormean.com/color-blindness-simulator-og.jpg",
         type: "image/jpeg",
         width: 1200,
         height: 630,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Color Blindness Simulator - ColorMean",
     description:
       "Simulate how colors appear to people with different types of color vision deficiency.",
-    images: ["https://www.colormean.com/color-blindness-simulator-og.jpg"],
+    images: ["https://colormean.com/color-blindness-simulator-og.jpg"],
   },
 }
 
@@ -45,8 +45,8 @@ export default function ColorBlindnessSimulatorPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Color Blindness Simulator", item: "https://www.colormean.com/color-blindness-simulator" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Color Blindness Simulator", item: "https://colormean.com/color-blindness-simulator" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">

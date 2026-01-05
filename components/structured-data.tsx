@@ -47,11 +47,11 @@ export function WebsiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "ColorMean",
-    url: "https://www.colormean.com",
+    url: "https://colormean.com",
     description: "Know your color - Explore color information, meanings, conversions, and professional tools",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://www.colormean.com/colors/{search_term_string}",
+      target: "https://colormean.com/colors/{search_term_string}",
       "query-input": "required name=search_term_string",
     },
   }
@@ -64,8 +64,8 @@ export function OrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ColorMean",
-    url: "https://www.colormean.com",
-    logo: "https://www.colormean.com/logo.png",
+    url: "https://colormean.com",
+    logo: "https://colormean.com/logo.png",
     description: "Professional color tools and information for designers, developers, and artists",
     sameAs: [],
   }

@@ -16,8 +16,8 @@ export default function DisclaimerPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://www.colormean.com" },
-        { name: "Disclaimer", item: "https://www.colormean.com/disclaimer" }
+        { name: "ColorMean", item: "https://colormean.com" },
+        { name: "Disclaimer", item: "https://colormean.com/disclaimer" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
@@ -27,7 +27,7 @@ export default function DisclaimerPage() {
             <h1 className="text-3xl font-bold mb-4">Disclaimer</h1>
             <div className="prose dark:prose-invert max-w-none space-y-6 text-muted-foreground">
               <p>
-                The information provided by <strong>ColorMean</strong> (<a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a>) is for general informational and educational purposes only. All content on this website is published in good faith and is intended to help users understand color meanings, symbolism, psychology, spirituality, and technical color data.
+                The information provided by <strong>ColorMean</strong> (<a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a>) is for general informational and educational purposes only. All content on this website is published in good faith and is intended to help users understand color meanings, symbolism, psychology, spirituality, and technical color data.
               </p>
               <p>
                 By using this website, you agree to this Disclaimer in full.
@@ -136,7 +136,7 @@ export default function DisclaimerPage() {
               </p>
               <div className="bg-muted p-4 rounded-lg">
                 <p><strong>Email:</strong> <a href="mailto:info@colormean.com" className="text-primary hover:underline">info@colormean.com</a></p>
-                <p><strong>Website:</strong> <a href="https://www.colormean.com" className="text-primary hover:underline">https://www.colormean.com</a></p>
+                <p><strong>Website:</strong> <a href="https://colormean.com" className="text-primary hover:underline">https://colormean.com</a></p>
               </div>
               <p className="font-medium text-lg pt-4 text-foreground">
                 ColorMean provides knowledge for learning and exploration, not as a substitute for professional guidance.

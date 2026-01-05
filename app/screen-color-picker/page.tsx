@@ -13,18 +13,18 @@ export const metadata: Metadata = {
   description:
     "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
   alternates: {
-    canonical: "https://www.colormean.com/screen-color-picker",
+    canonical: "https://colormean.com/screen-color-picker",
   },
   openGraph: {
     title: "Screen Color Picker - ColorMean",
     description:
       "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
-    url: "https://www.colormean.com/screen-color-picker",
+    url: "https://colormean.com/screen-color-picker",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Screen Color Picker tool by ColorMean",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Screen Color Picker - ColorMean",
     description:
       "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -44,8 +44,8 @@ export default function ScreenColorPickerPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Screen Color Picker", item: "https://www.colormean.com/screen-color-picker" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Screen Color Picker", item: "https://colormean.com/screen-color-picker" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">

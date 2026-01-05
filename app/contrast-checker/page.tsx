@@ -13,18 +13,18 @@ export const metadata: Metadata = {
     "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards for text, UI components, and graphics.",
   keywords: ["contrast checker", "WCAG compliance", "accessibility", "color contrast", "AA AAA standards"],
   alternates: {
-    canonical: "https://www.colormean.com/contrast-checker",
+    canonical: "https://colormean.com/contrast-checker",
   },
   openGraph: {
     title: "Contrast Checker - WCAG Accessibility Tool | ColorMean",
     description:
       "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards for text, UI components, and graphics.",
-    url: "https://www.colormean.com/contrast-checker",
+    url: "https://colormean.com/contrast-checker",
     siteName: "ColorMean",
     type: "website",
     images: [
       {
-        url: "https://www.colormean.com/placeholder.jpg",
+        url: "https://colormean.com/placeholder.jpg",
         width: 1200,
         height: 630,
         alt: "Contrast Checker tool for WCAG compliance",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Contrast Checker - WCAG Accessibility Tool | ColorMean",
     description:
       "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards.",
-    images: ["https://www.colormean.com/placeholder.jpg"],
+    images: ["https://colormean.com/placeholder.jpg"],
   },
 }
 
@@ -44,8 +44,8 @@ export default function ContrastCheckerPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
-        { name: "Home", item: "https://www.colormean.com" },
-        { name: "Contrast Checker", item: "https://www.colormean.com/contrast-checker" }
+        { name: "Home", item: "https://colormean.com" },
+        { name: "Contrast Checker", item: "https://colormean.com/contrast-checker" }
       ]} />
       <Header />
 
