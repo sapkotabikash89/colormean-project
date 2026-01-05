@@ -802,7 +802,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const site = "https://www.colormean.com"
   const canonical = node?.uri ? new URL(node.uri, site).toString() : undefined
   const postColor = detectColorFromTitle(node.title) || "#000000"
-  const pieces = parseContentPieces(node.content || "")
+  const pieces = parseContentPieces(node.content || "", postColor)
   const firstShort = pieces.find((p) => p.kind === "shortcode") as { kind: "shortcode"; hex: string } | undefined
   const shortcodeHex = firstShort ? firstShort.hex : null
   const crumbs = [
@@ -1012,7 +1012,10 @@ export default async function WPPostPage({ params }: WPPageProps) {
   )
 }
 
-function parseContentPieces(html: string): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
+function parseContentPieces(
+  html: string,
+  fallbackHex?: string
+): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
   const norm = (html || "")
     .replace(/&(amp;)?#91;?/gi, "[")
     .replace(/&(amp;)?#93;?/gi, "]")
@@ -1020,6 +1023,10 @@ function parseContentPieces(html: string): Array<{ kind: "html"; html: string } 
     .replace(/&(amp;)?#x0*5[dD];?/gi, "]")
     .replace(/&(amp;)?lsqb;?/gi, "[")
     .replace(/&(amp;)?rsqb;?/gi, "]")
+    .replace(/&(amp;)?lbrack;?/gi, "[")
+    .replace(/&(amp;)?rbrack;?/gi, "]")
+    .replace(/\u005B/g, "[")
+    .replace(/\u005D/g, "]")
   const re =
     /(\[)\s*colormean\b([\s\S]*?)(\])/gi
   const out: Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> = []
@@ -1029,13 +1036,43 @@ function parseContentPieces(html: string): Array<{ kind: "html"; html: string } 
     const full = m[0] as string
     const attrs = m[2] as string
     const prev = norm.slice(last, start)
-    if (prev) out.push({ kind: "html", html: prev })
+    if (prev) out.push({ kind: "html", html: removeShortcode(prev) })
     const hex = parseAttrsHex(attrs)
     if (hex) out.push({ kind: "shortcode", hex })
     last = start + full.length
   }
   const rest = norm.slice(last)
-  if (rest) out.push({ kind: "html", html: rest })
+  if (rest) out.push({ kind: "html", html: removeShortcode(rest) })
+  if (!out.some((p) => p.kind === "shortcode") && fallbackHex) {
+    const h2 = norm.match(/<h2[^>]*>[\s\S]*?technical\s+information[\s\S]*?<\/h2>/i)
+    if (h2 && h2.index !== undefined) {
+      const end = (h2.index as number) + (h2[0] as string).length
+      const before = removeShortcode(norm.slice(0, end))
+      const after = removeShortcode(norm.slice(end))
+      return [
+        { kind: "html", html: before },
+        { kind: "shortcode", hex: fallbackHex.toUpperCase() },
+        { kind: "html", html: after },
+      ]
+    }
+    const marker = norm.match(/technical\s+information/i)
+    if (marker && marker.index !== undefined) {
+      const end = (marker.index as number) + (marker[0] as string).length
+      let before = removeShortcode(norm.slice(0, end))
+      const hasAnchor = /\bid\s*=\s*["']technical-information["']/.test(before) || /#[^"']*technical-information/.test(before)
+      if (!hasAnchor) before = `${before}<span id="technical-information"></span>`
+      const after = removeShortcode(norm.slice(end))
+      return [
+        { kind: "html", html: before },
+        { kind: "shortcode", hex: fallbackHex.toUpperCase() },
+        { kind: "html", html: after },
+      ]
+    }
+    return [
+      ...out,
+      { kind: "shortcode", hex: fallbackHex.toUpperCase() },
+    ]
+  }
   return out
 }
 

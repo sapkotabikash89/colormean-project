@@ -191,6 +191,10 @@ function parseShortcodeHex(html: string): string | null {
     .replace(/&(amp;)?#x0*5[dD];?/gi, "]")
     .replace(/&(amp;)?lsqb;?/gi, "[")
     .replace(/&(amp;)?rsqb;?/gi, "]")
+    .replace(/&(amp;)?lbrack;?/gi, "[")
+    .replace(/&(amp;)?rbrack;?/gi, "]")
+    .replace(/\u005B/g, "[")
+    .replace(/\u005D/g, "]")
   const tag = pre.match(/\[\s*colormean\b([\s\S]*?)\]/i)
   if (!tag) return null
   const attrs = tag[1] || ""
