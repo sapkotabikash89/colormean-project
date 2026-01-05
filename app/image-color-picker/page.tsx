@@ -5,6 +5,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
 import { ImageColorPickerTool } from "@/components/tools/image-color-picker-tool"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Image Color Picker - Extract Colors from Images | ColorMean",
@@ -67,7 +68,11 @@ export default function ImageColorPickerPage() {
           </div>
           <ColorSidebar color="#5B6FD8" />
         </div>
+
+        
       </main>
+
+      <ExploreColorTools current="image-color-picker" />
 
       <Footer />
     </div>

@@ -5,6 +5,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
 import { ColorWheelTool } from "@/components/tools/color-wheel-tool"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Color Wheel - Interactive Color Harmony Tool | ColorMean",
@@ -67,7 +68,11 @@ export default function ColorWheelPage() {
           </div>
           <ColorSidebar color="#5B6FD8" />
         </div>
+
+        
       </main>
+
+      <ExploreColorTools current="color-wheel" />
 
       <Footer />
     </div>

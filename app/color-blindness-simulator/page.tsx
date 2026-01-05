@@ -5,6 +5,7 @@ import { ColorBlindnessSimulatorTool } from "@/components/tools/color-blindness-
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Color Blindness Simulator - ColorMean",
@@ -70,8 +71,10 @@ export default function ColorBlindnessSimulatorPage() {
 
           
 
+
         </div>
       </main>
+      <ExploreColorTools current="color-blindness-simulator" />
       <Footer />
     </div>
   )

@@ -6,6 +6,7 @@ import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ShareButtons } from "@/components/share-buttons"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Screen Color Picker - ColorMean",
@@ -69,6 +70,8 @@ export default function ScreenColorPickerPage() {
           </div>
         </div>
       </main>
+      
+      <ExploreColorTools current="screen-color-picker" />
       <Footer />
     </div>
   )

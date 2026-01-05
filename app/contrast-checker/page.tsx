@@ -5,6 +5,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
 import { ContrastCheckerTool } from "@/components/tools/contrast-checker-tool"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Contrast Checker - WCAG Accessibility Tool | ColorMean",
@@ -67,7 +68,11 @@ export default function ContrastCheckerPage() {
           </div>
           <ColorSidebar color="#5B6FD8" />
         </div>
+
+        
       </main>
+
+      <ExploreColorTools current="contrast-checker" />
 
       <Footer />
     </div>

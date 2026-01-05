@@ -6,6 +6,7 @@ import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { BreadcrumbSchema } from "@/components/structured-data"
 import { ShareButtons } from "@/components/share-buttons"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Palette from Image - ColorMean",
@@ -66,8 +67,11 @@ export default function PaletteFromImagePage() {
             </div>
             <ColorSidebar color="#5B6FD8" />
           </div>
+          
+          
         </div>
       </main>
+      <ExploreColorTools current="palette-from-image" />
       <Footer />
     </div>
   )

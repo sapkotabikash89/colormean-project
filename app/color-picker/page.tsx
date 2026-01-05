@@ -5,6 +5,7 @@ import { AdvancedColorPicker } from "@/components/tools/advanced-color-picker"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { BreadcrumbSchema } from "@/components/structured-data"
+import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
   title: "Color Picker - ColorMean",
@@ -95,6 +96,7 @@ export default function ColorPickerPage() {
           
         </div>
       </main>
+      <ExploreColorTools current="color-picker" />
       <Footer />
     </div>
   )
