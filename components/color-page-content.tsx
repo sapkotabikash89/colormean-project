@@ -31,6 +31,7 @@ import {
 } from "@/lib/color-utils"
 import { CustomColorPicker } from "@/components/custom-color-picker"
 import { ColorCombination } from "@/components/color-combination"
+import { ColorSwatchGrid } from "@/components/color-swatch-grid"
 import { ColorSwatch as Swatch } from "@/components/color-swatch"
 import { Share, Heart, Check, Copy } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
@@ -372,13 +373,13 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
                 <TabsTrigger value="tones">Tones</TabsTrigger>
               </TabsList>
               <TabsContent value="tints" className="mt-4">
-                <ColorCombination colors={tints} baseHex={hex} height={56} />
+                <ColorSwatchGrid colors={tints} limit={10} smallGap={true} showHex={true} />
               </TabsContent>
               <TabsContent value="shades" className="mt-4">
-                <ColorCombination colors={shades} baseHex={hex} height={56} />
+                <ColorSwatchGrid colors={shades} limit={10} smallGap={true} showHex={true} />
               </TabsContent>
               <TabsContent value="tones" className="mt-4">
-                <ColorCombination colors={tones} baseHex={hex} height={56} />
+                <ColorSwatchGrid colors={tones} limit={10} smallGap={true} showHex={true} />
               </TabsContent>
             </Tabs>
           </>
@@ -593,7 +594,7 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
               harmonious alternatives and complementary options that work well alongside this color in comprehensive color
               schemes.
             </p>
-            <ColorCombination colors={relatedColors} baseHex={hex} height={56} />
+            <ColorSwatchGrid colors={relatedColors} limit={10} smallGap={true} showHex={true} />
           </>
         ) : null}
       </Card>
