@@ -18,7 +18,7 @@ function CombinationStripe({
   const contrast = getContrastColor(hex)
   const border = isOriginal ? `2px solid ${contrast}` : "0px solid transparent"
   return (
-    <div className="flex-1 flex flex-col items-center group">
+    <div className="flex-1 min-w-0 flex flex-col items-center group">
       <button
         ref={stripeRef}
         className="w-full h-full relative transition-transform group-hover:scale-105"
@@ -65,7 +65,7 @@ export function ColorCombination({
     router.push(`/colors/${clean.toLowerCase()}`)
   }
   return (
-    <div className="w-full rounded-2xl overflow-hidden flex items-start gap-1" style={{ height }}>
+    <div className="w-full rounded-2xl overflow-hidden flex items-stretch" style={{ height }}>
       {colors.map((hex) => (
         <CombinationStripe
           key={hex}

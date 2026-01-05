@@ -11,9 +11,10 @@ interface ColorSwatchProps {
   color: string
   onClick?: () => void
   showHex?: boolean
+  fullWidth?: boolean
 }
 
-export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProps) {
+export function ColorSwatch({ color, onClick, showHex = false, fullWidth = false }: ColorSwatchProps) {
   const router = useRouter()
   const isMobile = useIsMobile()
   const [showCopied, setShowCopied] = useState(false)
@@ -77,7 +78,7 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className="relative w-20 h-20 rounded-lg cursor-pointer hover:scale-105 transition-transform group"
+        className={`relative ${fullWidth ? "w-full aspect-square" : "w-20 h-20"} rounded-lg cursor-pointer hover:scale-105 transition-transform group`}
         style={{ backgroundColor: color }}
         onClick={handleSwatchClick}
         ref={swatchRef}

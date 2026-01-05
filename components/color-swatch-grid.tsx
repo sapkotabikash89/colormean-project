@@ -19,7 +19,7 @@ export function ColorSwatchGrid({
   return (
     <div className={`grid grid-cols-5 md:grid-cols-10 justify-center ${gapClass} place-items-center`}>
       {items.map((hex, i) => (
-        <ColorSwatch key={`${hex}-${i}`} color={hex} showHex={showHex} />
+        <ColorSwatch key={`${hex}-${i}`} color={hex} showHex={showHex} fullWidth />
       ))}
     </div>
   )
