@@ -1015,7 +1015,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
 function parseContentPieces(html: string): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
   const input = html || ""
   const re =
-    /(\\[|&#91;|&#x005[bB];?|&#x5[bB];?)\s*colormean\b([\s\S]*?)(\\]|&#93;|&#x005[dD];?|&#x5[dD];?)/gi
+    /(\[|&#91;|&#x005[bB];|&#x5[bB];)\s*colormean\b([\s\S]*?)(\]|&#93;|&#x005[dD];|&#x5[dD];)/gi
   const out: Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> = []
   let last = 0
   for (const m of input.matchAll(re) as any) {
