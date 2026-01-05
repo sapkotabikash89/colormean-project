@@ -802,9 +802,9 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const site = "https://www.colormean.com"
   const canonical = node?.uri ? new URL(node.uri, site).toString() : undefined
   const postColor = detectColorFromTitle(node.title) || "#000000"
-  const shortcodeHex = extractShortcodeHex(node.content || "")
-  const contentRaw = removeShortcode(node.content || "")
-  const content = enhanceContentHtml(contentRaw, postColor)
+  const pieces = parseContentPieces(node.content || "")
+  const firstShort = pieces.find((p) => p.kind === "shortcode") as { kind: "shortcode"; hex: string } | undefined
+  const shortcodeHex = firstShort ? firstShort.hex : null
   const crumbs = [
     { label: "Color Meanings", href: "/color-meanings" },
     { label: shortTitle(node.title), href: node.uri },
@@ -953,14 +953,21 @@ export default async function WPPostPage({ params }: WPPageProps) {
                 style={{ aspectRatio: "1200 / 800" }}
               />
             )}
-            <article className="max-w-none">
-              <div className="cm-wrap" dangerouslySetInnerHTML={{ __html: content }} />
+            <article className="max-w-none space-y-6">
+              {pieces.length === 0 ? (
+                <div className="cm-wrap" dangerouslySetInnerHTML={{ __html: enhanceContentHtml(node.content || "", postColor) }} />
+              ) : (
+                pieces.map((p: any, i: number) =>
+                  p.kind === "html" ? (
+                    <div key={`h-${i}`} className="cm-wrap" dangerouslySetInnerHTML={{ __html: enhanceContentHtml(p.html, postColor) }} />
+                  ) : (
+                    <div key={`s-${i}`} className="mt-6">
+                      <ColorPageContent hex={p.hex} mode="sectionsOnly" />
+                    </div>
+                  )
+                )
+              )}
             </article>
-            {shortcodeHex ? (
-              <div className="mt-6">
-                <ColorPageContent hex={shortcodeHex} mode="sectionsOnly" />
-              </div>
-            ) : null}
             <div className="flex justify-center py-4">
               <ShareButtons title={node.title} />
             </div>
@@ -1003,6 +1010,62 @@ export default async function WPPostPage({ params }: WPPageProps) {
       <Footer />
     </div>
   )
+}
+
+function parseContentPieces(html: string): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
+  const input = html || ""
+  const re =
+    /(\\[|&#91;|&#x005[bB];?|&#x5[bB];?)\s*colormean\b([\s\S]*?)(\\]|&#93;|&#x005[dD];?|&#x5[dD];?)/gi
+  const out: Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> = []
+  let last = 0
+  for (const m of input.matchAll(re) as any) {
+    const start = m.index as number
+    const full = m[0] as string
+    const attrs = m[2] as string
+    const prev = input.slice(last, start)
+    if (prev) out.push({ kind: "html", html: prev })
+    const hex = parseAttrsHex(attrs)
+    if (hex) out.push({ kind: "shortcode", hex })
+    last = start + full.length
+  }
+  const rest = input.slice(last)
+  if (rest) out.push({ kind: "html", html: rest })
+  return out
+}
+
+function parseAttrsHex(attrs: string): string | null {
+  const decoded = (attrs || "")
+    .replace(/&quot;/gi, '"')
+    .replace(/&apos;/gi, "'")
+    .replace(/&ldquo;/gi, '"')
+    .replace(/&rdquo;/gi, '"')
+    .replace(/&lsquo;/gi, "'")
+    .replace(/&rsquo;/gi, "'")
+    .replace(/&#34;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&#8220;/gi, '"')
+    .replace(/&#8221;/gi, '"')
+    .replace(/&#8216;/gi, "'")
+    .replace(/&#8217;/gi, "'")
+    .replace(/\u201C|\u201D/g, '"')
+    .replace(/\u2018|\u2019/g, "'")
+  let val: string | undefined
+  const re = /([a-zA-Z0-9_-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"']+))/g
+  for (const m of decoded.matchAll(re) as any) {
+    const key = String(m[1] || "").trim().toLowerCase()
+    if (key === "hex") {
+      val = (m[2] ?? m[3] ?? m[4] ?? "").trim()
+      break
+    }
+  }
+  if (!val) return null
+  const raw = val.replace(/^#/, "").toLowerCase()
+  if (/^[0-9a-f]{6}$/.test(raw)) return `#${raw.toUpperCase()}`
+  if (/^[0-9a-f]{3}$/.test(raw)) {
+    const exp = `${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}`
+    return `#${exp.toUpperCase()}`
+  }
+  return null
 }
 
 function enhanceContentHtml(html: string, accentColor: string): string {
