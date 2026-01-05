@@ -246,7 +246,7 @@ export function PaletteFromImageTool() {
                       {palette.map((item, index) => (
                         <div key={index} className="group cursor-pointer" onClick={() => handleExplore(item.hex)}>
                           <div
-                            className="w-full aspect-square rounded-lg border-2 border-dashed border-border hover:scale-105 transition-transform"
+                            className="w-full aspect-square rounded-lg hover:scale-105 transition-transform"
                             style={{ backgroundColor: item.hex }}
                           />
                           <div className="mt-2 flex items-center justify-between">

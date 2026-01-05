@@ -7,6 +7,7 @@ import { getColorHarmony } from "@/lib/color-utils"
 import { Download, Share } from "lucide-react"
 import { toast } from "sonner"
 import { ColorExportDialog } from "@/components/color-export-dialog"
+import { ColorCombination } from "@/components/color-combination"
 
 interface ColorSidebarProps {
   color: string
@@ -84,35 +85,7 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
           </SelectContent>
         </Select>
 
-        <div className="space-y-3">
-          {harmonies.map((hex, index) => (
-            <div key={index} className="relative group border-2 border-dashed border-border rounded-lg overflow-hidden">
-              <div
-                className="w-full h-24 flex items-center justify-center text-sm font-mono cursor-pointer transition-transform hover:scale-105"
-                style={{
-                  backgroundColor: hex,
-                  color: getContrastColor(hex),
-                }}
-                onClick={() => {
-                  navigator.clipboard.writeText(hex)
-                  toast.success("Copied to clipboard!", {
-                    description: hex,
-                  })
-                }}
-              >
-                {hex.toUpperCase()}
-              </div>
-              <Button
-                size="sm"
-                variant="secondary"
-                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => downloadSwatch(hex)}
-              >
-                <Download className="w-3 h-3" />
-              </Button>
-            </div>
-          ))}
-        </div>
+        <ColorCombination colors={harmonies} baseHex={color} height={72} />
       </div>
       <ColorExportDialog
         open={exportOpen}

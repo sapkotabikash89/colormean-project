@@ -124,7 +124,7 @@ export function ScreenColorPickerTool() {
                     {pickedColors.map((color, index) => (
                       <div key={index} className="group cursor-pointer" onClick={() => handleExplore(color)}>
                         <div
-                          className="aspect-square rounded-md border-2 border-dashed border-border hover:scale-110 transition-transform"
+                          className="aspect-square rounded-md hover:scale-110 transition-transform"
                           style={{ backgroundColor: color }}
                           title={color}
                         />

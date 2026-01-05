@@ -287,7 +287,7 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {filteredColors().map((color, index) => (
               <Link key={index} href={`/colors/${color.hex.replace("#", "").toLowerCase()}`}>
-                <Card className="group hover:shadow-lg transition-all hover:scale-105 cursor-pointer border-2 border-dashed overflow-hidden">
+                <Card className="group hover:shadow-lg transition-all hover:scale-105 cursor-pointer overflow-hidden">
                   <div
                     className="aspect-square flex items-center justify-center p-4 text-center font-mono text-sm font-semibold"
                     style={{

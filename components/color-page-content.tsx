@@ -30,6 +30,7 @@ import {
   getColorMeaning,
 } from "@/lib/color-utils"
 import { CustomColorPicker } from "@/components/custom-color-picker"
+import { ColorCombination } from "@/components/color-combination"
 import { ColorSwatch as Swatch } from "@/components/color-swatch"
 import { Share, Heart, Check, Copy } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
@@ -371,25 +372,13 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
                 <TabsTrigger value="tones">Tones</TabsTrigger>
               </TabsList>
               <TabsContent value="tints" className="mt-4">
-                <div className="flex flex-wrap justify-center gap-4">
-                  {tints.map((color, index) => (
-                    <Swatch key={index} color={color} showHex={true} onClick={() => navigateToColor(color)} />
-                  ))}
-                </div>
+                <ColorCombination colors={tints} baseHex={hex} height={56} />
               </TabsContent>
               <TabsContent value="shades" className="mt-4">
-                <div className="flex flex-wrap justify-center gap-4">
-                  {shades.map((color, index) => (
-                    <Swatch key={index} color={color} showHex={true} onClick={() => navigateToColor(color)} />
-                  ))}
-                </div>
+                <ColorCombination colors={shades} baseHex={hex} height={56} />
               </TabsContent>
               <TabsContent value="tones" className="mt-4">
-                <div className="flex flex-wrap justify-center gap-4">
-                  {tones.map((color, index) => (
-                    <Swatch key={index} color={color} showHex={true} onClick={() => navigateToColor(color)} />
-                  ))}
-                </div>
+                <ColorCombination colors={tones} baseHex={hex} height={56} />
               </TabsContent>
             </Tabs>
           </>
@@ -426,11 +415,7 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
                     </Button>
                   </div>
                   <p className="text-sm text-muted-foreground">{harmonyDescriptions[type]}</p>
-                  <div className="flex flex-wrap gap-3">
-                    {harmony.colors.map((color, index) => (
-                      <Swatch key={index} color={color} showHex={true} onClick={() => navigateToColor(color)} />
-                    ))}
-                  </div>
+                  <ColorCombination colors={harmony.colors} baseHex={hex} height={60} />
                 </div>
               ))}
             </div>
@@ -608,11 +593,7 @@ export function ColorPageContent({ hex, mode = "full", faqs }: ColorPageContentP
               harmonious alternatives and complementary options that work well alongside this color in comprehensive color
               schemes.
             </p>
-            <div className="flex flex-wrap gap-2">
-              {relatedColors.map((color, index) => (
-                <Swatch key={index} color={color} showHex={true} onClick={() => navigateToColor(color)} />
-              ))}
-            </div>
+            <ColorCombination colors={relatedColors} baseHex={hex} height={56} />
           </>
         ) : null}
       </Card>

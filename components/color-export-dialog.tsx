@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/copy-button"
 import { hexToRgb, rgbToHsl, rgbToLab } from "@/lib/color-utils"
+import { ColorCombination } from "@/components/color-combination"
 
 interface ColorExportDialogProps {
   open: boolean
@@ -94,17 +95,7 @@ export function ColorExportDialog({ open, onOpenChange, title = "Export Colors",
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {colors.map((hex, i) => (
-              <div key={i} className="space-y-1">
-                <div className="h-14 rounded-md border border-border" style={{ backgroundColor: hex }} />
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs">{hex.toUpperCase()}</span>
-                  <CopyButton value={hex.toUpperCase()} size="icon" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <ColorCombination colors={colors} baseHex={baseHex} height={72} />
 
           <div className="grid grid-cols-2 gap-2">
             <Button onClick={downloadCombinedImage} className="gap-2">

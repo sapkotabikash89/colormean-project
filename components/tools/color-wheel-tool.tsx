@@ -13,6 +13,7 @@ import { CustomColorPicker } from "@/components/custom-color-picker"
 import { ShareButtons } from "@/components/share-buttons"
 import { Share } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
+import { ColorCombination } from "@/components/color-combination"
 
 export function ColorWheelTool() {
   const router = useRouter()
@@ -348,52 +349,10 @@ export function ColorWheelTool() {
                   Export
                 </Button>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2">
-                {harmonies.map((color, index) => (
-                  <div key={index} className="space-y-1.5">
-                    <div
-                      className="w-full h-14 rounded-lg border-2 border-dashed border-border cursor-pointer hover:scale-105 transition-transform"
-                      style={{ backgroundColor: color }}
-                      onClick={() => navigateToColor(color)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Explore color ${color.toUpperCase()}`}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          navigateToColor(color)
-                        }
-                      }}
-                    />
-                    <p
-                      className="text-xs font-mono text-center font-semibold cursor-pointer hover:underline"
-                      onClick={(e) => copyHex(color, e)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Copy hex code ${color.toUpperCase()}`}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          navigator.clipboard.writeText(color)
-                          const toast = document.createElement("div")
-                          toast.textContent = "Copied!"
-                          toast.className =
-                            "fixed top-4 right-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg z-50"
-                          document.body.appendChild(toast)
-                          setTimeout(() => document.body.removeChild(toast), 2000)
-                        }
-                      }}
-                    >
-                      {color.toUpperCase()}
-                    </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full text-xs bg-transparent h-7"
-                      onClick={() => navigateToColor(color)}
-                    >
-                      Explore
-                    </Button>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <div className="w-full">
+                  <ColorCombination colors={harmonies} baseHex={baseColor} height={64} />
+                </div>
               </div>
             </div>
           </div>

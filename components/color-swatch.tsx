@@ -77,7 +77,7 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className="relative w-20 h-20 rounded-lg border-2 border-dashed border-border cursor-pointer hover:scale-105 transition-transform group"
+        className="relative w-20 h-20 rounded-lg cursor-pointer hover:scale-105 transition-transform group"
         style={{ backgroundColor: color }}
         onClick={handleSwatchClick}
         ref={swatchRef}
