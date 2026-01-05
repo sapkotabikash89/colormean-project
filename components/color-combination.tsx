@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
 import { getContrastColor } from "@/lib/color-utils"
+import { CopyButton } from "@/components/copy-button"
 
 function CombinationStripe({
   hex,
@@ -30,6 +31,17 @@ function CombinationStripe({
           />
         )}
       </button>
+      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <CopyButton
+          value={hex}
+          label={hex.toUpperCase()}
+          variant="ghost"
+          size="sm"
+          showIcon={false}
+          className="text-xs font-mono hover:text-primary px-2 py-1 -mx-2"
+          anchorRef={stripeRef}
+        />
+      </div>
     </div>
   )
 }
@@ -49,22 +61,15 @@ export function ColorCombination({
     router.push(`/colors/${clean.toLowerCase()}`)
   }
   return (
-    <div className="w-full">
-      <div className="w-full rounded-2xl overflow-hidden flex items-stretch" style={{ height }}>
-        {colors.map((hex) => (
-          <CombinationStripe
-            key={hex}
-            hex={hex}
-            isOriginal={!!(baseHex && hex.toLowerCase() === baseHex.toLowerCase())}
-            onClick={() => navigate(hex)}
-          />
-        ))}
-      </div>
-      <div className="mt-2 flex flex-wrap justify-center gap-2 font-mono text-xs">
-        {colors.map((hex) => (
-          <span key={`${hex}-label`} className="opacity-80">{hex.toUpperCase()}</span>
-        ))}
-      </div>
+    <div className="w-full rounded-2xl overflow-hidden flex items-stretch" style={{ height }}>
+      {colors.map((hex) => (
+        <CombinationStripe
+          key={hex}
+          hex={hex}
+          isOriginal={!!(baseHex && hex.toLowerCase() === baseHex.toLowerCase())}
+          onClick={() => navigate(hex)}
+        />
+      ))}
     </div>
   )
 }
