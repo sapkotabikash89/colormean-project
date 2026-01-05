@@ -1014,8 +1014,12 @@ export default async function WPPostPage({ params }: WPPageProps) {
 
 function parseContentPieces(html: string): Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> {
   const norm = (html || "")
-    .replace(/&amp;#91;|&#91;|&#x005[bB];|&#x5[bB];|&lsqb;/g, "[")
-    .replace(/&amp;#93;|&#93;|&#x005[dD];|&#x5[dD];|&rsqb;/g, "]")
+    .replace(/&(amp;)?#91;?/gi, "[")
+    .replace(/&(amp;)?#93;?/gi, "]")
+    .replace(/&(amp;)?#x0*5[bB];?/gi, "[")
+    .replace(/&(amp;)?#x0*5[dD];?/gi, "]")
+    .replace(/&(amp;)?lsqb;?/gi, "[")
+    .replace(/&(amp;)?rsqb;?/gi, "]")
   const re =
     /(\[)\s*colormean\b([\s\S]*?)(\])/gi
   const out: Array<{ kind: "html"; html: string } | { kind: "shortcode"; hex: string }> = []
