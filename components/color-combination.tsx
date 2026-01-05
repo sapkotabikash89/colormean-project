@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
 import { getContrastColor } from "@/lib/color-utils"
-import { CopyButton } from "@/components/copy-button"
 
 function CombinationStripe({
   hex,
@@ -25,21 +24,12 @@ function CombinationStripe({
         title={hex}
       >
         {!isOriginal ? null : (
-          <span className="absolute top-1 right-1 text-[10px] font-bold text-background">o</span>
+          <span
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ width: 6, height: 6, backgroundColor: getContrastColor(hex) }}
+          />
         )}
-        <span className="absolute left-0 top-0 h-full w-[2px] bg-background" aria-hidden />
       </button>
-      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <CopyButton
-          value={hex}
-          label={hex}
-          variant="ghost"
-          size="sm"
-          showIcon={false}
-          className="text-xs font-mono hover:text-primary px-2 py-1 -mx-2"
-          anchorRef={stripeRef}
-        />
-      </div>
     </div>
   )
 }
@@ -59,15 +49,22 @@ export function ColorCombination({
     router.push(`/colors/${clean.toLowerCase()}`)
   }
   return (
-    <div className="w-full rounded-2xl overflow-hidden flex items-stretch" style={{ height }}>
-      {colors.map((hex) => (
-        <CombinationStripe
-          key={hex}
-          hex={hex}
-          isOriginal={!!(baseHex && hex.toLowerCase() === baseHex.toLowerCase())}
-          onClick={() => navigate(hex)}
-        />
-      ))}
+    <div className="w-full">
+      <div className="w-full rounded-2xl overflow-hidden flex items-stretch" style={{ height }}>
+        {colors.map((hex) => (
+          <CombinationStripe
+            key={hex}
+            hex={hex}
+            isOriginal={!!(baseHex && hex.toLowerCase() === baseHex.toLowerCase())}
+            onClick={() => navigate(hex)}
+          />
+        ))}
+      </div>
+      <div className="mt-2 flex flex-wrap justify-center gap-2 font-mono text-xs">
+        {colors.map((hex) => (
+          <span key={`${hex}-label`} className="opacity-80">{hex.toUpperCase()}</span>
+        ))}
+      </div>
     </div>
   )
 }
