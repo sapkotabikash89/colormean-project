@@ -10,11 +10,11 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
               <img src="/logo.png" alt="ColorMean logo" className="h-8 w-auto rounded-lg" />
               <span>ColorMean</span>
-            </Link>
-            <p className="text-sm text-muted-foreground">
-              Know your color. Explore meanings, conversions, and professional color tools.
-            </p>
-          </div>
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            We created ColorMean to go deeper than hex codes and palettes. Our focus is the emotional, psychological, cultural, and spiritual meaning of color, backed by accurate technical data. If you enjoy using ColorMean or have ideas to share, we would love to hear from you.
+          </p>
+        </div>
 
           {/* Tools */}
           <div>
