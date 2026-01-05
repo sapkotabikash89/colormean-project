@@ -187,6 +187,10 @@ function parseShortcodeHex(html: string): string | null {
   const pre = (html || "")
     .replace(/&#91;/gi, "[")
     .replace(/&#93;/gi, "]")
+    .replace(/&#x005b;/gi, "[")
+    .replace(/&#x005d;/gi, "]")
+    .replace(/&#x5b;/gi, "[")
+    .replace(/&#x5d;/gi, "]")
     .replace(/\u005B/g, "[")
     .replace(/\u005D/g, "]")
   const tag = pre.match(/\[\s*colormean\b([\s\S]*?)\]/i)
@@ -207,11 +211,15 @@ function parseShortcodeHex(html: string): string | null {
     .replace(/&#8217;/gi, "'")
     .replace(/\u201C|\u201D/g, '"')
     .replace(/\u2018|\u2019/g, "'")
-  const m =
-    decoded.match(/hex\s*=\s*"([^"]+)"/i) ||
-    decoded.match(/hex\s*=\s*'([^']+)'/i) ||
-    decoded.match(/hex\s*=\s*([^\s"']+)/i)
-  const val = m?.[1]?.trim()
+  let val: string | undefined
+  const re = /([a-zA-Z0-9_-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"']+))/g
+  for (const m of decoded.matchAll(re) as any) {
+    const key = String(m[1] || "").trim().toLowerCase()
+    if (key === "hex") {
+      val = (m[2] ?? m[3] ?? m[4] ?? "").trim()
+      break
+    }
+  }
   if (!val) return null
   const raw = val.replace(/^#/, "").toLowerCase()
   if (/^[0-9a-f]{6}$/.test(raw)) return `#${raw.toUpperCase()}`
