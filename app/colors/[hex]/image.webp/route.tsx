@@ -7,10 +7,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ hex:
   const rawHex = paramHex || ""
   const hex = normalizeHex(rawHex)
   
-  // Check if hex exists in the color-meaning.json and return 404 for unknown colors to avoid serverless execution
-  const colorMeaningData = (await import('@/lib/color-meaning.json')).default;
+  // Import the known color hexes from a pre-built small file to stay under Edge Function size limits
+  const { isKnownColor } = await import('@/lib/known-colors-complete');
+  
   const cleanHex = hex.replace('#', '').toUpperCase();
-  const colorExists = cleanHex in colorMeaningData;
+  const colorExists = isKnownColor(cleanHex);
   
   if (!colorExists) {
     // For unknown hex values, return a 404 to avoid serverless execution
