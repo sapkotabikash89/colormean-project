@@ -11,6 +11,8 @@ import { BreadcrumbSchema, FAQSchema, ImageObjectSchema, WebPageSchema } from "@
 import { CopyButton } from "@/components/copy-button"
 import { generateFAQs } from "@/lib/category-utils"
 
+export const runtime = 'nodejs'
+
 interface ColorPageProps {
   params: Promise<{ 
     hex: string
@@ -233,7 +235,7 @@ async function maybeRedirectToBlog(hex: string): Promise<string | null> {
         `,
         variables: { q: clean },
       }),
-      next: { revalidate: 600, tags: [`wp:shortcode:${searchTerm}`] },
+
     })
     const json = await res.json()
     const nodes: Array<{ uri: string; content: string }> = [
