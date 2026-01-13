@@ -132,7 +132,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>© 2025 ColorMean. All rights reserved.</p>
+          <p>© 2026 ColorMean. All rights reserved.</p>
         </div>
       </div>
     </footer>
