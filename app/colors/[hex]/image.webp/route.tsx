@@ -6,6 +6,22 @@ export async function GET(request: Request, { params }: { params: Promise<{ hex:
   const { hex: paramHex } = await params
   const rawHex = paramHex || ""
   const hex = normalizeHex(rawHex)
+  
+  // Check if hex exists in the color-meaning.json and return 404 for unknown colors to avoid serverless execution
+  const colorMeaningData = (await import('@/lib/color-meaning.json')).default;
+  const cleanHex = hex.replace('#', '').toUpperCase();
+  const colorExists = cleanHex in colorMeaningData;
+  
+  if (!colorExists) {
+    // For unknown hex values, return a 404 to avoid serverless execution
+    // The client will handle image generation
+    return new Response(null, {
+      status: 404,
+      headers: {
+        'Content-Type': 'text/plain',
+      }, 
+    });
+  }
 
   if (!isValidHex(hex)) {
     return new ImageResponse(
