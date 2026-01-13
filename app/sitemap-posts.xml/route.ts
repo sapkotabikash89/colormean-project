@@ -19,7 +19,8 @@ export async function GET() {
           }
         `,
       }),
-      next: { revalidate: 600 },
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+      next: { revalidate: 3600 },  // 1 hour instead of 10 min
     })
     const json = await res.json()
     const posts: Array<{ uri: string; date?: string }> = json?.data?.posts?.nodes || []

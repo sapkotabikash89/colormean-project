@@ -28,7 +28,8 @@ async function fetchPosts() {
         }
       `,
     }),
-    next: { revalidate: 600 },
+    // OPTIMIZATION: Increased revalidate time for Vercel free plan
+    next: { revalidate: 3600 },  // 1 hour instead of 10 min
   })
   const json = await res.json()
   return json?.data?.posts?.nodes ?? []

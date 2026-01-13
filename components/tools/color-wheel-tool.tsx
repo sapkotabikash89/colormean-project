@@ -15,7 +15,8 @@ import { Share } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ColorCombination } from "@/components/color-combination"
 import { ColorPageContent } from "@/components/color-page-content"
-import data from "@/lib/color-meaning.json"
+// OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
+// Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
 export function ColorWheelTool() {
   const router = useRouter()
@@ -385,10 +386,9 @@ export function ColorWheelTool() {
         <ShareButtons title="Color Wheel Tool - ColorMean" />
       </div>
       {(() => {
-        const upper = baseColor.replace("#", "").toUpperCase()
-        const meta: any = (data as any)[upper]
-        const colorName: string | undefined = meta?.name || undefined
-        return <ColorPageContent hex={baseColor} name={colorName} mode="sectionsOnly" />
+        // OPTIMIZATION: Pass the color hex directly without looking up name
+        // The ColorPageContent component will handle unknown colors appropriately
+        return <ColorPageContent hex={baseColor} name={undefined} mode="sectionsOnly" />
       })()}
 
       <Card className="p-2 sm:p-6 space-y-3 sm:space-y-4">

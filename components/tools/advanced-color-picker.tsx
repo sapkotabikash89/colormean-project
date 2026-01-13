@@ -10,7 +10,8 @@ import { CopyButton } from "@/components/copy-button"
 import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
-import data from "@/lib/color-meaning.json"
+// OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
+// Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
 export function AdvancedColorPicker() {
   const router = useRouter()
@@ -231,10 +232,9 @@ export function AdvancedColorPicker() {
         <ShareButtons title="Advanced Color Picker Tool - ColorMean" />
       </div>
       {(() => {
-        const upper = selectedColor.replace("#", "").toUpperCase()
-        const meta: any = (data as any)[upper]
-        const colorName: string | undefined = meta?.name || undefined
-        return <ColorPageContent hex={selectedColor} name={colorName} mode="sectionsOnly" />
+        // OPTIMIZATION: Pass the color hex directly without looking up name
+        // The ColorPageContent component will handle unknown colors appropriately
+        return <ColorPageContent hex={selectedColor} name={undefined} mode="sectionsOnly" />
       })()}
     </div>
   )

@@ -182,7 +182,8 @@ async function fetchPostByUri(uri: string) {
       `,
           variables: { uri: u },
         }),
-        next: { revalidate: 600, tags: [`wp:node:${u}`] },
+        // OPTIMIZATION: Increased revalidate time for Vercel free plan
+                next: { revalidate: 3600, tags: [`wp:node:${u}`] },  // 1 hour instead of 10 min
       })
       const json = await res.json()
       if (json?.data?.nodeByUri) return json.data.nodeByUri
@@ -247,7 +248,8 @@ async function fetchPostBySlug(slug: string) {
         `,
         variables: { slug },
       }),
-      next: { revalidate: 600, tags: [`wp:slug:${slug}`] },
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              next: { revalidate: 3600, tags: [`wp:slug:${slug}`] },  // 1 hour instead of 10 min
     })
     const json = await res.json()
     return json?.data?.post ?? null
@@ -350,7 +352,8 @@ async function fetchContentByUri(uri: string) {
         `,
         variables: { uri },
       }),
-      next: { revalidate: 600, tags: [`wp:uri:${uri}`] },
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              next: { revalidate: 3600, tags: [`wp:uri:${uri}`] },  // 1 hour instead of 10 min
     })
     const json = await res.json()
     return json?.data?.post ?? json?.data?.page ?? null
@@ -457,7 +460,8 @@ async function fetchAnyBySearch(term: string) {
         `,
         variables: { q: term },
       }),
-      next: { revalidate: 600, tags: [`wp:search:${term}`] },
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              next: { revalidate: 3600, tags: [`wp:search:${term}`] },  // 1 hour instead of 10 min
     })
     const json = await res.json()
     const post = json?.data?.posts?.nodes?.[0]
@@ -477,7 +481,8 @@ async function fetchRestFeaturedMedia(id: number) {
   if (!id || id <= 0) return null
   try {
     const res = await fetch(`https://cms.colormean.com/wp-json/wp/v2/media/${id}?_fields=source_url,alt_text`, {
-      next: { revalidate: 600 },
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              next: { revalidate: 3600 },  // 1 hour instead of 10 min
     })
     const json = await res.json()
     if (!json || !json.source_url) return null
@@ -527,7 +532,8 @@ async function fetchRestPostBySlug(slug: string) {
   try {
     const res = await fetch(
       `https://cms.colormean.com/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_fields=title,content,link,featured_media,yoast_head_json`,
-      { next: { revalidate: 600, tags: [`wp:rest:post:${slug}`] } }
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              { next: { revalidate: 3600, tags: [`wp:rest:post:${slug}`] } }  // 1 hour instead of 10 min
     )
     const arr = await res.json()
     const post = Array.isArray(arr) ? arr[0] : null
@@ -554,7 +560,8 @@ async function fetchRestPageBySlug(slug: string) {
   try {
     const res = await fetch(
       `https://cms.colormean.com/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_fields=title,content,link,featured_media,yoast_head_json`,
-      { next: { revalidate: 600, tags: [`wp:rest:page:${slug}`] } }
+      // OPTIMIZATION: Increased revalidate time for Vercel free plan
+              { next: { revalidate: 3600, tags: [`wp:rest:page:${slug}`] } }  // 1 hour instead of 10 min
     )
     const arr = await res.json()
     const page = Array.isArray(arr) ? arr[0] : null
@@ -594,7 +601,8 @@ async function fetchPostsByTagIds(tagIds: number[], count: number) {
       `,
       variables: { tagIds, count },
     }),
-    next: { revalidate: 600, tags: [`wp:related`] },
+    // OPTIMIZATION: Increased revalidate time for Vercel free plan
+    next: { revalidate: 3600, tags: [`wp:related`] },  // 1 hour instead of 10 min
   })
   const json = await res.json()
   return json?.data?.posts?.nodes ?? []
@@ -619,7 +627,8 @@ async function fetchPostsByCategoryIds(catIds: number[], count: number) {
       `,
       variables: { catIds, count },
     }),
-    next: { revalidate: 600, tags: [`wp:related`] },
+    // OPTIMIZATION: Increased revalidate time for Vercel free plan
+    next: { revalidate: 3600, tags: [`wp:related`] },  // 1 hour instead of 10 min
   })
   const json = await res.json()
   return json?.data?.posts?.nodes ?? []
@@ -643,7 +652,8 @@ async function fetchRandomPosts(count: number) {
       `,
       variables: { count },
     }),
-    next: { revalidate: 600, tags: [`wp:related`] },
+    // OPTIMIZATION: Increased revalidate time for Vercel free plan
+    next: { revalidate: 3600, tags: [`wp:related`] },  // 1 hour instead of 10 min
   })
   const json = await res.json()
   return json?.data?.posts?.nodes ?? []
