@@ -1,0 +1,139 @@
+import type { FAQItem } from "@/components/faq-section"
+
+import green from "./green-faq.json"
+import yellow from "./yellow-faq.json"
+import red from "./red-faq.json"
+import blue from "./blue-faq.json"
+
+// Added remaining colors
+import burgundy from "./burgundy-faq.json"
+import maroon from "./maroon-faq.json"
+import magenta from "./magenta-faq.json"
+import fuchsia from "./fuchsia-faq.json"
+import cognac from "./cognac-faq.json"
+import crimson from "./crimson-faq.json"
+import amber from "./amber-faq.json"
+import beige from "./beige-faq.json"
+import champagne from "./champagne-faq.json"
+import ecru from "./ecru-faq.json"
+import pastelYellow from "./pastel-yellow-faq.json"
+import brightYellow from "./bright-yellow-faq.json"
+import gold from "./gold-faq.json"
+import royalBlue from "./royal-blue-faq.json"
+import babyBlue from "./baby-blue-faq.json"
+import pastelBlue from "./pastel-blue-faq.json"
+import navyBlue from "./navy-blue-faq.json"
+import turquoise from "./turquoise-faq.json"
+import teal from "./teal-faq.json"
+import cyan from "./cyan-faq.json"
+import periwinkle from "./periwinkle-faq.json"
+import cerulean from "./cerulean-faq.json"
+import mint from "./mint-faq.json"
+import chartreuse from "./chartreuse-faq.json"
+import caledon from "./caledon-faq.json"
+import oliveGreen from "./olive-green-faq.json"
+import limeGreen from "./lime-green-faq.json"
+import neonGreen from "./neon-green-faq.json"
+import sageGreen from "./sage-green-faq.json"
+import forestGreen from "./forest-green-faq.json"
+import seafoamGreen from "./seafoam-green-faq.json"
+import emeraldGreen from "./emerald-green-faq.json"
+import indigo from "./indigo-faq.json"
+import violet from "./violet-faq.json"
+import lavender from "./lavender-faq.json"
+import lilac from "./lilac-faq.json"
+import mauve from "./mauve-faq.json"
+import orange from "./orange-faq.json"
+import brightOrange from "./bright-orange-faq.json"
+import burntSienna from "./burnt-sienna-faq.json"
+import tangerine from "./tangerine-faq.json"
+import brown from "./brown-faq.json"
+import nude from "./nude-faq.json"
+import marsala from "./marsala-faq.json"
+import taupe from "./taupe-faq.json"
+import khaki from "./khaki-faq.json"
+import tan from "./tan-faq.json"
+import salmon from "./salmon-faq.json"
+import dustyRose from "./dusty-rose-faq.json"
+import honeysuckle from "./honeysuckle-faq.json"
+import lightPink from "./light-pink-faq.json"
+import hotPink from "./hot-pink-faq.json"
+import gunmetal from "./gunmetal-faq.json"
+import pewter from "./pewter-faq.json"
+import cream from "./cream-faq.json"
+import ebony from "./ebony-faq.json"
+import hazel from "./hazel-faq.json"
+import silver from "./silver-faq.json"
+import white from "./white-faq.json"
+
+export const FAQ_REGISTRY: Record<string, FAQItem[]> = {
+  green: green as FAQItem[],
+  yellow: yellow as FAQItem[],
+  red: red as FAQItem[],
+  blue: blue as FAQItem[],
+  white: white as FAQItem[],
+  burgundy: burgundy as FAQItem[],
+  maroon: maroon as FAQItem[],
+  magenta: magenta as FAQItem[],
+  fuchsia: fuchsia as FAQItem[],
+  cognac: cognac as FAQItem[],
+  crimson: crimson as FAQItem[],
+  amber: amber as FAQItem[],
+  beige: beige as FAQItem[],
+  champagne: champagne as FAQItem[],
+  ecru: ecru as FAQItem[],
+  pastelyellow: pastelYellow as FAQItem[],
+  brightyellow: brightYellow as FAQItem[],
+  gold: gold as FAQItem[],
+  royalblue: royalBlue as FAQItem[],
+  babyblue: babyBlue as FAQItem[],
+  pastelblue: pastelBlue as FAQItem[],
+  navyblue: navyBlue as FAQItem[],
+  turquoise: turquoise as FAQItem[],
+  teal: teal as FAQItem[],
+  cyan: cyan as FAQItem[],
+  periwinkle: periwinkle as FAQItem[],
+  cerulean: cerulean as FAQItem[],
+  mint: mint as FAQItem[],
+  chartreuse: chartreuse as FAQItem[],
+  caledon: caledon as FAQItem[],
+  olivegreen: oliveGreen as FAQItem[],
+  limegreen: limeGreen as FAQItem[],
+  neongreen: neonGreen as FAQItem[],
+  sagegreen: sageGreen as FAQItem[],
+  forestgreen: forestGreen as FAQItem[],
+  seafoamgreen: seafoamGreen as FAQItem[],
+  emeraldgreen: emeraldGreen as FAQItem[],
+  indigo: indigo as FAQItem[],
+  violet: violet as FAQItem[],
+  lavender: lavender as FAQItem[],
+  lilac: lilac as FAQItem[],
+  mauve: mauve as FAQItem[],
+  orange: orange as FAQItem[],
+  brightorange: brightOrange as FAQItem[],
+  burntsienna: burntSienna as FAQItem[],
+  tangerine: tangerine as FAQItem[],
+  brown: brown as FAQItem[],
+  nude: nude as FAQItem[],
+  marsala: marsala as FAQItem[],
+  taupe: taupe as FAQItem[],
+  khaki: khaki as FAQItem[],
+  tan: tan as FAQItem[],
+  salmon: salmon as FAQItem[],
+  dustyrose: dustyRose as FAQItem[],
+  honeysuckle: honeysuckle as FAQItem[],
+  lightpink: lightPink as FAQItem[],
+  hotpink: hotPink as FAQItem[],
+  gunmetal: gunmetal as FAQItem[],
+  pewter: pewter as FAQItem[],
+  cream: cream as FAQItem[],
+  ebony: ebony as FAQItem[],
+  hazel: hazel as FAQItem[],
+  silver: silver as FAQItem[]
+}
+
+export function getFaqsByColorSlug(slug?: string | null): FAQItem[] {
+  if (!slug) return []
+  const key = String(slug).trim().toLowerCase()
+  return Array.isArray(FAQ_REGISTRY[key]) ? FAQ_REGISTRY[key] : []
+}
