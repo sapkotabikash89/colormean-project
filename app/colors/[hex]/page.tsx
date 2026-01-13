@@ -125,16 +125,19 @@ export default async function ColorPage({ params }: ColorPageProps) {
 
       <Header />
 
-      {colorExistsInDb && (
+      {colorExistsInDb ? (
         <ImageObjectSchema
           url={`https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}-image.webp`}
           width={1200}
           height={630}
           alt={`Color swatch image showing ${displayLabel} with RGB(${rgb?.r ?? 0},${rgb?.g ?? 0},${rgb?.b ?? 0}) values`}
         />
+      ) : (
+        // For unknown colors, we don't include an image in the schema
+        <div className="sr-only">No image schema for dynamic color</div>
       )}
 
-      {colorExistsInDb && (
+      {colorExistsInDb ? (
         <img
           src={`https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}-image.webp`}
           alt={`Color swatch image showing ${displayLabel} with RGB(${rgb?.r ?? 0},${rgb?.g ?? 0},${rgb?.b ?? 0}) values`}
@@ -142,6 +145,11 @@ export default async function ColorPage({ params }: ColorPageProps) {
           height={630}
           className="sr-only"
         />
+      ) : (
+        // For unknown colors, render client-side swatch
+        <div className="sr-only" aria-hidden="true">
+          <p>Color swatch for {displayLabel}</p>
+        </div>
       )}
 
       {/* Dynamic Color Hero */}
@@ -213,7 +221,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Content Area - 2/3 */}
           <div className="flex-1">
-            <ColorPageContent hex={normalizedHex} faqs={faqItems} name={colorName} />
+            <ColorPageContent hex={normalizedHex} faqs={faqItems} name={colorName} colorExistsInDb={colorExistsInDb} />
           </div>
 
           {/* Sidebar - 1/3 */}

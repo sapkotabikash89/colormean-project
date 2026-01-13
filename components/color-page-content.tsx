@@ -45,9 +45,10 @@ interface ColorPageContentProps {
   mode?: "full" | "sectionsOnly"
   faqs?: { question: string; answer: string }[]
   name?: string
+  colorExistsInDb?: boolean
 }
 
-export function ColorPageContent({ hex, mode = "full", faqs, name }: ColorPageContentProps) {
+export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb }: ColorPageContentProps) {
   const router = useRouter()
   const label = name ? `${name} (${hex})` : hex
   const [selectedHarmony, setSelectedHarmony] = useState("analogous")
@@ -242,50 +243,66 @@ export function ColorPageContent({ hex, mode = "full", faqs, name }: ColorPageCo
           <div className="px-4 sm:px-6 py-2">
             <p className="text-base leading-relaxed">
               {label} RGB value is ({rgb.r}, {rgb.g}, {rgb.b}). The hex color red value is {rgb.r}, green is {rgb.g}, and
-              blue is {rgb.b}. Its HSL format shows a hue of {hsl.h}°, saturation of {hsl.s} percent, and lightness of{" "}
-              {hsl.l} percent. The CMYK process values are {cmyk.c} percent, {cmyk.m} percent, {cmyk.y} percent, {cmyk.k}{" "}
+              blue is {rgb.b}. Its HSL format shows a hue of {hsl.h}°, saturation of {hsl.s} percent, and lightness of{}
+              {hsl.l} percent. The CMYK process values are {cmyk.c} percent, {cmyk.m} percent, {cmyk.y} percent, {cmyk.k}{}
               percent.
             </p>
           </div>
         </Card>
       ) : null}
-
+  
       {mode !== "sectionsOnly" ? (
         <Card className="p-4 sm:p-6 space-y-4">
           <div className="w-full flex justify-center">
             <div className="relative w-full max-w-xl h-80 rounded-lg border-2 border-border overflow-hidden">
-              {!imageError ? (
-                <a
-                  href={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full h-full"
-                >
-                  <Image
-                    src={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
-                    alt={`${hex} color swatch`}
-                    width={1200}
-                    height={630}
-                    priority={true}
-                    className="object-cover w-full h-full"
-                    onError={() => setImageError(true)}
-                    decoding="async"
-                  />
-                </a>
-              ) : (
+              {/* For unknown colors, always show CSS swatch; for known colors, try server image with CSS fallback */}
+              {colorExistsInDb === false ? (
+                // For unknown colors (colorExistsInDb is false), render CSS swatch directly
                 <div
                   className="w-full h-full relative"
                   style={{ backgroundColor: hex, color: getContrastColor(hex) }}
                 >
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    {name ? (
-                      <div className="font-mono text-base sm:text-lg font-semibold mb-1">{name}</div>
-                    ) : null}
                     <div className="font-mono text-xl font-bold">{hex.toUpperCase()}</div>
                     <div className="font-mono text-sm">{`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}</div>
                   </div>
                   <div className="absolute bottom-2 right-3 font-semibold text-xs opacity-80">ColorMean</div>
                 </div>
+              ) : (
+                // For known colors, try to load server image with CSS fallback
+                !imageError ? (
+                  <a
+                    href={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full h-full"
+                  >
+                    <Image
+                      src={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
+                      alt={`${hex} color swatch`}
+                      width={1200}
+                      height={630}
+                      priority={true}
+                      className="object-cover w-full h-full"
+                      onError={() => setImageError(true)}
+                      decoding="async"
+                    />
+                  </a>
+                ) : (
+                  <div
+                    className="w-full h-full relative"
+                    style={{ backgroundColor: hex, color: getContrastColor(hex) }}
+                  >
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                      {name ? (
+                        <div className="font-mono text-base sm:text-lg font-semibold mb-1">{name}</div>
+                      ) : null}
+                      <div className="font-mono text-xl font-bold">{hex.toUpperCase()}</div>
+                      <div className="font-mono text-sm">{`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}</div>
+                    </div>
+                    <div className="absolute bottom-2 right-3 font-semibold text-xs opacity-80">ColorMean</div>
+                  </div>
+                )
               )}
               <button
                 onClick={toggleLove}
