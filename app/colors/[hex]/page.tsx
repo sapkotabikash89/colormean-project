@@ -28,6 +28,8 @@ export async function generateStaticParams() {
   }))
 }
 
+
+
 export async function generateMetadata({ params }: ColorPageProps): Promise<Metadata> {
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
