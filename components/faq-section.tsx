@@ -1,5 +1,3 @@
-"use server"
-
 import Script from "next/script"
 import { getFaqsByColorSlug } from "@/lib/faqs"
 

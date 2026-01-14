@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ColorsPage({ searchParams }: { searchParams: { q?: string } }) {
+export default function ColorsPage() {
   const baseUrl = "https://colormean.com"
   const allColors = (() => {
     const entries: Array<{ name: string; hex: string }> = []
@@ -54,7 +54,7 @@ export default function ColorsPage({ searchParams }: { searchParams: { q?: strin
     }
     return entries
   })()
-  const q = (searchParams?.q || "").trim().toLowerCase()
+  const q = "" // For static export, search is not supported
   const filtered = q
     ? allColors.filter((c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q))
     : allColors
@@ -87,7 +87,7 @@ export default function ColorsPage({ searchParams }: { searchParams: { q?: strin
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1">
-            <ColorLibrary initialQuery={searchParams?.q || ""} />
+            <ColorLibrary initialQuery="" />
             <div className="mt-8 flex justify-center">
               <ShareButtons title="Check out the ColorMean Color Library" />
             </div>

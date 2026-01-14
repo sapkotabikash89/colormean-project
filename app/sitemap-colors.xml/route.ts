@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import colorMeaning from "@/lib/color-meaning.json"
 
+export const dynamic = 'force-static'
+
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean.com"
   const now = new Date().toISOString()

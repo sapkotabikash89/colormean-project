@@ -1,6 +1,6 @@
 // Auto-generated file containing known color hex codes
 // Generated to keep Edge Function size under 1MB
-export const KNOWN_COLOR_HEXES = new Set([
+const colorHexArray = [
 'B0BF1A',
   '7CB9E8',
   'C9FFE5',
@@ -1535,7 +1535,9 @@ export const KNOWN_COLOR_HEXES = new Set([
   'F8F32B',
   '2C1608',
   '39A78E'
-]) as const;
+];
+
+export const KNOWN_COLOR_HEXES = new Set<string>(colorHexArray);
 
 export const isKnownColor = (hex: string): boolean => {
   const cleanHex = hex.replace('#', '').toUpperCase();
