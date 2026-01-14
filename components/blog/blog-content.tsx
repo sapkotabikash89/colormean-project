@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useMemo, useRef } from 'react'
-import { convertToGumletUrl } from '@/lib/gumlet-image-utils'
 
 interface BlogContentProps {
   html: string
@@ -11,56 +10,20 @@ interface BlogContentProps {
 
 /**
  * BlogContent component - Client-side blog content renderer
- * - Converts all WordPress image URLs to Gumlet CDN URLs
  * - Adds lazy loading to all images
  * - Fully responsive images
  * - Client-side only to minimize Cloudflare Worker computation
+ * - Uses WordPress CMS URLs for inline images (not Gumlet) to prevent broken image loading
  */
 export function BlogContent({ html, className = '', style }: BlogContentProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   
-  // Process HTML to convert all image URLs to Gumlet URLs during render
+  // Process HTML to add proper attributes to all images during render
   const processedHtml = useMemo(() => {
     if (!html) return html
     
-    // Convert all WordPress image URLs to Gumlet CDN URLs
+    // Process HTML to add proper attributes while keeping WordPress URLs
     let processed = html
-    
-    // Replace src attributes
-    processed = processed.replace(
-      /src=["'](https?:)?\/\/cms\.colormean\.com\/wp-content\/uploads\/([^"']*)["']/gi,
-      (_match: string, _protocol: string, path: string) => {
-        return `src="https://colormean.gumlet.io/wp-content/uploads/${path}"`
-      }
-    )
-    
-    // Replace srcset attributes
-    processed = processed.replace(
-      /srcset=["']([^"']*cms\.colormean\.com\/wp-content\/uploads\/[^"']*)["']/gi,
-      (match: string, srcset: string) => {
-        const convertedSrcset = srcset.replace(
-          /(https?:)?\/\/cms\.colormean\.com\/wp-content\/uploads\/([^",\s]+)/gi,
-          (_subMatch: string, _subProtocol: string, subPath: string) => {
-            return `https://colormean.gumlet.io/wp-content/uploads/${subPath}`
-          }
-        )
-        return `srcset="${convertedSrcset}"`
-      }
-    )
-    
-    // Replace background image URLs in style attributes
-    processed = processed.replace(
-      /style=["']([^"']*)url\(([^\)]*cms\.colormean\.com\/wp-content\/uploads\/[^\)]*)\)([^"']*)["']/gi,
-      (match: string, before: string, url: string, after: string) => {
-        const convertedUrl = url.replace(
-          /(https?:)?\/\/cms\.colormean\.com\/wp-content\/uploads\/([^",\s\)\(]+)/gi,
-          (_subMatch: string, _subProtocol: string, subPath: string) => {
-            return `https://colormean.gumlet.io/wp-content/uploads/${subPath}`
-          }
-        )
-        return `style="${before}url(${convertedUrl})${after}"`
-      }
-    )
     
     // Add loading=lazy and decoding=async to all images if not present
     processed = processed.replace(
