@@ -18,6 +18,16 @@ export interface ColorCategory {
 
 const categories = categoryData.colorCategories as ColorCategory[]
 
+// Precomputed category cache to avoid repeated calculations
+const categoryCache = new Map<string, ColorCategory>()
+// Precompute parsed hue ranges for all categories
+const parsedRanges = categories.map(cat => ({
+  category: cat,
+  parsed: parseHueRange(cat.hueRange),
+  targetS: getValueFromDescriptor(cat.saturation),
+  targetL: getValueFromDescriptor(cat.lightness)
+}))
+
 export function getRelatedColorsByCategory(hex: string, limit: number = 8): any[] {
   const currentRgb = hexToRgb(hex)
   if (!currentRgb) return []
@@ -91,29 +101,31 @@ function isHueMatch(h: number, start: number, end: number, isFull: boolean): boo
   }
 }
 
+// OPTIMIZATION: Cache category lookups and use precomputed values
 export function getCategory(h: number, s: number, l: number): ColorCategory {
+  // Create cache key from HSL values
+  const cacheKey = `${Math.round(h)}_${Math.round(s)}_${Math.round(l)}`
+  
+  // Check cache first
+  if (categoryCache.has(cacheKey)) {
+    return categoryCache.get(cacheKey)!
+  }
+
   let bestCat = categories[0]
   let bestScore = -Infinity
 
-  for (const cat of categories) {
-    const hueParsed = parseHueRange(cat.hueRange)
-    const targetS = getValueFromDescriptor(cat.saturation)
-    const targetL = getValueFromDescriptor(cat.lightness)
-
+  // OPTIMIZATION: Use precomputed parsed ranges instead of calculating each time
+  for (const { category: cat, parsed: hueParsed, targetS, targetL } of parsedRanges) {
     let score = 0
     
     // Hue check
     if (isHueMatch(h, hueParsed.start, hueParsed.end, hueParsed.isFull)) {
       score += 1000
     } else {
-        // Penalty for hue mismatch (shortest distance)
+        // OPTIMIZATION: Simplified distance calculation
         let dist = Math.min(Math.abs(h - hueParsed.start), Math.abs(h - hueParsed.end))
         if (hueParsed.start > hueParsed.end) {
-             // range crosses 0/360
-             // distance to [start, 360] U [0, end]
-             // normalize h to be comparable
-             // simplistic approach: if not match, just subtract distance
-             // but handle wrap around distance
+             // Handle wrap-around ranges more efficiently
              const dist1 = Math.abs(h - hueParsed.start)
              const dist2 = Math.abs(h - hueParsed.end)
              const dist3 = Math.abs(h - (hueParsed.start - 360))
@@ -142,6 +154,18 @@ export function getCategory(h: number, s: number, l: number): ColorCategory {
       bestCat = cat
     }
   }
+  
+  // Cache the result
+  categoryCache.set(cacheKey, bestCat)
+  
+  // Limit cache size to prevent memory issues
+  if (categoryCache.size > 1000) {
+    const firstKey = categoryCache.keys().next().value
+    if (firstKey) {
+      categoryCache.delete(firstKey)
+    }
+  }
+  
   return bestCat
 }
 

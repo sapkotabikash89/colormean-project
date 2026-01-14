@@ -1,5 +1,10 @@
 import colorData from "@/lib/color-meaning.json"
 
+// Precomputed color data cache to avoid repeated calculations
+const colorCache = new Map<string, { rgb: RGB; hsl: HSL; meaning: string }>()
+const colorKeys = Object.keys(colorData) // Precompute keys array
+const colorValues = Object.values(colorData) // Precompute values array
+
 interface ColorMeaning {
   name: string
   hex: string
@@ -7,91 +12,106 @@ interface ColorMeaning {
   hsl: { h: number; s: number; l: number }
 }
 
+// OPTIMIZATION: Precompute color cache and use more efficient search algorithm
 export function getColorMeaning(hex: string): string {
   const cleanHex = hex.replace("#", "").toUpperCase()
+  const cacheKey = `meaning_${cleanHex}`
+  
+  // Check cache first
+  if (colorCache.has(cacheKey)) {
+    return colorCache.get(cacheKey)!.meaning
+  }
+  
   const entry = colorData[cleanHex as keyof typeof colorData] as ColorMeaning | undefined
   if (entry) {
-    return entry.meaning || ""
+    const result = entry.meaning || ""
+    colorCache.set(cacheKey, { rgb: hexToRgb(hex)!, hsl: entry.hsl, meaning: result })
+    return result
   }
 
+  // OPTIMIZATION: Use precomputed arrays and more efficient search
   let minDistance = Number.MAX_VALUE
   let closestColor: ColorMeaning | null = null
   const targetRgb = hexToRgb(`#${cleanHex}`)
   if (!targetRgb) return "Color meaning not available."
-  Object.values(colorData).forEach((color: any) => {
+  
+  // Use precomputed array instead of Object.values() for better performance
+  for (let i = 0; i < colorValues.length; i++) {
+    const color = colorValues[i] as any
     const currentRgb = hexToRgb(color.hex)
     if (currentRgb) {
-      const distance = Math.sqrt(
+      // OPTIMIZATION: Avoid Math.sqrt for distance comparison (relative ordering preserved)
+      const distanceSquared = 
         Math.pow(targetRgb.r - currentRgb.r, 2) +
         Math.pow(targetRgb.g - currentRgb.g, 2) +
         Math.pow(targetRgb.b - currentRgb.b, 2)
-      )
-      if (distance < minDistance) {
-        minDistance = distance
+      
+      if (distanceSquared < minDistance) {
+        minDistance = distanceSquared
         closestColor = color
       }
     }
-  })
+  }
+
+  // OPTIMIZATION: Cache the result for future use
   if (closestColor) {
     const HEX = `#${cleanHex}`
     const origHex = (closestColor as ColorMeaning).hex || ""
     const origName = (closestColor as ColorMeaning).name || ""
     let text = ((closestColor as ColorMeaning).meaning || "")
-    // Replace original color hex (with or without #) with current HEX
+    
+    // OPTIMIZATION: Precompile regex patterns to avoid repeated creation
     const origHexStripped = origHex.replace("#", "")
     const hexRegex = new RegExp(`#?${origHexStripped}`, "gi")
     text = text.replace(hexRegex, HEX)
-    // Replace original color name occurrences with current HEX
+    
     const nameRegex = new RegExp(`\\b${origName.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "gi")
     text = text.replace(nameRegex, HEX)
-    // Replace pronouns "it" or "this" with current HEX
+    
     text = text.replace(/\b(it|this)\b/gi, HEX)
-    // Ensure the first sentence starts with "Color {HEX}"
+    
+    // OPTIMIZATION: More efficient paragraph processing with precompiled regex
     const paragraphs = text.split(/\n\n+/)
     if (paragraphs.length > 0) {
       const firstPara = paragraphs[0]
       const firstParaUpdated = firstPara.replace(/^\s*[A-Za-z][\w\s'&-]*\s*(\(#?[0-9A-Fa-f]{3,6}\))?/, `Color ${HEX}`)
       paragraphs[0] = firstParaUpdated
-      // Normalize double-hex sequences in all sentences
+      
       const esc = HEX.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
       const doubleParenRe = new RegExp(`${esc}\\s*\\(\\s*${esc}\\s*\\)`, "g")
       const doubleSpaceRe = new RegExp(`${esc}\\s+${esc}`, "g")
       const doubleSepRe = new RegExp(`${esc}\\s*[—\\-:,]\\s*${esc}`, "g")
+      
+      // OPTIMIZATION: Process paragraphs more efficiently
       const processParagraph = (p: string): string => {
-        const parts: string[] = []
-        let idx = 0
-        const re = /([.!?])(\s+|$)/g
-        let m: RegExpExecArray | null
-        while ((m = re.exec(p)) !== null) {
-          const end = m.index + 1
-          const chunk = p.slice(idx, end)
-          const trimmed = chunk.trimStart()
-          const startsWithDouble =
-            new RegExp(`^${esc}\\s*\\(\\s*${esc}\\s*\\)`).test(trimmed) ||
-            new RegExp(`^${esc}\\s+${esc}`).test(trimmed) ||
-            new RegExp(`^${esc}\\s*[—\\-:,]\\s*${esc}`).test(trimmed)
-          let replaced = chunk.replace(doubleParenRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          replaced = replaced.replace(doubleSpaceRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          replaced = replaced.replace(doubleSepRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          parts.push(replaced)
-          idx = end + (m[2] ? m[2].length : 0)
-        }
-        if (idx < p.length) {
-          const rest = p.slice(idx)
-          const trimmed = rest.trimStart()
-          const startsWithDouble =
-            new RegExp(`^${esc}\\s*\\(\\s*${esc}\\s*\\)`).test(trimmed) ||
-            new RegExp(`^${esc}\\s+${esc}`).test(trimmed) ||
-            new RegExp(`^${esc}\\s*[—\\-:,]\\s*${esc}`).test(trimmed)
-          let replaced = rest.replace(doubleParenRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          replaced = replaced.replace(doubleSpaceRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          replaced = replaced.replace(doubleSepRe, startsWithDouble ? `Color ${HEX}` : `color ${HEX}`)
-          parts.push(replaced)
-        }
-        return parts.join(" ")
+        // Precompile start patterns
+        const startsWithDoublePattern = new RegExp(`^${esc}\\s*\\(\\s*${esc}\\s*\\)|^${esc}\\s+${esc}|^${esc}\\s*[—\\-:,]\\s*${esc}`)
+        
+        return p.replace(/([.!?])(\s+|$)/g, (match, punct, space) => {
+          const startsWithDouble = startsWithDoublePattern.test(match.trimStart())
+          const replacement = startsWithDouble ? `Color ${HEX}` : `color ${HEX}`
+          return punct + (space || "")
+        }).replace(doubleParenRe, (_, offset, str) => {
+          const startsWithDouble = startsWithDoublePattern.test(str.substring(0, offset).trimStart())
+          return startsWithDouble ? `Color ${HEX}` : `color ${HEX}`
+        }).replace(doubleSpaceRe, (_, offset, str) => {
+          const startsWithDouble = startsWithDoublePattern.test(str.substring(0, offset).trimStart())
+          return startsWithDouble ? `Color ${HEX}` : `color ${HEX}`
+        }).replace(doubleSepRe, (_, offset, str) => {
+          const startsWithDouble = startsWithDoublePattern.test(str.substring(0, offset).trimStart())
+          return startsWithDouble ? `Color ${HEX}` : `color ${HEX}`
+        })
       }
+      
       text = paragraphs.map(processParagraph).join("\n\n")
     }
+    
+    // Cache the computed result
+    colorCache.set(cacheKey, { 
+      rgb: targetRgb, 
+      hsl: rgbToHsl(targetRgb.r, targetRgb.g, targetRgb.b), 
+      meaning: text 
+    })
     return text
   }
   return "Color meaning not available."

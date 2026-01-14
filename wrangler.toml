@@ -1,9 +1,12 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 name = "colormean-project"
-main = ".open-next/worker.js"
+main = "custom-worker.js"
 compatibility_date = "2026-01-13"
 
 compatibility_flags = ["nodejs_compat"]
+
+[limits]
+cpu_ms = 300000
 
 [assets]
 directory = ".open-next/assets"
