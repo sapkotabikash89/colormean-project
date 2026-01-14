@@ -47,22 +47,25 @@ export function ContrastCheckerTool() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold">Check Contrast Ratio</h2>
-              <p className="text-muted-foreground">Test your color combinations against WCAG accessibility standards</p>
+              <h2 className="text-xl sm:text-2xl font-bold">Check Contrast Ratio</h2>
+              <p className="text-sm sm:text-base text-muted-foreground">Test your color combinations against WCAG accessibility standards</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-            <div className="space-y-2">
+          {/* Color Pickers Section */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-3 items-center">
+            {/* Foreground */}
+            <div className="space-y-2 min-w-0">
               <label className="text-sm font-medium">Foreground (Text)</label>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
                     setShowForegroundPicker(true)
                   }}
-                  className="w-16 h-12 rounded-md border-2 border-border cursor-pointer flex-shrink-0"
+                  className="w-12 h-10 sm:w-14 sm:h-12 rounded-md border-2 border-border cursor-pointer flex-shrink-0"
                   style={{ backgroundColor: foreground }}
+                  aria-label="Select foreground color"
                 />
                 <input
                   type="text"
@@ -71,27 +74,31 @@ export function ContrastCheckerTool() {
                     setForeground(e.target.value)
                     setTempForeground(e.target.value)
                   }}
-                  className="flex-1 px-3 py-2 border rounded-md font-mono text-sm"
+                  className="flex-1 min-w-0 px-2 sm:px-3 py-2 border rounded-md font-mono text-xs sm:text-sm"
+                  placeholder="#000000"
                 />
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <Button variant="outline" size="icon" onClick={swapColors}>
+            {/* Swap Button - Centered between Foreground and Background */}
+            <div className="flex justify-center items-end pb-0 md:pt-6">
+              <Button variant="outline" size="icon" onClick={swapColors} aria-label="Swap colors" className="h-10 w-10">
                 <RefreshCw className="w-4 h-4" />
               </Button>
             </div>
 
-            <div className="space-y-2">
+            {/* Background */}
+            <div className="space-y-2 min-w-0">
               <label className="text-sm font-medium">Background</label>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
                     setShowBackgroundPicker(true)
                   }}
-                  className="w-16 h-12 rounded-md border-2 border-border cursor-pointer flex-shrink-0"
+                  className="w-12 h-10 sm:w-14 sm:h-12 rounded-md border-2 border-border cursor-pointer flex-shrink-0"
                   style={{ backgroundColor: background }}
+                  aria-label="Select background color"
                 />
                 <input
                   type="text"
@@ -100,23 +107,26 @@ export function ContrastCheckerTool() {
                     setBackground(e.target.value)
                     setTempBackground(e.target.value)
                   }}
-                  className="flex-1 min-w-0 px-3 py-2 border rounded-md font-mono text-sm"
+                  className="flex-1 min-w-0 px-2 sm:px-3 py-2 border rounded-md font-mono text-xs sm:text-sm"
+                  placeholder="#FFFFFF"
                 />
               </div>
             </div>
           </div>
 
-          <div className="p-12 rounded-lg space-y-6" style={{ backgroundColor: background, color: foreground }}>
-            <h3 className="text-4xl font-bold">Large Text Sample</h3>
-            <p className="text-xl">Medium text at 20 pixels for testing readability</p>
-            <p className="text-base">
+          {/* Preview Section */}
+          <div className="p-8 sm:p-12 rounded-lg space-y-4 sm:space-y-6" style={{ backgroundColor: background, color: foreground }}>
+            <h3 className="text-2xl sm:text-4xl font-bold">Large Text Sample</h3>
+            <p className="text-lg sm:text-xl">Medium text at 20 pixels for testing readability</p>
+            <p className="text-sm sm:text-base">
               Normal text at 16 pixels. This is how your regular body text will appear with these color combinations.
               Make sure it's readable and comfortable to read.
             </p>
-            <p className="text-sm">Small text at 14 pixels for detailed content</p>
+            <p className="text-xs sm:text-sm">Small text at 14 pixels for detailed content</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Contrast Results */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <ContrastResult
               label="Large Text"
               sublabel="18pt+ or 14pt+ Bold"
@@ -146,9 +156,9 @@ export function ContrastCheckerTool() {
         <ShareButtons title="Contrast Checker Tool - ColorMean" />
       </div>
 
-      <Card className="p-6 space-y-4">
-        <h2 className="text-xl font-bold">How to Use the Contrast Checker</h2>
-        <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+      <Card className="p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-bold">How to Use the Contrast Checker</h2>
+        <ol className="list-decimal list-inside space-y-2 text-sm sm:text-base text-muted-foreground">
           <li>Select your foreground (text) color using the color picker or enter a hex code</li>
           <li>Select your background color</li>
           <li>View the contrast ratio and WCAG compliance levels instantly</li>
@@ -157,9 +167,9 @@ export function ContrastCheckerTool() {
         </ol>
       </Card>
 
-      <Card className="p-6 space-y-4">
-        <h2 className="text-xl font-bold">Understanding WCAG Standards</h2>
-        <div className="space-y-4 text-muted-foreground">
+      <Card className="p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-bold">Understanding WCAG Standards</h2>
+        <div className="space-y-4 text-sm sm:text-base text-muted-foreground">
           <p>
             The Web Content Accessibility Guidelines (WCAG) provide standards for making web content more accessible to
             people with disabilities, including those with visual impairments.
@@ -185,9 +195,9 @@ export function ContrastCheckerTool() {
         </div>
       </Card>
 
-      <Card className="p-6 space-y-4">
-        <h2 className="text-xl font-bold">Why Contrast Matters</h2>
-        <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+      <Card className="p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-bold">Why Contrast Matters</h2>
+        <ul className="list-disc list-inside space-y-2 text-sm sm:text-base text-muted-foreground">
           <li>Ensures readability for users with visual impairments</li>
           <li>Improves usability in different lighting conditions</li>
           <li>Required for ADA and Section 508 compliance</li>
@@ -197,8 +207,8 @@ export function ContrastCheckerTool() {
         </ul>
       </Card>
 
-      <Card className="p-6 space-y-4">
-        <h2 className="text-xl font-bold">Frequently Asked Questions</h2>
+      <Card className="p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-bold">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-base sm:text-lg">What is a good contrast ratio?</AccordionTrigger>

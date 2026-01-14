@@ -39,6 +39,8 @@ import { Share, Heart, Check, Copy } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { CopyButton } from "@/components/copy-button"
 import { ShareButtons } from "@/components/share-buttons"
+import { ColorImage } from "@/components/color-image"
+import { getGumletImageUrl } from "@/lib/gumlet-utils"
 
 interface ColorPageContentProps {
   hex: string
@@ -255,40 +257,31 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
         <Card className="p-4 sm:p-6 space-y-4">
           <div className="w-full flex justify-center">
             <div className="relative w-full max-w-xl h-80 rounded-lg border-2 border-border overflow-hidden">
-              {/* For unknown colors, always show CSS swatch; for known colors, try server image with CSS fallback */}
-              {colorExistsInDb === false ? (
-                // For unknown colors (colorExistsInDb is false), render CSS swatch directly
-                <div
-                  className="w-full h-full relative"
-                  style={{ backgroundColor: hex, color: getContrastColor(hex) }}
-                >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <div className="font-mono text-xl font-bold">{hex.toUpperCase()}</div>
-                    <div className="font-mono text-sm">{`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}</div>
-                  </div>
-                  <div className="absolute bottom-2 right-3 font-semibold text-xs opacity-80">ColorMean</div>
-                </div>
-              ) : (
-                // For known colors, try to load server image with CSS fallback
-                !imageError ? (
-                  <a
-                    href={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full h-full"
-                  >
-                    <Image
-                      src={`/colors/${hex.replace("#", "").toLowerCase()}-image.webp`}
-                      alt={`${hex} color swatch`}
-                      width={1200}
-                      height={630}
-                      priority={true}
-                      className="object-cover w-full h-full"
-                      onError={() => setImageError(true)}
-                      decoding="async"
-                    />
-                  </a>
-                ) : (
+              {/* Try to render Gumlet CDN image first, fall back to CSS swatch */}
+              {(() => {
+                const gumletUrl = getGumletImageUrl(hex);
+                
+                if (gumletUrl && !imageError) {
+                  // Has pre-generated image from Gumlet CDN
+                  return (
+                    <a
+                      href={gumletUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full h-full"
+                    >
+                      <ColorImage
+                        hex={hex}
+                        alt={`${label} color swatch`}
+                        priority={true}
+                        className="object-cover w-full h-full"
+                      />
+                    </a>
+                  );
+                }
+                
+                // Fall back to CSS-generated swatch
+                return (
                   <div
                     className="w-full h-full relative"
                     style={{ backgroundColor: hex, color: getContrastColor(hex) }}
@@ -302,8 +295,8 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                     </div>
                     <div className="absolute bottom-2 right-3 font-semibold text-xs opacity-80">ColorMean</div>
                   </div>
-                )
-              )}
+                );
+              })()}
               <button
                 onClick={toggleLove}
                 className="absolute left-2 bottom-2 inline-flex items-center gap-1 px-2 py-1 rounded bg-black/40 text-white z-10"

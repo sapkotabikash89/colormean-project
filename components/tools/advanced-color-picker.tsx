@@ -111,20 +111,20 @@ export function AdvancedColorPicker() {
 
   return (
     <div className="space-y-6">
-      <Card className="p-1 sm:p-6 space-y-6">
-        <div className="flex items-center justify-between px-3 pt-3 sm:px-0 sm:pt-0">
-          <h2 className="text-2xl font-bold">Advanced Color Picker</h2>
+      <Card className="p-3 sm:p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl sm:text-2xl font-bold">Advanced Color Picker</h2>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 px-1 sm:px-0">
-          {/* Left Side: Color Space Canvas */}
-          <div className="flex-shrink-0 space-y-4 w-full md:w-auto">
-            <div className="relative">
+        <div className="space-y-6">
+          {/* Color Space Canvas and Hue Slider */}
+          <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+            <div className="relative w-full max-w-[320px] sm:max-w-[400px]">
               <canvas
                 ref={canvasRef}
                 width={400}
                 height={280}
-                className="w-full max-w-[400px] rounded-lg border-2 border-border cursor-crosshair touch-none"
+                className="w-full h-auto aspect-[10/7] rounded-lg border-2 border-border cursor-crosshair touch-none"
                 onClick={handleCanvasInteraction}
                 onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
                 onMouseDown={(e) => {
@@ -144,7 +144,7 @@ export function AdvancedColorPicker() {
                 onTouchEnd={() => setIsDragging(false)}
               />
               <div
-                className="absolute w-5 h-5 border-2 border-white rounded-full pointer-events-none"
+                className="absolute w-4 h-4 sm:w-5 sm:h-5 border-2 border-white rounded-full pointer-events-none"
                 style={{
                   left: pickerX,
                   top: pickerY,
@@ -155,7 +155,7 @@ export function AdvancedColorPicker() {
             </div>
 
             {/* Hue Slider */}
-            <div className="space-y-2 max-w-[400px]">
+            <div className="space-y-2 w-full max-w-[320px] sm:max-w-[400px]">
               <label className="text-sm font-medium">Hue: {hue}°</label>
               <input
                 type="range"
@@ -163,7 +163,7 @@ export function AdvancedColorPicker() {
                 max="360"
                 value={hue}
                 onChange={handleHueChange}
-                className="w-full h-4 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-3 sm:h-4 rounded-lg appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, 
                     hsl(0, 100%, 50%), 
@@ -178,52 +178,56 @@ export function AdvancedColorPicker() {
             </div>
           </div>
 
-          {/* Right Side: Color Display and Values */}
-          <div className="flex-1 space-y-3">
-            {/* Color Preview */}
-            <div
-              className="w-full h-32 rounded-lg border-2 border-border flex items-center justify-center font-mono font-semibold"
-              style={{ backgroundColor: selectedColor, color: getContrastColor(selectedColor) }}
-            >
-              {selectedColor.toUpperCase()}
+          {/* Color Display and Values - Now Below Picker on All Screens */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {/* Left Column: Color Preview */}
+            <div className="space-y-3">
+              <div
+                className="w-full h-32 sm:h-40 rounded-lg border-2 border-border flex items-center justify-center font-mono font-semibold text-base sm:text-lg"
+                style={{ backgroundColor: selectedColor, color: getContrastColor(selectedColor) }}
+              >
+                {selectedColor.toUpperCase()}
+              </div>
+              
+              <Button onClick={handleExplore} className="w-full" size="lg">
+                Explore This Color
+              </Button>
             </div>
 
-            {/* Color Values */}
-            <div className="flex items-center justify-between p-3 bg-muted rounded-md">
-              <div>
-                <span className="text-sm text-muted-foreground">HEX</span>
-                <p className="font-mono font-semibold">{selectedColor}</p>
-              </div>
-              <CopyButton value={selectedColor} />
-            </div>
-            {rgb && (
-              <>
-                <div className="flex items-center justify-between p-3 bg-muted rounded-md">
-                  <div>
-                    <span className="text-sm text-muted-foreground">RGB</span>
-                    <p className="font-mono">
-                      ({rgb.r}, {rgb.g}, {rgb.b})
-                    </p>
-                  </div>
-                  <CopyButton value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />
+            {/* Right Column: Color Values */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs sm:text-sm text-muted-foreground">HEX</span>
+                  <p className="font-mono font-semibold text-sm sm:text-base truncate">{selectedColor}</p>
                 </div>
-                {hsl && (
+                <CopyButton value={selectedColor} />
+              </div>
+              {rgb && (
+                <>
                   <div className="flex items-center justify-between p-3 bg-muted rounded-md">
-                    <div>
-                      <span className="text-sm text-muted-foreground">HSL</span>
-                      <p className="font-mono">
-                        ({hsl.h}°, {hsl.s}%, {hsl.l}%)
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs sm:text-sm text-muted-foreground">RGB</span>
+                      <p className="font-mono text-sm sm:text-base truncate">
+                        ({rgb.r}, {rgb.g}, {rgb.b})
                       </p>
                     </div>
-                    <CopyButton value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
+                    <CopyButton value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />
                   </div>
-                )}
-              </>
-            )}
-
-            <Button onClick={handleExplore} className="w-full" size="lg">
-              Explore This Color
-            </Button>
+                  {hsl && (
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                      <div className="min-w-0 flex-1">
+                        <span className="text-xs sm:text-sm text-muted-foreground">HSL</span>
+                        <p className="font-mono text-sm sm:text-base truncate">
+                          ({hsl.h}°, {hsl.s}%, {hsl.l}%)
+                        </p>
+                      </div>
+                      <CopyButton value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </Card>

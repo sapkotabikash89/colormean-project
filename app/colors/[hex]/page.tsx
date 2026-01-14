@@ -6,6 +6,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorPageContent } from "@/components/color-page-content"
 import { AnchorHashNav } from "@/components/anchor-hash-nav"
 import { normalizeHex, isValidHex, getContrastColor, hexToRgb, rgbToHsl, rgbToCmyk, getColorHarmony } from "@/lib/color-utils"
+import { getGumletImageUrl } from "@/lib/gumlet-utils"
 import { notFound, redirect } from "next/navigation"
 import { BreadcrumbSchema, FAQSchema, ImageObjectSchema, WebPageSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
@@ -45,11 +46,9 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
   const colorName: string | undefined = meta?.name || undefined
   const displayLabel = colorName ? `${colorName} (${normalizedHex})` : normalizedHex
   
-  // Determine if image should be server-generated or client-generated
-  const colorExistsInDb = !!meta
-  const imageUrl = colorExistsInDb 
-    ? `https://colormean.com/colors/${clean}-image.webp`
-    : `https://colormean.com/opengraph-image.webp` // Fallback image for unknown colors
+  // Determine if image should be from Gumlet CDN
+  const gumletImageUrl = getGumletImageUrl(normalizedHex);
+  const imageUrl = gumletImageUrl || `https://colormean.com/opengraph-image.webp`; // Fallback for unknown colors
 
   return {
     title: `${displayLabel} Color Meaning and Information - ColorMean`,
@@ -114,8 +113,9 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const pageUrl = `https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}`
   const pageDescription = `Explore ${normalizedHex} color information, conversions, harmonies, variations, and accessibility.`
 
-  // Determine if image should be server-generated or client-generated
-  const colorExistsInDb = !!meta
+  // Determine if image is available from Gumlet CDN
+  const gumletImageUrl = getGumletImageUrl(normalizedHex);
+  const colorExistsInDb = !!meta;
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -125,31 +125,16 @@ export default async function ColorPage({ params }: ColorPageProps) {
 
       <Header />
 
-      {colorExistsInDb ? (
+      {gumletImageUrl ? (
         <ImageObjectSchema
-          url={`https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}-image.webp`}
+          url={gumletImageUrl}
           width={1200}
           height={630}
           alt={`Color swatch image showing ${displayLabel} with RGB(${rgb?.r ?? 0},${rgb?.g ?? 0},${rgb?.b ?? 0}) values`}
         />
       ) : (
-        // For unknown colors, we don't include an image in the schema
+        // For unknown colors without Gumlet images, we don't include an image in the schema
         <div className="sr-only">No image schema for dynamic color</div>
-      )}
-
-      {colorExistsInDb ? (
-        <img
-          src={`https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}-image.webp`}
-          alt={`Color swatch image showing ${displayLabel} with RGB(${rgb?.r ?? 0},${rgb?.g ?? 0},${rgb?.b ?? 0}) values`}
-          width={1200}
-          height={630}
-          className="sr-only"
-        />
-      ) : (
-        // For unknown colors, render client-side swatch
-        <div className="sr-only" aria-hidden="true">
-          <p>Color swatch for {displayLabel}</p>
-        </div>
       )}
 
       {/* Dynamic Color Hero */}

@@ -38,8 +38,10 @@ export function ColorWheelTool() {
   useEffect(() => {
     const updateCanvasSize = () => {
       if (window.innerWidth < 640) {
-        const size = Math.min(window.innerWidth - 48, 380)
+        const size = Math.min(window.innerWidth - 80, 320)
         setCanvasSize(size)
+      } else if (window.innerWidth < 1024) {
+        setCanvasSize(380)
       } else {
         setCanvasSize(450)
       }
@@ -279,8 +281,9 @@ export function ColorWheelTool() {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
-          <div className="flex-shrink-0 w-full lg:w-auto flex justify-center items-center">
+        <div className="space-y-6">
+          {/* Color Wheel - Centered */}
+          <div className="flex justify-center items-center">
             <canvas
               ref={canvasRef}
               width={canvasSize}
@@ -311,18 +314,20 @@ export function ColorWheelTool() {
             />
           </div>
 
-          <div className="flex-1 space-y-4 sm:space-y-6">
-            <div className="space-y-3 sm:space-y-4">
+          {/* Controls - Below Wheel on Mobile, Side by Side on Desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {/* Left Column: Base Color and Harmony Type */}
+            <div className="space-y-4">
               <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-              <label className="font-medium text-sm sm:text-base">Base Color:</label>
-              <button
-                onClick={() => setShowCustomPicker(true)}
-                className="w-12 h-8 sm:w-16 sm:h-10 rounded-md border-2 border-border cursor-pointer"
-                style={{ backgroundColor: baseColor }}
-                aria-label={`Open color picker for base color ${baseColor.toUpperCase()}`}
-              />
-              <span className="font-mono font-semibold text-sm sm:text-base">{baseColor.toUpperCase()}</span>
-            </div>
+                <label className="font-medium text-sm sm:text-base">Base Color:</label>
+                <button
+                  onClick={() => setShowCustomPicker(true)}
+                  className="w-12 h-8 sm:w-16 sm:h-10 rounded-md border-2 border-border cursor-pointer"
+                  style={{ backgroundColor: baseColor }}
+                  aria-label={`Open color picker for base color ${baseColor.toUpperCase()}`}
+                />
+                <span className="font-mono font-semibold text-sm sm:text-base">{baseColor.toUpperCase()}</span>
+              </div>
 
               <div className="space-y-2">
                 <label className="font-medium text-sm sm:text-base">Harmony Type:</label>
@@ -344,6 +349,7 @@ export function ColorWheelTool() {
               </div>
             </div>
 
+            {/* Right Column: Color Harmony */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-sm sm:text-base">Color Harmony</h3>
