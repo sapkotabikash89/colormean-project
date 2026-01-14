@@ -256,7 +256,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
       {mode !== "sectionsOnly" ? (
         <Card className="p-4 sm:p-6 space-y-4">
           <div className="w-full flex justify-center">
-            <div className="relative w-full max-w-xl h-80 rounded-lg border-2 border-border overflow-hidden">
+            <div className="relative w-full max-w-xl aspect-[1200/630] rounded-lg border-2 border-border overflow-hidden">
               {/* Try to render Gumlet CDN image first, fall back to CSS swatch */}
               {(() => {
                 const gumletUrl = getGumletImageUrl(hex);
