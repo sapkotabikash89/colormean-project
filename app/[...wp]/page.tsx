@@ -19,6 +19,7 @@ import { FAQSection } from "@/components/faq-section"
 import { RelatedColorsSection } from "@/components/related-colors-section"
 import { BlogPostActions } from "@/components/blog-post-actions"
 import { FeaturedImage } from "@/components/blog/featured-image"
+import { BlogContent } from "@/components/blog/blog-content"
 import { convertToGumletUrl, convertHtmlImagesToGumlet } from "@/lib/gumlet-image-utils"
 
 const ShareButtons = dynamic(() => import("@/components/share-buttons").then((mod) => mod.ShareButtons))
@@ -762,6 +763,43 @@ interface WPPageProps {
   params: Promise<{ wp: string[] }>
 }
 
+// Generate static paths for critical blog posts at build time
+export async function generateStaticParams(): Promise<{ wp: string[] }[]> {
+  try {
+    // Fetch popular/recent posts to pre-generate at build time
+    const res = await fetch("https://cms.colormean.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+          query GetRecentPosts {
+            posts(first: 50, where: { orderby: { field: DATE, order: DESC } }) {
+              nodes {
+                uri
+              }
+            }
+          }
+        `,
+      }),
+      next: { revalidate: 86400 }, // 24 hours
+    })
+    
+    const json = await res.json()
+    const posts = json?.data?.posts?.nodes || []
+    
+    // Convert URIs to wp params format
+    return posts.map((post: any) => {
+      // Remove leading and trailing slashes, split into segments
+      const segments = post.uri.replace(/^\/|\/$/, '').split('/')
+      return { wp: segments }
+    })
+  } catch (error) {
+    console.error('Failed to generate static params:', error)
+    // Return empty array to allow ISR fallback
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: WPPageProps): Promise<Metadata> {
   const { wp } = await params
   const uri = `/${(wp || []).join("/")}/`
@@ -1141,7 +1179,12 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         <section id="technical-information" style={{ scrollMarginTop: "96px" }} key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow p-1 sm:p-2 md:p-4">
                           {pieces.map((p, j) =>
                             p.kind === "html" ? (
-                              <div key={`h-${i}-${j}`} className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(p.html, accentColor) }} />
+                              <BlogContent
+                                key={`h-${i}-${j}`}
+                                html={enhanceContentHtml(p.html, accentColor)}
+                                className="cm-wrap"
+                                style={{ "--page-accent-color": accentColor } as React.CSSProperties}
+                              />
                             ) : (
                               <div key={`s-${i}-${j}`} className="mt-4">
                                 {(() => {
@@ -1156,7 +1199,11 @@ export default async function WPPostPage({ params }: WPPageProps) {
                     }
                     return (
                       <section key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow overflow-hidden">
-                        <div className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(removeShortcode(sec), accentColor) }} />
+                        <BlogContent
+                          html={enhanceContentHtml(removeShortcode(sec), accentColor)}
+                          className="cm-wrap"
+                          style={{ "--page-accent-color": accentColor } as React.CSSProperties}
+                        />
                       </section>
                     )
                   })()
