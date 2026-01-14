@@ -83,11 +83,9 @@
   },
   "browserslist": {
     "production": [
-      "chrome >= 100",
-      "edge >= 100",
-      "firefox >= 100",
-      "safari >= 15",
-      "ios >= 15"
+      "defaults",
+      "not IE 11",
+      "not dead"
     ],
     "development": [
       "last 1 chrome version",

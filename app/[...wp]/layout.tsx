@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
-import "./globals.css"
+import "../globals.css" // Import globals for blog posts
 import { WebsiteSchema, OrganizationSchema, SoftwareApplicationSchema } from "@/components/structured-data"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
@@ -71,7 +71,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#5B6FD8",
 }
-export default function RootLayout({
+
+export default function BlogRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -79,12 +80,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://colormean.gumlet.io" />
         <link rel="dns-prefetch" href="https://colormean.gumlet.io" />
         <link rel="preconnect" href="https://cms.colormean.com" />
         <link rel="dns-prefetch" href="https://cms.colormean.com" />
+        <link rel="preconnect" href="https://colormean.com" />
+        <link rel="dns-prefetch" href="https://colormean.com" />
+        
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <Script id="remove-generator-meta" strategy="beforeInteractive">
           {`document.querySelectorAll('meta[name="generator"]').forEach((el)=>el.remove());`}

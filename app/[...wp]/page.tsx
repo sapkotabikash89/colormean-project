@@ -1494,56 +1494,8 @@ function enhanceContentHtml(html: string, accentColor: string): string {
     const brightness = (r * 299 + g * 587 + b * 114) / 1000
     return brightness > 128 ? "#000000" : "#FFFFFF"
   })()
-  const style = `
-    <style>
-      .cm-wrap { overflow-wrap: anywhere; word-break: break-word; }
-      .cm-wrap p, .cm-wrap li { overflow-wrap: anywhere; word-break: break-word; }
-      .cm-wrap table { max-width: 100%; }
-      .cm-wrap a { color: #1D4ED8; }
-      .cm-wrap a[href^="/"],
-      .cm-wrap a[href*="//colormean.com"],
-      .cm-wrap a[href*="//colormean.com"] { text-decoration: underline; }
-      .cm-wrap a[href^="http"]:not([href*="//colormean.com"]):not([href*="//colormean.com"]) { text-decoration: none; }
-      .cm-wrap [style*="background-color"],
-      .cm-wrap [style*="background:"] { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-      .cm-wrap [style*="background-color"],
-      .cm-wrap [style*="background:"] { color: #ffffff !important; }
-      .cm-wrap [style*="background-color"] *:not([style*="color"]),
-      .cm-wrap [style*="background:"] *:not([style*="color"]) { color: #ffffff !important; }
-      .cm-ul { list-style: none; padding-left: 0; margin-left: 0; }
-      .cm-ul li { position: relative; padding-left: 1.75rem; }
-      .cm-ul li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0.5rem;
-        color: ${accentColor};
-        width: 0.5rem; height: 0.5rem;
-        border-radius: 50%;
-        background: ${accentColor};
-      }
-      .cm-ol { counter-reset: item; list-style: none; padding-left: 0; margin-left: 0; }
-      .cm-ol li { position: relative; padding-left: 2rem; counter-increment: item; }
-      .cm-ol li::before {
-        content: counter(item);
-        position: absolute;
-        left: 0;
-        top: 0.3rem;
-        display: inline-block;
-        width: 1.5rem; height: 1.5rem;
-        border-radius: 50%;
-        background: ${accentColor};
-        color: ${contrastText};
-        font-size: 0.9rem;
-        text-align: center;
-        line-height: 1.5rem;
-      }
-      @media (max-width: 640px) {
-        .cm-ul li::before { font-size: 0.95rem; }
-        .cm-ol li::before { width: 1.35rem; height: 1.35rem; font-size: 0.85rem; line-height: 1.35rem; }
-      }
-    </style>
-  `
+  // Removed inline styles to prevent render-blocking CSS
+  // Styles are now handled via external CSS classes in globals.css
   const addClass = (input: string, tag: string, cls: string) => {
     return input.replace(new RegExp(`<${tag}([^>]*)>`, "gi"), (m, attrs) => {
       const a = attrs || ""
@@ -1634,7 +1586,7 @@ function enhanceContentHtml(html: string, accentColor: string): string {
       return `<img ${a}>`
     })
   }
-  let out = html.replace(/^/, style)
+  let out = html
   out = addClass(out, "h2", h2)
   out = addClass(out, "h3", h3)
   out = addClass(out, "h4", h4)
