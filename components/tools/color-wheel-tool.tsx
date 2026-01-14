@@ -38,7 +38,8 @@ export function ColorWheelTool() {
   useEffect(() => {
     const updateCanvasSize = () => {
       if (window.innerWidth < 640) {
-        const size = Math.min(window.innerWidth - 80, 320)
+        // Reduced margin from 80 to 40 for wider wheel on mobile
+        const size = Math.min(window.innerWidth - 40, 360)
         setCanvasSize(size)
       } else if (window.innerWidth < 1024) {
         setCanvasSize(380)
@@ -270,7 +271,7 @@ export function ColorWheelTool() {
 
   return (
     <div className="space-y-4 sm:space-y-8">
-      <Card className="p-2 sm:p-6 space-y-4 sm:space-y-6">
+      <Card className="p-1 sm:p-6 space-y-4 sm:space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold">Interactive Color Wheel</h2>
