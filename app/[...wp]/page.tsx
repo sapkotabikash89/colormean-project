@@ -781,17 +781,21 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
     const clean = shortcodeHex.replace("#", "").toLowerCase()
     return `https://colormean.com/colors/${clean}/image.webp`
   })()
+  
+  // Check if running on Cloudflare - use direct image URLs instead of proxy
+  const isCloudflare = typeof process !== 'undefined' && (process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1')
+  const site = "https://colormean.com"
+  
   const ogImg =
-    (featuredSrc ? `/img?src=${encodeURIComponent(featuredSrc)}&w=1200` : undefined) ||
+    (featuredSrc ? (isCloudflare ? featuredSrc : `/img?src=${encodeURIComponent(featuredSrc)}&w=1200`) : undefined) ||
     node.seo?.opengraphImage?.mediaItemUrl ||
     node.seo?.opengraphImage?.sourceUrl ||
     undefined
   const twImg =
-    (featuredSrc ? `/img?src=${encodeURIComponent(featuredSrc)}&w=1200` : undefined) ||
+    (featuredSrc ? (isCloudflare ? featuredSrc : `/img?src=${encodeURIComponent(featuredSrc)}&w=1200`) : undefined) ||
     node.seo?.twitterImage?.mediaItemUrl ||
     node.seo?.twitterImage?.sourceUrl ||
     undefined
-  const site = "https://colormean.com"
   const canonical = node?.uri ? new URL(node.uri, site).toString() : node.seo?.canonical || node.seo?.opengraphUrl || undefined
   const robotsIndex = node.seo?.metaRobotsNoindex === "noindex" ? false : true
   const robotsFollow = node.seo?.metaRobotsNofollow === "nofollow" ? false : true
@@ -875,6 +879,10 @@ export default async function WPPostPage({ params }: WPPageProps) {
   async function getBlurDataURL(src: string | undefined): Promise<string | undefined> {
     try {
       if (!src) return undefined
+      // Skip LQIP generation on Cloudflare to avoid sharp/serverless issues
+      const isCloudflare = process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1'
+      if (isCloudflare) return undefined
+      
       const base = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean.com"
       const res = await fetch(`${base}/img/lqip?src=${encodeURIComponent(src)}`, { next: { revalidate: 2592000 } })
       if (!res.ok) return undefined
@@ -906,19 +914,27 @@ export default async function WPPostPage({ params }: WPPageProps) {
             {related.map((p: any, i: number) => (
               <div key={i} className="rounded-lg overflow-hidden border-2 border-border hover:shadow-lg transition-shadow">
                 <Link href={p.uri} className="block">
-                  {p?.featuredImage?.node?.sourceUrl && (
-                    <img
-                      src={`/img?src=${encodeURIComponent(p.featuredImage.node.sourceUrl)}&w=400`}
-                      alt={p.featuredImage.node.altText || p.title}
-                      width={1200}
-                      height={800}
-                      loading="lazy"
-                      decoding="async"
-                      sizes="(min-width: 1024px) 400px, 100vw"
-                      className="w-full h-auto object-cover"
-                      style={{ aspectRatio: "1200 / 800" }}
-                    />
-                  )}
+                  {p?.featuredImage?.node?.sourceUrl && (() => {
+                    // Check if running on Cloudflare - use direct URLs instead of proxy
+                    const isCloudflare = typeof process !== 'undefined' && (process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1')
+                    const imageSrc = isCloudflare 
+                      ? p.featuredImage.node.sourceUrl 
+                      : `/img?src=${encodeURIComponent(p.featuredImage.node.sourceUrl)}&w=400`
+                    
+                    return (
+                      <img
+                        src={imageSrc}
+                        alt={p.featuredImage.node.altText || p.title}
+                        width={1200}
+                        height={800}
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(min-width: 1024px) 400px, 100vw"
+                        className="w-full h-auto object-cover"
+                        style={{ aspectRatio: "1200 / 800" }}
+                      />
+                    )
+                  })()}
                   <div className="p-4">
                     <h3 className="text-lg font-semibold line-clamp-2">{p.title}</h3>
                   </div>
@@ -1001,6 +1017,10 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const moreLink = node?.categories?.nodes?.[0]?.uri || "/color-meanings"
   const colorName = detectColorName(node, (shortcodeHex || postColor)?.toUpperCase())
   const isSingleColor = !!colorName
+  
+  // Check if running on Cloudflare - use direct image URLs
+  const isCloudflare = typeof process !== 'undefined' && (process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1')
+  const imageUrl = img ? (isCloudflare ? img : `${site}/img?src=${encodeURIComponent(img)}&w=1200`) : undefined
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -1009,7 +1029,6 @@ export default async function WPPostPage({ params }: WPPageProps) {
         const description = node?.seo?.metaDesc || node?.seo?.opengraphDescription || ""
         const datePublished = node?.seo?.opengraphPublishedTime || node?.date || undefined
         const dateModified = node?.seo?.opengraphModifiedTime || node?.date || undefined
-        const imageUrl = img ? `${site}/img?src=${encodeURIComponent(img)}&w=1200` : undefined
         return (
           <BlogPostingSchema
             title={node.title}
@@ -1091,11 +1110,18 @@ export default async function WPPostPage({ params }: WPPageProps) {
                 const nearestHexForYellow = preferNearestForYellow ? nearestShortcodeHexAroundTechnical(contentHtml) : null
 
                 // Helper to render the featured image
-                const renderFeaturedImage = () => (
-                  img ? (
+                const renderFeaturedImage = () => {
+                  if (!img) return null
+                  
+                  // Check if running on Cloudflare - use direct URLs instead of proxy
+                  const isCloudflare = typeof process !== 'undefined' && (process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1')
+                  const imageSrc = isCloudflare ? img : `/img?src=${encodeURIComponent(img)}&w=1200`
+                  const schemaImageSrc = isCloudflare ? img : `${site}/img?src=${encodeURIComponent(img)}&w=1200`
+                  
+                  return (
                     <section key="featured-image" className="bg-white rounded-xl border border-border shadow-sm md:shadow p-1 sm:p-2 md:p-4">
                       <Image
-                        src={`/img?src=${encodeURIComponent(img)}&w=1200`}
+                        src={imageSrc}
                         alt={
                           isSingleColor
                             ? `${alt || ""} – Featured image for color ${colorName}`
@@ -1107,9 +1133,10 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         sizes="(min-width: 1024px) 1200px, 100vw"
                         className="max-w-full h-auto object-contain rounded-md"
                         fetchPriority="high"
+                        unoptimized={isCloudflare}
                       />
                       <ImageObjectSchema
-                        url={`${site}/img?src=${encodeURIComponent(img)}&w=1200`}
+                        url={schemaImageSrc}
                         width={1200}
                         height={800}
                         caption={
@@ -1131,8 +1158,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         shareTitle={node.title}
                       />
                     </section>
-                  ) : null
-                )
+                  )
+                }
 
                 return secs.map((sec: string, i: number) => {
                   const sectionContent = (() => {
@@ -1147,7 +1174,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         <section id="technical-information" style={{ scrollMarginTop: "96px" }} key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow p-1 sm:p-2 md:p-4">
                           {pieces.map((p, j) =>
                             p.kind === "html" ? (
-                              <div key={`h-${i}-${j}`} className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(p.html, accentColor) }} />
+                              <div key={`h-${i}-${j}`} className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(p.html, accentColor, isCloudflare) }} />
                             ) : (
                               <div key={`s-${i}-${j}`} className="mt-4">
                                 {(() => {
@@ -1162,7 +1189,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
                     }
                     return (
                       <section key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow overflow-hidden">
-                        <div className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(removeShortcode(sec), accentColor) }} />
+                        <div className="cm-wrap" style={{ "--page-accent-color": accentColor } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: enhanceContentHtml(removeShortcode(sec), accentColor, isCloudflare) }} />
                       </section>
                     )
                   })()
@@ -1220,18 +1247,21 @@ export default async function WPPostPage({ params }: WPPageProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {related.map((p: any, i: number) => {
                       const src = p?.featuredImage?.node?.sourceUrl || undefined
-                      const proxied = src ? `/img?src=${encodeURIComponent(src)}&w=600` : undefined
+                      // Check if running on Cloudflare - use direct URLs instead of proxy
+                      const isCloudflare = typeof process !== 'undefined' && (process.env.CF_PAGES === '1' || process.env.CLOUDFLARE === '1')
+                      const proxied = src ? (isCloudflare ? src : `/img?src=${encodeURIComponent(src)}&w=600`) : undefined
                       return (
                         <div key={i} className="rounded-lg overflow-hidden border-2 border-border hover:shadow-lg transition-shadow">
                           <Link href={p.uri} className="block">
-                            {src && (
+                            {src && proxied && (
                               <Image
-                                src={proxied!}
+                                src={proxied}
                                 alt={p.featuredImage.node.altText || p.title}
                                 width={600}
                                 height={400}
                                 sizes="(min-width: 1024px) 33vw, 100vw"
                                 className="w-full h-auto object-cover"
+                                unoptimized={isCloudflare}
                               />
                             )}
                             <div className="p-4">
@@ -1436,7 +1466,7 @@ function parseAttrsHex(attrs: string): string | null {
   return null
 }
 
-function enhanceContentHtml(html: string, accentColor: string): string {
+function enhanceContentHtml(html: string, accentColor: string, isCloudflare: boolean = false): string {
   const h2 = "" // Styling handled by .cm-wrap h2 in globals.css for WikiHow style
   const h3 = "text-2xl md:text-3xl font-semibold leading-snug mt-5 mb-3"
   const h4 = "text-lg md:text-xl font-semibold leading-snug mt-4 mb-2"
@@ -1564,42 +1594,46 @@ function enhanceContentHtml(html: string, accentColor: string): string {
           a = `${a} height="${height}"`
       }
 
-      // Rewrite src to proxy for WebP and add blur placeholder
+      // Rewrite src to proxy for WebP and add blur placeholder (skip proxy on Cloudflare)
       if (origSrc) {
         const enc = encodeURIComponent(origSrc)
-        const proxied = `/img?src=${enc}&w=${width}`
-        const lqip = `/img/lqip?src=${enc}`
+        // On Cloudflare, use direct URLs; on Vercel, use proxy
+        const proxied = isCloudflare ? origSrc : `/img?src=${enc}&w=${width}`
+        const lqip = isCloudflare ? '' : `/img/lqip?src=${enc}`
         a = a.replace(sMatch![0], `src="${proxied}"`)
-        // Add srcset for responsive enhancement
-        if (!/\bsrcset\s*=/.test(a)) {
+        // Add srcset for responsive enhancement (only on Vercel)
+        if (!isCloudflare && !/\bsrcset\s*=/.test(a)) {
           const w2 = Math.round(width / 2)
           const w3 = Math.round(width / 3)
           const set = `${proxied} ${width}w, /img?src=${enc}&w=${w2} ${w2}w, /img?src=${enc}&w=${w3} ${w3}w`
           a = `${a.trim()} srcset="${set}"`
         }
-        // Inline placeholder background via style
-        const styleMatch = a.match(/\bstyle\s*=\s*"([^"]*)"/i)
-        const blurStyle = `background-image: url('${lqip}'); background-size: cover; background-position: center; transition: filter 0.3s ease-in-out;`
-        if (styleMatch) {
-          a = a.replace(styleMatch[0], `style="${styleMatch[1]}; ${blurStyle}"`)
-        } else {
-          a = `${a} style="${blurStyle}"`
+        // Inline placeholder background via style (only on Vercel)
+        if (!isCloudflare) {
+          const styleMatch = a.match(/\bstyle\s*=\s*"([^"]*)"/i)
+          const blurStyle = `background-image: url('${lqip}'); background-size: cover; background-position: center; transition: filter 0.3s ease-in-out;`
+          if (styleMatch) {
+            a = a.replace(styleMatch[0], `style="${styleMatch[1]}; ${blurStyle}"`)
+          } else {
+            a = `${a} style="${blurStyle}"`
+          }
         }
       }
       
       // Handle class
       const dbl = a.match(/\bclass\s*=\s*"([^"]*)"/i)
       const sgl = a.match(/\bclass\s*=\s*'([^']*)'/i)
+      const classStr = isCloudflare ? cls : `${cls} blur-up`
       if (dbl) {
         const full = dbl[0]
         const val = dbl[1]
-        a = a.replace(full, `class="${`${val} ${cls} blur-up`.trim()}"`)
+        a = a.replace(full, `class="${`${val} ${classStr}`.trim()}"`)
       } else if (sgl) {
         const full = sgl[0]
         const val = sgl[1]
-        a = a.replace(full, `class="${`${val} ${cls} blur-up`.trim()}"`)
+        a = a.replace(full, `class="${`${val} ${classStr}`.trim()}"`)
       } else {
-        a = `${a.trim()} class="${cls} blur-up"`
+        a = `${a.trim()} class="${classStr}"`
       }
       
       // Ensure lazy loading
