@@ -23,7 +23,23 @@ interface ColorPageProps {
 export async function generateStaticParams() {
   const data = (await import('@/lib/color-meaning.json')).default
   const hexCodes = Object.keys(data)
-  return hexCodes.map((hex) => ({
+  
+  // Generate additional common color variations to improve coverage
+  const commonColors = [
+    // Grayscale
+    '000000', 'ffffff', '808080', 'c0c0c0', 
+    // Primary colors
+    'ff0000', '00ff00', '0000ff',
+    // Secondary colors
+    'ffff00', 'ff00ff', '00ffff',
+    // Common web colors
+    'ff6b6b', '4ecdc4', '45b7d1', '96ceb4', 'ffeaa7', 'dda0dd', '98d8c8'
+  ]
+  
+  // Combine database colors with common colors, removing duplicates
+  const allHexCodes = [...new Set([...hexCodes, ...commonColors])]
+  
+  return allHexCodes.map((hex) => ({
     hex: hex.toLowerCase(),
   }))
 }

@@ -100,6 +100,7 @@ export default function RootLayout({
         <ScrollToTop />
         <SonnerToaster />
         <Analytics />
+        <Script src="/color-fallback-handler.js" strategy="beforeInteractive" />
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ? (
           <Script id="ga-defer-on-first-interaction" strategy="lazyOnload">
             {`

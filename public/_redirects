@@ -1,0 +1,5 @@
+# Redirect all color hex patterns to the universal picker page
+/colors/*  /colors/picker?hex=:splat  302
+
+# Redirect old color URL structure for backward compatibility
+/color/*   /colors/picker?hex=:splat  302

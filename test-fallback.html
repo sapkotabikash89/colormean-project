@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fallback Handler</title>
+    <script>
+        // Simulate the homepage content structure
+        window.history.pushState({}, '', '/colors/abcdef');
+    </script>
+</head>
+<body>
+    <header>
+        <nav>Navigation here</nav>
+    </header>
+    <main>
+        <div class="hero">
+            <h1>Turn ideas into visuals with confidence</h1>
+            <p>Welcome to ColorMean - your ultimate color resource</p>
+        </div>
+        <div class="content">
+            <p>This is the homepage content that would be shown for unknown color paths in static export.</p>
+        </div>
+    </main>
+    <footer>
+        Footer content
+    </footer>
+    
+    <script src="/color-fallback-handler.js"></script>
+</body>
+</html>
