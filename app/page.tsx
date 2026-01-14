@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Palette, Droplet, Monitor, ImageIcon, Contrast, Eye, CircleDot, Shuffle, Pipette } from "lucide-react"
 import Link from "next/link"
+import { HomeColorPicker } from "@/components/home-color-picker"
 import {
   WebsiteSchema,
   OrganizationSchema,
@@ -71,92 +72,8 @@ export default function HomePage() {
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
           {/* Content Area - 2/3 */}
           <div className="flex-1 space-y-8 sm:space-y-12">
-            {/* Color Picker Section - Will be client component */}
-            <Card className="p-2 sm:p-6 space-y-4 sm:space-y-6">
-              <div className="space-y-2 px-2 sm:px-0">
-                <h2 className="text-xl sm:text-2xl font-bold">Interactive Color Picker</h2>
-                <p className="text-sm sm:text-base text-muted-foreground">
-                  Choose your perfect color and explore its properties instantly
-                </p>
-              </div>
-
-              {/* Static preview of color picker */}
-              <div className="flex flex-col md:flex-row gap-4 sm:gap-6 px-1 sm:px-0">
-                <div className="flex-shrink-0 space-y-4 w-full md:w-auto">
-                  <div className="relative">
-                    <div className="w-full max-w-[350px] h-[250px] rounded-lg border-2 border-border bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
-                        <Palette className="w-12 h-12 text-white" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Hue Slider Preview */}
-                  <div className="space-y-2 max-w-[350px]">
-                    <label className="text-sm font-medium">Hue</label>
-                    <div className="w-full h-3 rounded-lg cursor-pointer" 
-                         style={{
-                           background: `linear-gradient(to right, 
-                             hsl(0, 100%, 50%), 
-                             hsl(60, 100%, 50%), 
-                             hsl(120, 100%, 50%), 
-                             hsl(180, 100%, 50%), 
-                             hsl(240, 100%, 50%), 
-                             hsl(300, 100%, 50%), 
-                             hsl(360, 100%, 50%))`,
-                         }}>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Side: Color Display and Controls Preview */}
-                <div className="flex-1 space-y-3 sm:space-y-4">
-                  {/* Color Preview Box */}
-                  <div
-                    className="w-full h-32 rounded-lg border-2 border-border flex items-center justify-center font-mono text-base sm:text-lg font-semibold"
-                    style={{
-                      backgroundColor: "#5B6FD8",
-                      color: "#FFFFFF",
-                    }}
-                  >
-                    #5B6FD8
-                  </div>
-
-                  {/* Format Selector and Value Display */}
-                  <div className="space-y-2">
-                    <div className="p-2 sm:p-3 bg-muted rounded-md font-mono text-xs sm:text-sm">HEX: #5B6FD8</div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-col gap-2">
-                    <Link href="/colors/5B6FD8">
-                      <Button size="lg" className="w-full gap-2 text-sm sm:text-base">
-                        <Palette className="w-4 h-4" />
-                        Apply & Explore
-                      </Button>
-                    </Link>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="gap-1 sm:gap-2 bg-transparent text-xs sm:text-sm px-2 sm:px-4"
-                      >
-                        <Shuffle className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span className="truncate">Random</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="gap-1 sm:gap-2 bg-transparent text-xs sm:text-sm px-2 sm:px-4"
-                      >
-                        <Pipette className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span className="truncate">Screen</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
+            {/* Interactive Color Picker Component */}
+            <HomeColorPicker />
 
             {/* Color Tools Preview - Static */}
             <div className="space-y-6">
