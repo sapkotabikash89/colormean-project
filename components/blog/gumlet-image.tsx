@@ -71,6 +71,7 @@ export function GumletImage({
       style={{
         aspectRatio: width && height ? `${width} / ${height}` : undefined,
       }}
+      sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1024px) 60vw, 50vw"
     />
   )
 }

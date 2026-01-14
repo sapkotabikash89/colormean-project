@@ -1,6 +1,28 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Performance optimizations */
+@layer base {
+  html {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 100vh;
+  }
+  
+  body {
+    /* Optimize scrolling */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Optimize images */
+  img {
+    content-visibility: auto;
+    contain-intrinsic-size: auto;
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

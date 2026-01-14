@@ -35,6 +35,11 @@ export function BlogContent({ html, className = '', style }: BlogContentProps) {
         // Update the image source
         img.src = gumletUrl
         
+        // Add responsive sizes attribute if not present
+        if (!img.getAttribute('sizes')) {
+          img.setAttribute('sizes', '(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1024px) 60vw, 50vw')
+        }
+        
         // Ensure lazy loading
         if (!img.getAttribute('loading')) {
           img.setAttribute('loading', 'lazy')
