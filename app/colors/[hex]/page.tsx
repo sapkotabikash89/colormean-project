@@ -30,10 +30,17 @@ export async function generateStaticParams() {
     '000000', 'ffffff', '808080', 'c0c0c0', 
     // Primary colors
     'ff0000', '00ff00', '0000ff',
-    // Secondary colors
+    // Secondary colors  
     'ffff00', 'ff00ff', '00ffff',
     // Common web colors
-    'ff6b6b', '4ecdc4', '45b7d1', '96ceb4', 'ffeaa7', 'dda0dd', '98d8c8'
+    'ff6b6b', '4ecdc4', '45b7d1', '96ceb4', 'ffeaa7', 'dda0dd', '98d8c8',
+    // Additional common colors to reduce 404s
+    'ff4757', '2ed573', '3742fa', 'ffa502', '70a1ff', '7bed9f', 'ff6b81',
+    '2f3542', 'a4b0be', 'ff3838', '3ae374', '67e6dc', '18dcff', '7d5fff',
+    'cd84f1', 'ffb8b8', 'ff9f43', '7efff5', '1bfff0', '7158e2', '3d3d3d',
+    'f7f1e3', '40407a', '706fd3', 'f5cd79', 'eccc68', 'ff793f', 'ffda79',
+    '33d9b2', '218c74', 'aaa69d', '2c2c54', '474787', 'ff5252', 'ff79ac',
+    'd1ccc0', 'ffb142', 'ffda79', 'b33939', 'cd6133', '84817a', 'cc8e35'
   ]
   
   // Combine database colors with common colors, removing duplicates

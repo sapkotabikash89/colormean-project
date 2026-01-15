@@ -1,8 +1,7 @@
-# Redirect hex color patterns (3-6 hex digits) to universal picker page
+# Redirect unknown hex color patterns to universal picker page
+# This rule should come AFTER static pages are checked by Next.js
+# Pattern: /colors/{hex} where {hex} is 3-6 hex chars but NOT in static generation list
 /colors/:hex([0-9a-fA-F]{3,6})  /colors/picker?hex=:hex  302
 
 # Redirect old color URL structure for backward compatibility
 /color/:hex([0-9a-fA-F]{3,6})   /colors/picker?hex=:hex  302
-
-# Redirect other unknown color patterns (non-static)
-/colors/:hex([^/]+)  /colors/picker?hex=:hex  302
