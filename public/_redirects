@@ -1,5 +1,8 @@
-# Redirect all color hex patterns to the universal picker page
-/colors/*  /colors/picker?hex=:splat  302
+# Redirect hex color patterns (3-6 hex digits) to universal picker page
+/colors/:hex([0-9a-fA-F]{3,6})  /colors/picker?hex=:hex  302
 
 # Redirect old color URL structure for backward compatibility
-/color/*   /colors/picker?hex=:splat  302
+/color/:hex([0-9a-fA-F]{3,6})   /colors/picker?hex=:hex  302
+
+# Redirect other unknown color patterns (non-static)
+/colors/:hex([^/]+)  /colors/picker?hex=:hex  302
