@@ -63,7 +63,11 @@ export function Header() {
 
     // Navigate to the appropriate color page using centralized linking logic
     // For unknown colors, this will redirect to the HTML Color Picker page
-    router.push(getColorPageLink(selectedColor))
+    // Ensure immediate redirect on all devices (especially mobile)
+    const link = getColorPageLink(selectedColor)
+    if (typeof window !== 'undefined') {
+      window.location.href = link
+    }
   }
 
   return (

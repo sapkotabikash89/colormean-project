@@ -978,11 +978,13 @@ export default async function WPPostPage({ params }: WPPageProps) {
     extractShortcodeHexFromGutenberg(node.content || "") ||
     (isYellowPost ? nearestShortcodeHexAroundTechnical(node.content || "") : null)
   
-  const effectiveHex = shortcodeHex || titleHex
+  // Ensure we have a valid hex code for the post
+  const effectiveHex = shortcodeHex || titleHex || "#5B6FD8"  // Default to a neutral color if none found
+  
   const pieces = (effectiveHex && !shortcodeHex)
     ? parseContentPieces(node.content || "", effectiveHex)
     : piecesRaw
-
+    
   const postColor = effectiveHex || "#000000"
   const accentColor = effectiveHex || "#000000"
   let prevNext = await resolvePrevNext(node)
@@ -1158,7 +1160,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         representativeOfPage={true}
                       />
                       <BlogPostActions
-                        loveKey={(shortcodeHex || postColor).replace("#", "")}
+                        loveKey={(effectiveHex || postColor).replace("#", "")}
                         shareUrl={`${site}${node.uri}`}
                         shareTitle={node.title}
                       />

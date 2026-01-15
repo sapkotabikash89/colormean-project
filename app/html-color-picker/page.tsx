@@ -42,6 +42,21 @@ export default function HtmlColorPickerPage() {
         setInitialHex(DEFAULT_HEX);
       }
     }
+    
+    // Listen for URL changes to update color when hex parameter changes
+    const handlePopState = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hexParam = urlParams.get('hex');
+      if (hexParam && isValidHex(`#${hexParam}`)) {
+        setInitialHex(`#${hexParam}`);
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
   
   // Don't render anything until we have the initial hex from URL
@@ -69,6 +84,10 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
   // Update color when hex parameter changes
   useEffect(() => {
     setCurrentHex(initialHex);
+    // Update URL to reflect current color
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('hex', initialHex.replace('#', ''));
+    window.history.replaceState({}, '', newUrl);
   }, [initialHex]);
 
   // Derived values
@@ -211,7 +230,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
               
               {/* Social Share Section */}
               <div className="flex justify-center py-4">
-                <ShareButtons title={`${currentHex} Color Information - ColorMean`} />
+                <ShareButtons url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "")}`} title={`${currentHex} Color Information - ColorMean`} />
               </div>
               
               {/* Static color page sections (exact parity) */}

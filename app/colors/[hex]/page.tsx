@@ -238,7 +238,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Content Area - 2/3 */}
           <div className="flex-1">
-            <ColorPageContent hex={normalizedHex} faqs={faqItems} name={colorName} colorExistsInDb={colorExistsInDb} />
+            <ColorPageContent hex={normalizedHex} faqs={faqItems} name={colorName} colorExistsInDb={colorExistsInDb} pageUrl={pageUrl} />
           </div>
           
           {/* Sidebar - 1/3 */}

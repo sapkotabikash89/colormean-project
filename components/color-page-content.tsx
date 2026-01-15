@@ -50,9 +50,10 @@ interface ColorPageContentProps {
   name?: string
   colorExistsInDb?: boolean
   onColorChange?: (color: string) => void
+  pageUrl?: string
 }
 
-export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb, onColorChange }: ColorPageContentProps) {
+export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb, onColorChange, pageUrl }: ColorPageContentProps) {
   const router = useRouter()
   const label = name ? `${name} (${hex})` : hex
   const [selectedHarmony, setSelectedHarmony] = useState("analogous")
@@ -323,7 +324,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
             <Button variant="outline" className="bg-transparent" onClick={downloadMainSwatch}>
               Download image (1920x1080)
             </Button>
-            <ShareButtons title={`Color ${label}`} />
+            <ShareButtons url={pageUrl} title={`Color ${label}`} />
           </div>
         </Card>
       ) : null}
@@ -721,7 +722,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                   {relatedColors.slice(0, 10).map((color, idx) => (
                     <a
                       key={`${color.hex}-${idx}`}
-                      href={getColorPageLink(color.hex)}
+                      href={`/colors/${color.hex.replace('#', '')}`}
                       className="group flex flex-col gap-2"
                     >
                       <div
@@ -781,7 +782,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
             </a>
           </div>
           <div className="flex justify-center">
-            <ShareButtons title={`Color ${hex} - ColorMean`} />
+            <ShareButtons url={pageUrl} title={`Color ${hex} - ColorMean`} />
           </div>
         </div>
       ) : null}

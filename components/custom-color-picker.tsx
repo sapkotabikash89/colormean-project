@@ -99,7 +99,7 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
     setHexInput(hex)
     setTempColor(hex)
     
-    // Dispatch color update event for sidebar
+    // Dispatch color update event for sidebar - only when dragging
     const event = new CustomEvent("colorUpdate", { detail: { color: hex } })
     window.dispatchEvent(event)
   }
@@ -170,22 +170,32 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
               height={200}
               className="w-full rounded-lg border-2 border-border cursor-crosshair touch-none"
               onClick={handleCanvasInteraction}
-              onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
+              onMouseMove={(e) => {
+                if (isDragging) {
+                  handleCanvasInteraction(e)
+                  // Prevent default to avoid text selection during drag
+                  e.preventDefault();
+                }
+              }}
               onMouseDown={(e) => {
                 setIsDragging(true)
                 handleCanvasInteraction(e)
+                // Prevent default to avoid text selection
+                e.preventDefault();
               }}
               onMouseUp={() => setIsDragging(false)}
               onMouseLeave={() => setIsDragging(false)}
               onTouchStart={(e) => {
-                e.preventDefault()
                 setIsDragging(true)
                 handleCanvasInteraction(e)
+                // Prevent default to avoid text selection
+                e.preventDefault();
               }}
               onTouchMove={(e) => {
-                e.preventDefault()
                 if (isDragging) {
                   handleCanvasInteraction(e)
+                  // Prevent default to avoid text selection during drag
+                  e.preventDefault();
                 }
               }}
               onTouchEnd={() => setIsDragging(false)}
@@ -219,6 +229,18 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
                   hsl(240, 100%, 50%), 
                   hsl(300, 100%, 50%), 
                   hsl(360, 100%, 50%))`,
+              }}
+              onMouseDown={() => {
+                // Start dragging state to optimize performance during hue change
+                setIsDragging(true);
+              }}
+              onMouseUp={() => {
+                // End dragging state
+                setIsDragging(false);
+              }}
+              onMouseLeave={() => {
+                // End dragging state
+                setIsDragging(false);
               }}
             />
           </div>

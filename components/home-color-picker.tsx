@@ -137,9 +137,10 @@ export function HomeColorPicker() {
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 sm:gap-6 px-1 sm:px-0">
-        <div className="flex-shrink-0 space-y-4 w-full md:w-auto">
-          <div className="relative w-full max-w-full">
+      <div className="flex flex-col gap-4 sm:gap-6 px-1 sm:px-0 w-full">
+        {/* Full-width color picker area for mobile */}
+        <div className="space-y-4 w-full">
+          <div className="relative w-full">
             <canvas
               ref={canvasRef}
               width={320}
@@ -147,20 +148,29 @@ export function HomeColorPicker() {
               className="w-full h-auto rounded-lg border-2 border-border cursor-crosshair touch-none"
               style={{ height: 'auto', maxHeight: '240px' }}
               onClick={handleCanvasInteraction}
-              onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
+              onMouseMove={(e) => {
+                if (isDragging) {
+                  handleCanvasInteraction(e);
+                  e.preventDefault();
+                }
+              }}
               onMouseDown={(e) => {
-                setIsDragging(true)
-                handleCanvasInteraction(e)
+                setIsDragging(true);
+                handleCanvasInteraction(e);
+                e.preventDefault();
               }}
               onMouseUp={() => setIsDragging(false)}
               onMouseLeave={() => setIsDragging(false)}
               onTouchStart={(e) => {
-                setIsDragging(true)
-                handleCanvasInteraction(e)
+                setIsDragging(true);
+                handleCanvasInteraction(e);
+                e.preventDefault();
               }}
               onTouchMove={(e) => {
-                e.preventDefault()
-                handleCanvasInteraction(e)
+                if (isDragging) {
+                  handleCanvasInteraction(e);
+                  e.preventDefault();
+                }
               }}
               onTouchEnd={() => setIsDragging(false)}
             />
@@ -176,8 +186,10 @@ export function HomeColorPicker() {
           </div>
 
           {/* Hue Slider */}
-          <div className="space-y-2 w-full max-w-[320px]">
-            <label className="text-sm font-medium">Hue: {hue}°</label>
+          <div className="space-y-2 w-full">
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-medium">Hue: {hue}°</label>
+            </div>
             <input
               type="range"
               min="0"
@@ -195,12 +207,21 @@ export function HomeColorPicker() {
                   hsl(300, 100%, 50%), 
                   hsl(360, 100%, 50%))`,
               }}
+              onMouseDown={() => {
+                setIsDragging(true);
+              }}
+              onMouseUp={() => {
+                setIsDragging(false);
+              }}
+              onMouseLeave={() => {
+                setIsDragging(false);
+              }}
             />
           </div>
         </div>
 
-        {/* Right Side: Color Display and Controls */}
-        <div className="flex-1 space-y-3 sm:space-y-4">
+        {/* Color Display and Controls - now below the picker on all screens */}
+        <div className="space-y-3 sm:space-y-4 w-full">
           {/* Color Preview Box */}
           <div
             className="w-full h-32 rounded-lg border-2 border-border flex items-center justify-center font-mono text-base sm:text-lg font-semibold"
