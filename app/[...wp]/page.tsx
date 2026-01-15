@@ -53,6 +53,7 @@ async function fetchPostByUri(uri: string) {
               content
               uri
               date
+              colormeanHex
               featuredImage {
                 node {
                   sourceUrl
@@ -210,6 +211,7 @@ async function fetchPostBySlug(slug: string) {
               content
               uri
               date
+              colormeanHex
               featuredImage { node { sourceUrl altText } }
               tags { nodes { name uri databaseId } }
               categories { nodes { name uri databaseId } }
@@ -274,6 +276,7 @@ async function fetchContentByUri(uri: string) {
               content
               uri
               date
+              colormeanHex
               featuredImage { node { sourceUrl altText } }
               tags { nodes { name uri databaseId } }
               categories { nodes { name uri databaseId } }
@@ -316,6 +319,7 @@ async function fetchContentByUri(uri: string) {
               content
               uri
               date
+              colormeanHex
               featuredImage { node { sourceUrl altText } }
               seo {
                 title
@@ -970,6 +974,11 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const canonical = node?.uri ? new URL(node.uri, site).toString() : undefined
   const titleHex = detectColorFromTitle(node.title)
   const isYellowPost = /yellow/i.test(String(node?.title || ""))
+  
+  // Use colormeanHex from WordPress REST API as the primary source of truth
+  const apiHex = node?.colormeanHex || null
+  
+  // Fallback to existing shortcode detection logic if API hex is not available
   const piecesRaw = parseContentPieces(node.content || "")
   const allShorts = piecesRaw.filter((p) => p.kind === "shortcode") as Array<{ kind: "shortcode"; hex: string }>
   const lastShort = allShorts.length ? allShorts[allShorts.length - 1] : undefined
@@ -978,8 +987,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
     extractShortcodeHexFromGutenberg(node.content || "") ||
     (isYellowPost ? nearestShortcodeHexAroundTechnical(node.content || "") : null)
   
-  // Only use shortcode hex as the source of truth
-  const effectiveHex = shortcodeHex || titleHex  // Don't fall back to default if no shortcode found
+  // Use API hex as primary source, fallback to shortcode detection
+  const effectiveHex = apiHex || shortcodeHex || titleHex
   
   const pieces = (effectiveHex && !shortcodeHex)
     ? parseContentPieces(node.content || "", effectiveHex)
@@ -1036,11 +1045,11 @@ export default async function WPPostPage({ params }: WPPageProps) {
     }
   }
   const moreLink = node?.categories?.nodes?.[0]?.uri || "/color-meanings"
-  const colorName = detectColorName(node, (shortcodeHex || postColor)?.toUpperCase())
+  const colorName = detectColorName(node, (apiHex || shortcodeHex || postColor)?.toUpperCase())
   const isSingleColor = !!colorName
   
-  // Show color UI if shortcode hex exists anywhere in content (including technical section)
-  const hasColorUI = !!shortcodeHex || hasProcessedShortcode
+  // Show color UI if API hex exists or if shortcode hex exists
+  const hasColorUI = !!apiHex || !!shortcodeHex || hasProcessedShortcode
   
   // Convert WordPress image URLs to Gumlet CDN
   const gumletImageUrl = img ? convertToGumletUrl(img) : undefined
@@ -1122,7 +1131,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           </div>
         </div>
       </section>
-      {(!!shortcodeHex || hasProcessedShortcode) && <AnchorHashNav />}
+      {(!!apiHex || !!shortcodeHex || hasProcessedShortcode) && <AnchorHashNav />}
       <main className="container mx-auto px-2 sm:px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
@@ -1179,33 +1188,76 @@ export default async function WPPostPage({ params }: WPPageProps) {
                 return secs.map((sec: string, i: number) => {
                   const sectionContent = (() => {
                     if (isTechnical(sec)) {
-                      const sectionHex: string | undefined =
-                        extractSectionShortcodeHex(sec) ||
-                        extractShortcodeHexFromGutenberg(sec) ||
-                        nearestHexForYellow ||
-                        (effectiveHex ?? undefined)
-                      const pieces = parseContentPieces(sec, sectionHex)
-                      return (
-                        <section id="technical-information" style={{ scrollMarginTop: "96px" }} key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow p-1 sm:p-2 md:p-4">
-                          {pieces.map((p, j) =>
-                            p.kind === "html" ? (
-                              <BlogContent
-                                key={`h-${i}-${j}`}
-                                html={enhanceContentHtml(p.html, accentColor)}
-                                className="cm-wrap"
-                                style={{ "--page-accent-color": accentColor } as React.CSSProperties}
-                              />
-                            ) : (
-                              <div key={`s-${i}-${j}`} className="mt-4">
-                                {(() => {
-                                  const hexForTools = (sectionHex || p.hex || effectiveHex || "#000000") as string
-                                  return <ColorPageContent hex={hexForTools} mode="sectionsOnly" />
-                                })()}
+                      // If we have API hex, display it in the Technical Information section
+                      if (apiHex) {
+                        // Display the actual API hex value
+                        const hexValue = apiHex.toUpperCase();
+                        const rgb = hexToRgb(hexValue);
+                        const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
+                        
+                        return (
+                          <section id="technical-information" style={{ scrollMarginTop: "96px" }} key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow p-1 sm:p-2 md:p-4">
+                            {/* Display the actual hex from WordPress API */}
+                            <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                              <h3 className="text-lg font-semibold text-blue-800 mb-3">Technical Information</h3>
+                              <div className="space-y-3">
+                                <div>
+                                  <span className="font-medium text-gray-700">Color Hex:</span>
+                                  <div className="mt-1">
+                                    <CopyButton 
+                                      showIcon={false} 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="p-0 h-auto font-mono text-lg" 
+                                      label={hexValue} 
+                                      value={hexValue} 
+                                    />
+                                  </div>
+                                </div>
+                                {rgb && (
+                                  <div>
+                                    <span className="font-medium text-gray-700">RGB:</span>
+                                    <div className="mt-1">
+                                      <CopyButton 
+                                        showIcon={false} 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="p-0 h-auto font-mono" 
+                                        label={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} 
+                                        value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} 
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                                {hsl && (
+                                  <div>
+                                    <span className="font-medium text-gray-700">HSL:</span>
+                                    <div className="mt-1">
+                                      <CopyButton 
+                                        showIcon={false} 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="p-0 h-auto font-mono" 
+                                        label={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} 
+                                        value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} 
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                               </div>
-                            )
-                          )}
-                        </section>
-                      )
+                            </div>
+                            {/* Render the rest of the technical content */}
+                            <BlogContent
+                              html={enhanceContentHtml(removeShortcode(sec), accentColor)}
+                              className="cm-wrap"
+                              style={{ "--page-accent-color": accentColor } as React.CSSProperties}
+                            />
+                          </section>
+                        );
+                      } else {
+                        // Hide technical section if no API hex is available
+                        return null;
+                      }
                     }
                     return (
                       <section key={`sec-${i}`} className="bg-white rounded-xl border border-border shadow-sm md:shadow overflow-hidden">
@@ -1227,7 +1279,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
               })()}
             </article>
             <FAQSection color={colorName} />
-            {(!!shortcodeHex || hasProcessedShortcode) && effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
+            {(!!apiHex || !!shortcodeHex || hasProcessedShortcode) && effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
             <div className="flex justify-between items-center py-6 border-t border-b border-border my-6">
               {prevNext.previous ? (
                 <Link href={prevNext.previous.uri} className="flex flex-col items-start max-w-[45%] group">
