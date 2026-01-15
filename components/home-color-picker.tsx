@@ -128,12 +128,13 @@ export function HomeColorPicker() {
 
       <div className="flex flex-col md:flex-row gap-4 sm:gap-6 px-1 sm:px-0">
         <div className="flex-shrink-0 space-y-4 w-full md:w-auto">
-          <div className="relative">
+          <div className="relative w-full">
             <canvas
               ref={canvasRef}
-              width={350}
-              height={250}
-              className="w-full max-w-[350px] h-[250px] rounded-lg border-2 border-border cursor-crosshair touch-none"
+              width={320}
+              height={240}
+              className="w-full max-w-full h-auto rounded-lg border-2 border-border cursor-crosshair touch-none"
+              style={{ maxWidth: '320px', height: 'auto' }}
               onClick={handleCanvasInteraction}
               onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
               onMouseDown={(e) => {
@@ -164,7 +165,7 @@ export function HomeColorPicker() {
           </div>
 
           {/* Hue Slider */}
-          <div className="space-y-2 max-w-[350px]">
+          <div className="space-y-2 w-full max-w-[320px]">
             <label className="text-sm font-medium">Hue: {hue}°</label>
             <input
               type="range"
