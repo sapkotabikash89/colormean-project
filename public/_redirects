@@ -1,6 +1,7 @@
 # Redirect old color URL structure for backward compatibility
 /color/:hex([0-9a-fA-F]{3,6})   /html-color-picker?hex=:hex  302
 
-# Only redirect specific known problematic patterns
-# Add specific hex patterns here if needed, but avoid broad patterns
-# that might catch static asset requests
+# Redirect unknown hex color patterns that are NOT covered by static generation
+# This pattern is more specific to avoid catching static assets
+/colors/:hex([0-9a-fA-F]{6})  /html-color-picker?hex=:hex  302
+/colors/:hex([0-9a-fA-F]{3})  /html-color-picker?hex=:hex  302
