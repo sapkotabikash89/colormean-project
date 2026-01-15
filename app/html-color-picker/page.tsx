@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ColorSidebar } from "@/components/sidebar";
@@ -13,14 +13,16 @@ import { Card } from "@/components/ui/card";
 import { 
   normalizeHex, 
   isValidHex, 
-  getContrastColor, 
+  getContrastColor as originalGetContrastColor, 
   hexToRgb, 
   rgbToHsl, 
   rgbToCmyk,
   getColorHarmony,
-  hslToRgb
+  hslToRgb,
+  rgbToHex
 } from "@/lib/color-utils";
 import { BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/structured-data";
+import { ShareButtons } from "@/components/share-buttons";
 
 const DEFAULT_HEX = "#5B6FD8";
 
@@ -55,7 +57,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
   // Derived values
   const rgb = hexToRgb(currentHex);
   const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
-  const contrastColor = getContrastColor(currentHex);
+  const contrastColor = originalGetContrastColor(currentHex);
   const displayLabel = currentHex;
   
   // Mock FAQ items since we don't have the full category utils here
@@ -241,95 +243,22 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
                 </div>
               </Card>
 
-              {/* Color Information - Expanded by default */}
-              <details open className="border border-border rounded-lg p-6">
-                <summary className="font-semibold text-xl cursor-pointer list-none mb-4">
-                  Color Information
-                </summary>
-                <div className="space-y-4">
-                  <p>
-                    This page displays information for the color <strong>{currentHex}</strong>. 
-                    You can explore different colors using the interactive picker above or by clicking 
-                    on the color swatches. All color information updates instantly without page navigation.
-                  </p>
-                  {rgb && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="bg-muted p-4 rounded">
-                        <h4 className="font-semibold mb-2">HEX</h4>
-                        <p className="font-mono">{currentHex}</p>
-                      </div>
-                      <div className="bg-muted p-4 rounded">
-                        <h4 className="font-semibold mb-2">RGB</h4>
-                        <p className="font-mono">rgb({rgb.r}, {rgb.g}, {rgb.b})</p>
-                      </div>
-                      {hsl && (
-                        <div className="bg-muted p-4 rounded">
-                          <h4 className="font-semibold mb-2">HSL</h4>
-                          <p className="font-mono">hsl({hsl.h}°, {hsl.s}%, {hsl.l}%)</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </details>
-
-              {/* Color Meanings - Expanded by default */}
-              <details open className="border border-border rounded-lg p-6">
-                <summary className="font-semibold text-xl cursor-pointer list-none mb-4">
-                  Color Meanings
-                </summary>
-                <div className="space-y-4">
-                  <p>
-                    Colors carry psychological and cultural meanings that influence how we perceive 
-                    and interact with the world around us. The color <strong>{currentHex}</strong> has 
-                    its own unique associations and interpretations.
-                  </p>
-                  <div className="bg-muted p-4 rounded">
-                    <h4 className="font-semibold mb-2">General Associations</h4>
-                    <ul className="list-disc list-inside space-y-1">
-                      <li>Energy and vitality</li>
-                      <li>Creativity and inspiration</li>
-                      <li>Emotional expression</li>
-                      <li>Visual impact and attention</li>
-                    </ul>
-                  </div>
-                </div>
-              </details>
-
-              {/* Color Palettes - Expanded by default */}
-              <details open className="border border-border rounded-lg p-6">
-                <summary className="font-semibold text-xl cursor-pointer list-none mb-4">
-                  Color Palettes
-                </summary>
-                <div className="space-y-4">
-                  <p>
-                    Create harmonious color combinations using <strong>{currentHex}</strong> as your base color.
-                  </p>
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="font-semibold mb-2">Complementary</h4>
-                      <div className="flex gap-2">
-                        <div className="w-12 h-12 rounded" style={{ backgroundColor: currentHex }}></div>
-                        <div className="w-12 h-12 rounded" style={{ backgroundColor: getComplementaryColor(currentHex) }}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">Analogous</h4>
-                      <div className="flex gap-2">
-                        {getAnalogousColors(currentHex).map((color: string, index: number) => (
-                          <div key={index} className="w-12 h-12 rounded" style={{ backgroundColor: color }}></div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </details>
-
-              {/* Full Color Page Content */}
+              {/* Advanced Color Picker Tool */}
+              <AdvancedColorPickerComponent 
+                selectedColor={currentHex}
+                onColorChange={updateCurrentHex}
+              />
+              
+              {/* Social Share Section */}
+              <div className="flex justify-center py-4">
+                <ShareButtons title={`${currentHex} Color Information - ColorMean`} />
+              </div>
+              
+              {/* Static color page sections (exact parity) */}
               <ColorPageContent 
                 hex={currentHex} 
                 name={undefined} 
-                mode="sectionsOnly" 
+                mode="full" 
                 colorExistsInDb={false}
               />
             </div>
@@ -368,3 +297,222 @@ function getAnalogousColors(hex: string): string[] {
   
   return colors;
 }
+
+// Advanced Color Picker Component (inlined for this page)
+function AdvancedColorPickerComponent({ selectedColor, onColorChange }: { selectedColor: string; onColorChange: (color: string) => void }) {
+  const [hue, setHue] = useState(230);
+  const [saturation, setSaturation] = useState(70);
+  const [lightness, setLightness] = useState(60);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Extract HSL from current color to initialize sliders
+  useEffect(() => {
+    const rgb = hexToRgb(selectedColor);
+    if (rgb) {
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      setHue(hsl.h);
+      setSaturation(hsl.s);
+      setLightness(hsl.l);
+    }
+  }, [selectedColor]);
+
+  useEffect(() => {
+    drawColorSpace();
+  }, [hue]);
+
+  const drawColorSpace = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Draw saturation and lightness gradient
+    for (let x = 0; x < width; x++) {
+      for (let y = 0; y < height; y++) {
+        const s = (x / width) * 100;
+        const l = 100 - (y / height) * 100;
+        const rgb = hslToRgb(hue, s, l);
+        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+        ctx.fillStyle = hex;
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  };
+
+  const handleCanvasInteraction = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    let clientX: number;
+    let clientY: number;
+
+    if ("touches" in e) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const canvasX = x * scaleX;
+    const canvasY = y * scaleY;
+
+    const newSaturation = (canvasX / canvas.width) * 100;
+    const newLightness = 100 - (canvasY / canvas.height) * 100;
+
+    setSaturation(Math.max(0, Math.min(100, Math.round(newSaturation))));
+    setLightness(Math.max(0, Math.min(100, Math.round(newLightness))));
+
+    const rgb = hslToRgb(hue, newSaturation, newLightness);
+    const newColor = rgbToHex(rgb.r, rgb.g, rgb.b);
+    onColorChange(newColor);
+  };
+
+  const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newHue = Number.parseInt(e.target.value);
+    setHue(newHue);
+    const rgb = hslToRgb(newHue, saturation, lightness);
+    const newColor = rgbToHex(rgb.r, rgb.g, rgb.b);
+    onColorChange(newColor);
+  };
+
+  const rgb = hexToRgb(selectedColor);
+  const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
+
+  const pickerX = `${Math.max(0, Math.min(100, saturation))}%`;
+  const pickerY = `${Math.max(0, Math.min(100, 100 - lightness))}%`;
+
+  return (
+    <Card className="p-3 sm:p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl sm:text-2xl font-bold">Advanced Color Picker</h2>
+      </div>
+
+      <div className="space-y-6">
+        {/* Color Space Canvas and Hue Slider */}
+        <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+          <div className="relative w-full max-w-[320px] sm:max-w-[400px]">
+            <canvas
+              ref={canvasRef}
+              width={400}
+              height={280}
+              className="w-full h-auto aspect-[10/7] rounded-lg border-2 border-border cursor-crosshair touch-none"
+              onClick={handleCanvasInteraction}
+              onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
+              onMouseDown={(e) => {
+                setIsDragging(true);
+                handleCanvasInteraction(e);
+              }}
+              onMouseUp={() => setIsDragging(false)}
+              onMouseLeave={() => setIsDragging(false)}
+              onTouchStart={(e) => {
+                setIsDragging(true);
+                handleCanvasInteraction(e);
+              }}
+              onTouchMove={(e) => {
+                e.preventDefault();
+                handleCanvasInteraction(e);
+              }}
+              onTouchEnd={() => setIsDragging(false)}
+            />
+            <div
+              className="absolute w-4 h-4 sm:w-5 sm:h-5 border-2 border-white rounded-full pointer-events-none"
+              style={{
+                left: pickerX,
+                top: pickerY,
+                transform: "translate(-50%, -50%)",
+                boxShadow: "0 0 0 1px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2)",
+              }}
+            />
+          </div>
+
+          {/* Hue Slider */}
+          <div className="space-y-2 w-full max-w-[320px] sm:max-w-[400px]">
+            <label className="text-sm font-medium">Hue: {hue}°</label>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              value={hue}
+              onChange={handleHueChange}
+              className="w-full h-3 sm:h-4 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, 
+                  hsl(0, 100%, 50%), 
+                  hsl(60, 100%, 50%), 
+                  hsl(120, 100%, 50%), 
+                  hsl(180, 100%, 50%), 
+                  hsl(240, 100%, 50%), 
+                  hsl(300, 100%, 50%), 
+                  hsl(360, 100%, 50%))`,
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Color Display and Values - Now Below Picker on All Screens */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          {/* Left Column: Color Preview */}
+          <div className="space-y-3">
+            <div
+              className="w-full h-32 sm:h-40 rounded-lg border-2 border-border flex items-center justify-center font-mono font-semibold text-base sm:text-lg"
+              style={{ backgroundColor: selectedColor, color: originalGetContrastColor(selectedColor) }}
+            >
+              {selectedColor.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Right Column: Color Values */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+              <div className="min-w-0 flex-1">
+                <span className="text-xs sm:text-sm text-muted-foreground">HEX</span>
+                <p className="font-mono font-semibold text-sm sm:text-base truncate">{selectedColor}</p>
+              </div>
+              <CopyButton value={selectedColor} />
+            </div>
+            {rgb && (
+              <>
+                <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-xs sm:text-sm text-muted-foreground">RGB</span>
+                    <p className="font-mono text-sm sm:text-base truncate">
+                      ({rgb.r}, {rgb.g}, {rgb.b})
+                    </p>
+                  </div>
+                  <CopyButton value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />
+                </div>
+                {hsl && (
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs sm:text-sm text-muted-foreground">HSL</span>
+                      <p className="font-mono text-sm sm:text-base truncate">
+                        ({hsl.h}°, {hsl.s}%, {hsl.l}%)
+                      </p>
+                    </div>
+                    <CopyButton value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
