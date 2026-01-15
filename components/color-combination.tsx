@@ -9,16 +9,22 @@ export function ColorCombination({
   colors,
   baseHex,
   height = 64,
+  onColorChange,
 }: {
   colors: string[]
   baseHex?: string
   height?: number
+  onColorChange?: (color: string) => void
 }) {
   const router = useRouter()
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const navigate = (hex: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(hex))
+    if (onColorChange) {
+      onColorChange(hex)
+    } else {
+      // Use centralized linking logic for safe color navigation
+      router.push(getColorPageLink(hex))
+    }
   }
   return (
     <div className="w-full rounded-2xl overflow-hidden flex" style={{ height }}>

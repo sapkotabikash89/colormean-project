@@ -28,7 +28,7 @@ const DEFAULT_HEX = "#5B6FD8";
 
 export default function HtmlColorPickerPage() {
   // Get hex from URL query parameter on client side
-  const [initialHex, setInitialHex] = useState(DEFAULT_HEX);
+  const [initialHex, setInitialHex] = useState<string | null>(null);
   
   useEffect(() => {
     // Client-side only - parse URL parameters
@@ -37,9 +37,26 @@ export default function HtmlColorPickerPage() {
       const hexParam = urlParams.get('hex');
       if (hexParam && isValidHex(`#${hexParam}`)) {
         setInitialHex(`#${hexParam}`);
+      } else {
+        // If no hex parameter, default to DEFAULT_HEX
+        setInitialHex(DEFAULT_HEX);
       }
     }
   }, []);
+  
+  // Don't render anything until we have the initial hex from URL
+  if (initialHex === null) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-current"></div>
+            <p className="mt-2 text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <PickerContent initialHex={initialHex} />
@@ -175,7 +192,6 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
           { href: "#blindness-simulator", label: "Blindness Simulator" },
           { href: "#css-examples", label: "CSS Examples" },
           { href: "#related-colors", label: "Related Colors" },
-          { href: "#faqs", label: "FAQs" },
         ]}
       />
 
@@ -185,63 +201,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
           {/* Content Area - 2/3 */}
           <div className="flex-1">
             <div className="space-y-8">
-              {/* Color Picker Section - Integrated below hero */}
-              <Card className="p-6">
-                <h2 className="text-2xl font-bold mb-4">Interactive Color Picker</h2>
-                <p className="text-muted-foreground mb-6">
-                  Select any color using our advanced color picker and get instant color codes
-                </p>
-                
-                {/* Simple color picker implementation */}
-                <div className="flex items-center gap-4 mb-6">
-                  <input
-                    type="color"
-                    value={currentHex}
-                    onChange={(e) => updateCurrentHex(e.target.value)}
-                    className="w-16 h-16 rounded-lg border-2 border-border cursor-pointer"
-                  />
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={currentHex}
-                      onChange={(e) => {
-                        const normalized = normalizeHex(e.target.value);
-                        if (normalized && isValidHex(normalized)) {
-                          updateCurrentHex(normalized);
-                        }
-                      }}
-                      className="w-full px-3 py-2 border border-border rounded-md font-mono"
-                      placeholder="#RRGGBB"
-                    />
-                  </div>
-                  <Button 
-                    onClick={() => {
-                      const randomHex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-                      updateCurrentHex(randomHex);
-                    }}
-                    variant="outline"
-                  >
-                    Random
-                  </Button>
-                </div>
-                
-                {/* Sample swatches for in-place updates */}
-                <div className="mt-6">
-                  <h3 className="text-lg font-semibold mb-3">Quick Colors (click to update in-place):</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#FF9F80', '#A8E6CF'].map(color => (
-                      <button
-                        key={color}
-                        onClick={() => handleSwatchClick(color)}
-                        className="w-10 h-10 rounded-md border-2 border-border cursor-pointer hover:scale-110 transition-transform"
-                        style={{ backgroundColor: color }}
-                        title={color}
-                        aria-label={`Select color ${color}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </Card>
+
 
               {/* Advanced Color Picker Tool */}
               <AdvancedColorPickerComponent 
@@ -260,12 +220,13 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
                 name={undefined} 
                 mode="full" 
                 colorExistsInDb={false}
+                onColorChange={updateCurrentHex}
               />
             </div>
           </div>
 
           {/* Sidebar - 1/3 */}
-          <ColorSidebar color={currentHex} />
+          <ColorSidebar color={currentHex} onColorChange={updateCurrentHex} />
         </div>
       </main>
 
@@ -399,7 +360,7 @@ function AdvancedColorPickerComponent({ selectedColor, onColorChange }: { select
   return (
     <Card className="p-3 sm:p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl sm:text-2xl font-bold">Advanced Color Picker</h2>
+        <h2 className="text-xl sm:text-2xl font-bold">Interactive Color Picker</h2>
       </div>
 
       <div className="space-y-6">

@@ -12,9 +12,10 @@ import { ColorCombination } from "@/components/color-combination"
 
 interface ColorSidebarProps {
   color: string
+  onColorChange?: (color: string) => void
 }
 
-export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
+export function ColorSidebar({ color: initialColor, onColorChange }: ColorSidebarProps) {
   const [color, setColor] = useState(initialColor)
   const [harmonyType, setHarmonyType] = useState("analogous")
   const [exportOpen, setExportOpen] = useState(false)
@@ -113,7 +114,7 @@ export function ColorSidebar({ color: initialColor }: ColorSidebarProps) {
           </SelectContent>
         </Select>
 
-        <ColorCombination colors={harmonies} baseHex={color} height={72} />
+        <ColorCombination colors={harmonies} baseHex={color} height={72} onColorChange={onColorChange} />
       </div>
 
       {latestPosts.length > 0 && (

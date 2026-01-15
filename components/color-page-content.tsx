@@ -49,9 +49,10 @@ interface ColorPageContentProps {
   faqs?: { question: string; answer: string }[]
   name?: string
   colorExistsInDb?: boolean
+  onColorChange?: (color: string) => void
 }
 
-export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb }: ColorPageContentProps) {
+export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb, onColorChange }: ColorPageContentProps) {
   const router = useRouter()
   const label = name ? `${name} (${hex})` : hex
   const [selectedHarmony, setSelectedHarmony] = useState("analogous")
@@ -109,6 +110,16 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
       setLiked(false)
     }
   }, [hex])
+  
+  // Sync background color with current hex when it changes
+  useEffect(() => {
+    if (onColorChange) {
+      // When onColorChange is provided, this is the HTML Color Picker page
+      // Update background to match current hex
+      setBackground(hex)
+      setContrastBackground(hex)
+    }
+  }, [hex, onColorChange])
 
   const rgb = hexToRgb(hex)
   const { prev, next } = getAdjacentColors(hex)
@@ -434,7 +445,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {tints.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
                     ))}
                   </div>
                 </div>
@@ -443,7 +454,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {shades.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
                     ))}
                   </div>
                 </div>
@@ -452,7 +463,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {tones.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex />
+                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
                     ))}
                   </div>
                 </div>
@@ -498,7 +509,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                     </Button>
                   </div>
                   <p className="text-sm text-muted-foreground">{harmonyDescriptions[type]}</p>
-                  <ColorCombination colors={harmony.colors} baseHex={hex} />
+                  <ColorCombination colors={harmony.colors} baseHex={hex} onColorChange={onColorChange} />
                 </div>
               ))}
             </div>
