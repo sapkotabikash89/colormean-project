@@ -11,7 +11,6 @@ import { notFound, redirect } from "next/navigation"
 import { BreadcrumbSchema, FAQSchema, ImageObjectSchema, WebPageSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
 import { generateFAQs } from "@/lib/category-utils"
-import ColorPageGuard from "@/components/color-page-guard"
 
 export const runtime = 'nodejs'
 
@@ -142,98 +141,12 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const gumletImageUrl = getGumletImageUrl(normalizedHex);
   const colorExistsInDb = !!meta;
   
-  // If the color doesn't exist in the database, render the guard which will redirect client-side
+  // Only render the page if color exists in database
+  // Unknown colors will be handled by server-side redirects
   if (!colorExistsInDb) {
-    return (
-      <ColorPageGuard hex={normalizedHex}>
-        <div className="flex flex-col min-h-screen">
-          <WebPageSchema name={`${displayLabel} Color`} url={pageUrl} description={pageDescription} />
-          <BreadcrumbSchema items={breadcrumbItems} />
-          <FAQSchema faqs={faqItems} />
-          
-          <Header />
-          
-          {/* Dynamic Color Hero */}
-          <section
-            className="py-12 px-4 transition-colors"
-            style={{
-              backgroundColor: normalizedHex,
-              color: contrastColor,
-            }}
-          >
-            <div className="container mx-auto">
-              <BreadcrumbNav
-                items={[
-                  { label: "Color Names", href: "/colors" },
-                  { label: normalizedHex, href: `/colors/${hex}` },
-                ]}
-              />
-              <div className="text-center space-y-4">
-                <h1 className="text-4xl md:text-5xl font-bold">{displayLabel} Color Meaning and Information</h1>
-                <p className="max-w-3xl mx-auto text-sm md:text-base opacity-90">
-                  Everything you need to know about {displayLabel} including values, color harmonies, shades,
-                  meanings, and applications in design, branding, and everyday visuals.
-                </p>
-                <div className="max-w-4xl mx-auto">
-                  <div className="font-mono text-xs md:text-sm flex flex-wrap justify-center gap-4">
-                    <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${normalizedHex}`} value={normalizedHex} />
-                    {rgb && (
-                      <CopyButton
-                        showIcon={false}
-                        variant="ghost"
-                        size="sm"
-                        className="p-0 h-auto"
-                        label={`RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
-                        value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
-                      />
-                    )}
-                    {hsl && (
-                      <CopyButton
-                        showIcon={false}
-                        variant="ghost"
-                        size="sm"
-                        className="p-0 h-auto"
-                        label={`HSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
-                        value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <AnchorHashNav
-            items={[
-              { href: "#information", label: "Information" },
-              { href: "#meaning", label: "Meaning" },
-              { href: "#conversion", label: "Conversion" },
-              { href: "#variations", label: "Variations" },
-              { href: "#harmonies", label: "Harmonies" },
-              { href: "#contrast-checker", label: "Contrast Checker" },
-              { href: "#blindness-simulator", label: "Blindness Simulator" },
-              { href: "#css-examples", label: "CSS Examples" },
-              { href: "#related-colors", label: "Related Colors" },
-              { href: "#faqs", label: "FAQs" },
-            ]}
-          />
-          
-          {/* Main Content */}
-          <main className="container mx-auto px-4 py-12">
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Content Area - 2/3 */}
-              <div className="flex-1">
-                <ColorPageContent hex={normalizedHex} faqs={faqItems} name={colorName} colorExistsInDb={colorExistsInDb} />
-              </div>
-              
-              {/* Sidebar - 1/3 */}
-              <ColorSidebar color={normalizedHex} />
-            </div>
-          </main>
-          
-          <Footer />
-        </div>
-      </ColorPageGuard>
-    );
+    // This should never be reached due to server-side redirects
+    // but we return notFound() as a safety fallback
+    notFound();
   }
   
   return (

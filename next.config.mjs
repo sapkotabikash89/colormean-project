@@ -56,16 +56,17 @@ const nextConfig = {
       },
     ]
   },
-  async redirects() {
-    return [
-      // 301 redirect from old URL structure to new one for SEO
-      {
-        source: '/color/:hex',
-        destination: '/colors/:hex',
-        permanent: true,
-      },
-    ]
-  },
+  // Note: Redirects are handled via public/_redirects file for static export compatibility
+  // async redirects() {
+  //   return [
+  //     // 301 redirect from old URL structure to new one for SEO
+  //     {
+  //       source: '/color/:hex',
+  //       destination: '/colors/:hex',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
 }
 
 export default nextConfig

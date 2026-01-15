@@ -2,6 +2,9 @@
 /color/:hex([0-9a-fA-F]{3,6})   /html-color-picker?hex=:hex  302
 
 # Redirect unknown hex color patterns that are NOT covered by static generation
-# This pattern is more specific to avoid catching static assets
+# Explicit patterns to avoid conflicts with static assets and Cloudflare routing
 /colors/:hex([0-9a-fA-F]{6})  /html-color-picker?hex=:hex  302
 /colors/:hex([0-9a-fA-F]{3})  /html-color-picker?hex=:hex  302
+
+# Catch any remaining color patterns that slip through
+/colors/*/  /html-color-picker?hex=:splat  302
