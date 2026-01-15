@@ -8,6 +8,7 @@ import { Palette, Shuffle, Pipette } from "lucide-react"
 import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { CopyButton } from "@/components/copy-button"
 import Link from "next/link"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function HomeColorPicker() {
   const router = useRouter()
@@ -107,8 +108,8 @@ export function HomeColorPicker() {
   }
 
   const handleExplore = () => {
-    const cleanHex = selectedColor.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(selectedColor))
   }
 
   const rgb = hexToRgb(selectedColor)

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { getContrastColor } from "@/lib/color-utils"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function ColorCombination({
   colors,
@@ -16,8 +17,8 @@ export function ColorCombination({
   const router = useRouter()
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const navigate = (hex: string) => {
-    const clean = hex.replace("#", "")
-    router.push(`/colors/${clean.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(hex))
   }
   return (
     <div className="w-full rounded-2xl overflow-hidden flex" style={{ height }}>

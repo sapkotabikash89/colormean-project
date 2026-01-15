@@ -11,6 +11,7 @@ import { Upload, Share } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ShareButtons } from "@/components/share-buttons"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function PaletteFromImageTool() {
   const router = useRouter()
@@ -167,8 +168,8 @@ export function PaletteFromImageTool() {
   
 
   const handleExplore = (color: string) => {
-    const cleanHex = color.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(color))
   }
 
   const openExport = () => setExportOpen(true)

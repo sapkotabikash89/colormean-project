@@ -10,6 +10,7 @@ import { CopyButton } from "@/components/copy-button"
 import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 // OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
 // Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
@@ -99,8 +100,8 @@ export function AdvancedColorPicker() {
   }
 
   const handleExplore = () => {
-    const cleanHex = selectedColor.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(selectedColor))
   }
 
   const rgb = hexToRgb(selectedColor)

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { getRelatedColors, getContrastColor } from "@/lib/color-utils"
 import { cn } from "@/lib/utils"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 interface RelatedColorsSectionProps {
   hex: string
@@ -26,7 +27,7 @@ export function RelatedColorsSection({ hex, title = "Related Colors" }: RelatedC
           {relatedColors.map((color) => (
             <Link
               key={color.hex}
-              href={`/colors/${color.hex.replace("#", "").toLowerCase()}`}
+              href={getColorPageLink(color.hex)}
               className="group flex flex-col gap-2"
             >
               <div

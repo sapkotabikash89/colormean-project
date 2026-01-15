@@ -6,6 +6,7 @@ import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useIsMobile } from "@/components/ui/use-mobile"
 import { CopyButton } from "@/components/copy-button"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 interface ColorSwatchProps {
   color: string
@@ -59,8 +60,8 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
     if (onClick) {
       onClick()
     } else {
-      const cleanHex = color.replace("#", "")
-      router.push(`/colors/${cleanHex.toLowerCase()}`)
+      // Use centralized linking logic for safe color navigation
+      router.push(getColorPageLink(color))
     }
   }
 
@@ -69,8 +70,8 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
     if (onClick) {
       onClick()
     } else {
-      const cleanHex = color.replace("#", "")
-      router.push(`/colors/${cleanHex.toLowerCase()}`)
+      // Use centralized linking logic for safe color navigation
+      router.push(getColorPageLink(color))
     }
   }
 

@@ -13,6 +13,7 @@ import { CopyButton } from "@/components/copy-button"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 import data from "@/lib/color-meaning.json"
 
 export function ImageColorPickerTool() {
@@ -378,8 +379,8 @@ export function ImageColorPickerTool() {
   }
 
   const handleExplore = (color: string) => {
-    const cleanHex = color.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(color))
   }
 
   const rgb = hexToRgb(selectedColor)

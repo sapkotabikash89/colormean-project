@@ -15,6 +15,7 @@ import { Share } from "lucide-react"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ColorCombination } from "@/components/color-combination"
 import { ColorPageContent } from "@/components/color-page-content"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 // OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
 // Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
@@ -256,7 +257,8 @@ export function ColorWheelTool() {
   const harmonies = getColorHarmony(baseColor, harmonyType)
 
   const navigateToColor = (hex: string) => {
-    router.push(`/colors/${hex.replace("#", "")}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(hex))
   }
 
   const copyHex = (hex: string, e: React.MouseEvent) => {

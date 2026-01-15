@@ -710,7 +710,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                   {relatedColors.slice(0, 10).map((color, idx) => (
                     <a
                       key={`${color.hex}-${idx}`}
-                      href={`/colors/${color.hex.replace("#", "").toLowerCase()}`}
+                      href={getColorPageLink(color.hex)}
                       className="group flex flex-col gap-2"
                     >
                       <div
@@ -760,11 +760,11 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
       {mode !== "sectionsOnly" ? (
         <div className="flex flex-col gap-4 mt-6">
           <div className="flex justify-between items-center py-6 border-t border-b border-border">
-            <a href={`/colors/${prev.replace("#", "")}`} className="flex flex-col items-start max-w-[45%] group">
+            <a href={getColorPageLink(prev)} className="flex flex-col items-start max-w-[45%] group">
               <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">← Previous Color</span>
               <span className="font-medium group-hover:underline">{prev}</span>
             </a>
-            <a href={`/colors/${next.replace("#", "")}`} className="flex flex-col items-end max-w-[45%] text-right group">
+            <a href={getColorPageLink(next)} className="flex flex-col items-end max-w-[45%] text-right group">
               <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">Next Color →</span>
               <span className="font-medium group-hover:underline">{next}</span>
             </a>

@@ -9,6 +9,7 @@ import { Pipette } from "lucide-react"
 import { hexToRgb, rgbToHsl, rgbToCmyk } from "@/lib/color-utils"
 import { CopyButton } from "@/components/copy-button"
 import { ShareButtons } from "@/components/share-buttons"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function ScreenColorPickerTool() {
   const router = useRouter()
@@ -35,8 +36,8 @@ export function ScreenColorPickerTool() {
   }
 
   const handleExplore = (color: string) => {
-    const cleanHex = color.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(color))
   }
 
   const rgb = hexToRgb(selectedColor)
