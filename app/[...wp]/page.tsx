@@ -1065,7 +1065,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           />
         )
       })()}
-      <WPColorContext color={accentColor} />
+      <WPColorContext color={accentColor || '#000000'} />
       <Header />
       <section
         className="py-12 px-2 sm:px-4 transition-colors"
@@ -1085,15 +1085,13 @@ export default async function WPPostPage({ params }: WPPageProps) {
           />
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">{node.title}</h1>
-            {hasColorUI && (() => {
-              const HEX = (effectiveHex || postColor).toUpperCase()
-              const rgb = hexToRgb(HEX)
-              const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
-              return (
-                <div className="max-w-4xl mx-auto">
-                  <div className="font-mono text-xs md:text-sm flex flex-wrap justify-center gap-4">
-                    <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${HEX}`} value={HEX} />
-                    {rgb && (
+            {hasColorUI && (
+              <div className="max-w-4xl mx-auto">
+                <div className="font-mono text-xs md:text-sm flex flex-wrap justify-center gap-4">
+                  <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${(effectiveHex || postColor).toUpperCase()}`} value={(effectiveHex || postColor).toUpperCase()} />
+                  {(() => {
+                    const rgb = hexToRgb(effectiveHex || postColor);
+                    return rgb ? (
                       <CopyButton
                         showIcon={false}
                         variant="ghost"
@@ -1102,8 +1100,12 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         label={`RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
                         value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`}
                       />
-                    )}
-                    {hsl && (
+                    ) : null;
+                  })()}
+                  {(() => {
+                    const rgb = hexToRgb(effectiveHex || postColor);
+                    const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
+                    return hsl ? (
                       <CopyButton
                         showIcon={false}
                         variant="ghost"
@@ -1112,11 +1114,11 @@ export default async function WPPostPage({ params }: WPPageProps) {
                         label={`HSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
                         value={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`}
                       />
-                    )}
-                  </div>
+                    ) : null;
+                  })()}
                 </div>
-              )
-            })()}
+              </div>
+            )}
           </div>
         </div>
       </section>
