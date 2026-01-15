@@ -1070,8 +1070,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
       <section
         className="py-12 px-2 sm:px-4 transition-colors"
         style={{
-          backgroundColor: hasColorUI ? (shortcodeHex || postColor) : '#ffffff',
-          color: hasColorUI ? getContrastColor(shortcodeHex || postColor) : '#000000',
+          backgroundColor: hasColorUI ? (effectiveHex || postColor) : '#ffffff',
+          color: hasColorUI ? getContrastColor(effectiveHex || postColor) : '#000000',
         }}
       >
         <div className="container mx-auto">
@@ -1086,7 +1086,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">{node.title}</h1>
             {hasColorUI && (() => {
-              const HEX = (shortcodeHex || postColor).toUpperCase()
+              const HEX = (effectiveHex || postColor).toUpperCase()
               const rgb = hexToRgb(HEX)
               const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
               return (
@@ -1120,7 +1120,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           </div>
         </div>
       </section>
-      {!!shortcodeHex && <AnchorHashNav />}
+      {(!!shortcodeHex || hasProcessedShortcode) && <AnchorHashNav />}
       <main className="container mx-auto px-2 sm:px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
@@ -1225,7 +1225,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
               })()}
             </article>
             <FAQSection color={colorName} />
-            {!!shortcodeHex && effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
+            {(!!shortcodeHex || hasProcessedShortcode) && effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
             <div className="flex justify-between items-center py-6 border-t border-b border-border my-6">
               {prevNext.previous ? (
                 <Link href={prevNext.previous.uri} className="flex flex-col items-start max-w-[45%] group">
