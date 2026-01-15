@@ -10,6 +10,7 @@ import { Search } from "lucide-react"
 import { getContrastColor } from "@/lib/color-utils"
 import { hexToRgb, rgbToHsl } from "@/lib/color-utils"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 // Import the optimized color library data
 import colorLibraryData from "@/lib/color-library-data.json"
@@ -172,7 +173,7 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                 ) : (
                   <div className="divide-y">
                     {previewResults.map((c, i) => (
-                      <Link key={`${c.hex}-${i}`} href={`/colors/${c.hex.replace("#", "").toLowerCase()}`} className="flex items-center gap-3 p-3 hover:bg-muted">
+                      <Link key={`${c.hex}-${i}`} href={getColorPageLink(c.hex)} className="flex items-center gap-3 p-3 hover:bg-muted">
                         <div className="w-6 h-6 rounded border" style={{ backgroundColor: c.hex }} />
                         <div className="flex-1 text-sm">
                           {highlight(c.name, searchQuery.trim())}
@@ -286,7 +287,7 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
             {filteredColors()
               .slice((page - 1) * perPage, page * perPage)
               .map((color, index) => (
-              <Link key={index} href={`/colors/${color.hex.replace("#", "").toLowerCase()}`}>
+              <Link key={index} href={getColorPageLink(color.hex)}>
                 <Card className="group hover:shadow-lg transition-all hover:scale-105 cursor-pointer overflow-hidden">
                   <div
                     className="aspect-square flex items-center justify-center p-4 text-center font-mono text-sm font-semibold"

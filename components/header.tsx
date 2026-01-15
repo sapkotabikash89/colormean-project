@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Palette, Droplet, Contrast, Eye, ImageIcon, CircleDot, Search, Menu, Pipette } from "lucide-react"
 import { CustomColorPicker } from "@/components/custom-color-picker"
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function Header() {
   const router = useRouter()
@@ -35,11 +36,13 @@ export function Header() {
     e.preventDefault()
     const cleanHex = searchValue.replace("#", "")
     if (/^[0-9A-F]{6}$/i.test(cleanHex)) {
-      router.push(`/colors/${cleanHex.toLowerCase()}`)
+      // Use centralized linking logic for color navigation
+      router.push(getColorPageLink(`#${cleanHex}`))
       return
     }
     const q = searchValue.trim()
     if (q.length > 0) {
+      // Search query goes to color library page
       router.push(`/colors?q=${encodeURIComponent(q)}`)
     }
   }
@@ -58,8 +61,8 @@ export function Header() {
     // Dispatch color update event for sidebar
     window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color: selectedColor } }))
 
-    // Navigate to the color page
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Navigate to the appropriate color page using centralized linking logic
+    router.push(getColorPageLink(selectedColor))
   }
 
   return (

@@ -41,6 +41,7 @@ import { CopyButton } from "@/components/copy-button"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorImage } from "@/components/color-image"
 import { getGumletImageUrl } from "@/lib/gumlet-utils"
+import { getColorPageLink } from "@/lib/color-linking-utils"
 
 interface ColorPageContentProps {
   hex: string
@@ -221,8 +222,8 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
   const contrastRatio = getContrastRatio(foreground, background)
 
   const navigateToColor = (color: string) => {
-    const cleanHex = color.replace("#", "")
-    router.push(`/colors/${cleanHex.toLowerCase()}`)
+    // Use centralized linking logic for safe color navigation
+    router.push(getColorPageLink(color))
   }
 
   const defaultOpen = mode !== "sectionsOnly"
