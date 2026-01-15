@@ -29,7 +29,7 @@ export function ColorCombination({
   return (
     <div className="w-full rounded-2xl overflow-hidden flex" style={{ height }}>
       {colors.map((hex, i) => {
-        const isOriginal = baseHex && hex.toLowerCase() === baseHex.toLowerCase()
+        const isOriginal = baseHex && hex.toUpperCase() === baseHex.toUpperCase()
         const contrast = getContrastColor(hex)
         const handleCopy = async (e?: React.MouseEvent) => {
           e?.stopPropagation()

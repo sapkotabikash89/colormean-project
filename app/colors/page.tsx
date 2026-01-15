@@ -60,7 +60,7 @@ export default function ColorsPage() {
     : allColors
   const initialPageItems = filtered.slice(0, 100).map((c) => ({
     name: c.name,
-    url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
+    url: `${baseUrl}/colors/${c.hex.replace("#", "").toUpperCase()}`,
   }))
   return (
     <div className="flex flex-col min-h-screen">

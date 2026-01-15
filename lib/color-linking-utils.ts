@@ -23,14 +23,14 @@ export function isStaticColor(hex: string): boolean {
  * @returns URL for the color page
  */
 export function getColorPageLink(hex: string): string {
-  const cleanHex = hex.replace('#', '').toLowerCase();
+  const cleanHex = hex.replace('#', '').toUpperCase();
   
   if (isStaticColor(hex)) {
     // Link to static color page
     return `/colors/${cleanHex}`;
   } else {
     // Link to universal color picker with query parameter
-    return `/html-color-picker?hex=${cleanHex}`;
+    return `/html-color-picker?hex=${cleanHex.toLowerCase()}`;
   }
 }
 

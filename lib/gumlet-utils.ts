@@ -7,7 +7,7 @@ import colorMeaningData from './color-meaning.json';
 
 // Extract all pre-generated hex codes from color-meaning.json and store in a Set for O(1) lookup
 const pregeneratedHexSet = new Set<string>(
-  Object.keys(colorMeaningData).map(hex => hex.toLowerCase())
+  Object.keys(colorMeaningData).map(hex => hex.toUpperCase())
 );
 
 /**
@@ -16,16 +16,18 @@ const pregeneratedHexSet = new Set<string>(
  * @returns Gumlet CDN URL if image exists, null otherwise
  */
 export function getGumletImageUrl(hex: string): string | null {
-  // Normalize hex: remove # and convert to lowercase
-  const normalizedHex = hex.replace('#', '').toLowerCase();
+  // Normalize hex: remove # and convert to uppercase for comparison
+  const normalizedHex = hex.replace('#', '').toUpperCase();
   
   // Check if this hex has a pre-generated image
   if (!pregeneratedHexSet.has(normalizedHex)) {
     return null;
   }
   
+  // For URL, use lowercase as images are stored in lowercase
+  const urlHex = hex.replace('#', '').toLowerCase();
   // Return Gumlet CDN URL
-  return `https://colormean.gumlet.io/wp-content/uploads/colors/${normalizedHex}/image.webp`;
+  return `https://colormean.gumlet.io/wp-content/uploads/colors/${urlHex}/image.webp`;
 }
 
 /**
@@ -34,7 +36,7 @@ export function getGumletImageUrl(hex: string): string | null {
  * @returns true if image exists, false otherwise
  */
 export function hasPregeneratedImage(hex: string): boolean {
-  const normalizedHex = hex.replace('#', '').toLowerCase();
+  const normalizedHex = hex.replace('#', '').toUpperCase();
   return pregeneratedHexSet.has(normalizedHex);
 }
 

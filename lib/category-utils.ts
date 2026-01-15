@@ -47,7 +47,7 @@ export function getRelatedColorsByCategory(hex: string, limit: number = 8): any[
   for (const key of keys) {
     if (related.length >= limit) break
     const entry = colorData[key as keyof typeof colorData]
-    if (entry.hex.toLowerCase() === hex.toLowerCase()) continue
+    if (entry.hex.toUpperCase() === hex.toUpperCase()) continue
     
     const rgb = hexToRgb(entry.hex)
     if (!rgb) continue

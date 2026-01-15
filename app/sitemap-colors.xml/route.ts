@@ -9,7 +9,7 @@ export async function GET() {
   const entries = Object.entries(colorMeaning)
     .filter(([, v]: any) => v?.hex && v?.meaning)
     .map(([hex]: any) => {
-      const loc = `${baseUrl}/colors/${String(hex).toLowerCase()}`
+      const loc = `${baseUrl}/colors/${String(hex).toUpperCase()}`
       return `<url><loc>${loc}</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`
     })
     .join("")

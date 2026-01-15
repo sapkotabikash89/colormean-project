@@ -817,7 +817,7 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
   const shortcodeHex = extractShortcodeHex(String(node?.content || "")) || detectColorFromTitle(String(node?.title || ""))
   const colorImageAbs = (() => {
     if (!shortcodeHex) return undefined
-    const clean = shortcodeHex.replace("#", "").toLowerCase()
+    const clean = shortcodeHex.replace("#", "").toUpperCase()
     return `https://colormean.com/colors/${clean}/image.webp`
   })()
   
@@ -978,8 +978,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
     extractShortcodeHexFromGutenberg(node.content || "") ||
     (isYellowPost ? nearestShortcodeHexAroundTechnical(node.content || "") : null)
   
-  // Ensure we have a valid hex code for the post
-  const effectiveHex = shortcodeHex || titleHex || "#5B6FD8"  // Default to a neutral color if none found
+  // Only use shortcode hex as the source of truth
+  const effectiveHex = shortcodeHex || titleHex  // Don't fall back to default if no shortcode found
   
   const pieces = (effectiveHex && !shortcodeHex)
     ? parseContentPieces(node.content || "", effectiveHex)
@@ -1036,6 +1036,9 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const colorName = detectColorName(node, (shortcodeHex || postColor)?.toUpperCase())
   const isSingleColor = !!colorName
   
+  // Show color UI only if shortcode hex exists
+  const hasColorUI = !!shortcodeHex
+  
   // Convert WordPress image URLs to Gumlet CDN
   const gumletImageUrl = img ? convertToGumletUrl(img) : undefined
 
@@ -1064,8 +1067,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
       <section
         className="py-12 px-2 sm:px-4 transition-colors"
         style={{
-          backgroundColor: shortcodeHex || postColor,
-          color: getContrastColor(shortcodeHex || postColor),
+          backgroundColor: hasColorUI ? (shortcodeHex || postColor) : '#ffffff',
+          color: hasColorUI ? getContrastColor(shortcodeHex || postColor) : '#000000',
         }}
       >
         <div className="container mx-auto">
@@ -1079,7 +1082,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           />
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">{node.title}</h1>
-            {(() => {
+            {hasColorUI && (() => {
               const HEX = (shortcodeHex || postColor).toUpperCase()
               const rgb = hexToRgb(HEX)
               const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
@@ -1114,7 +1117,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
           </div>
         </div>
       </section>
-      {effectiveHex && <AnchorHashNav />}
+      {hasColorUI && <AnchorHashNav />}
       <main className="container mx-auto px-2 sm:px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
@@ -1219,7 +1222,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
               })()}
             </article>
             <FAQSection color={colorName} />
-            {effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
+            {hasColorUI && effectiveHex && <RelatedColorsSection hex={effectiveHex} />}
             <div className="flex justify-between items-center py-6 border-t border-b border-border my-6">
               {prevNext.previous ? (
                 <Link href={prevNext.previous.uri} className="flex flex-col items-start max-w-[45%] group">

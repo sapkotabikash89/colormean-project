@@ -133,13 +133,13 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema 
         name={`${displayLabel} Color Information`} 
-        url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "")}`}
+        url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}`}
         description={`Explore ${currentHex} color information, conversions, harmonies, variations, and accessibility.`}
       />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
         { name: "Color Names", item: "https://colormean.com/colors" },
-        { name: currentHex, item: `https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "")}` }
+        { name: currentHex.toUpperCase(), item: `https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}` }
       ]} />
       <FAQSchema faqs={faqItems} />
       
@@ -162,18 +162,18 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
           <BreadcrumbNav
             items={[
               { label: "Color Names", href: "/colors" },
-              { label: currentHex, href: `/html-color-picker?hex=${currentHex.replace("#", "")}` },
+              { label: currentHex.toUpperCase(), href: `/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}` },
             ]}
           />
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold">{currentHex} Color Information</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">{currentHex.toUpperCase()} Color Information</h1>
             <p className="max-w-3xl mx-auto text-sm md:text-base opacity-90">
-              Everything you need to know about {currentHex} including values, color harmonies, shades,
+              Everything you need to know about {currentHex.toUpperCase()} including values, color harmonies, shades,
               meanings, and applications in design, branding, and everyday visuals.
             </p>
             <div className="max-w-4xl mx-auto">
               <div className="font-mono text-xs md:text-sm flex flex-wrap justify-center gap-4">
-                <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${currentHex}`} value={currentHex} />
+                <CopyButton showIcon={false} variant="ghost" size="sm" className="p-0 h-auto" label={`HEX: ${currentHex.toUpperCase()}`} value={currentHex.toUpperCase()} />
                 {rgb && (
                   <CopyButton
                     showIcon={false}
@@ -230,7 +230,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
               
               {/* Social Share Section */}
               <div className="flex justify-center py-4">
-                <ShareButtons url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "")}`} title={`${currentHex} Color Information - ColorMean`} />
+                <ShareButtons url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}`} title={`${currentHex.toUpperCase()} Color Information - ColorMean`} />
               </div>
               
               {/* Static color page sections (exact parity) */}

@@ -163,7 +163,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
-        const cleanHex = hex.replace("#", "").toLowerCase()
+        const cleanHex = hex.replace("#", "").toUpperCase()
         a.download = `${cleanHex}-color-information-meaning.png`
         a.click()
         URL.revokeObjectURL(url)
@@ -722,7 +722,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                   {relatedColors.slice(0, 10).map((color, idx) => (
                     <a
                       key={`${color.hex}-${idx}`}
-                      href={`/colors/${color.hex.replace('#', '')}`}
+                      href={getColorPageLink(color.hex)}
                       className="group flex flex-col gap-2"
                     >
                       <div

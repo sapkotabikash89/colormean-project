@@ -79,7 +79,7 @@ export function ColorExportDialog({ open, onOpenChange, title = "Export Colors",
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
-        const cleanBase = (baseHex || "").replace("#", "").toLowerCase()
+        const cleanBase = (baseHex || "").replace("#", "").toUpperCase()
         const label = (filenameLabel || "combination").toLowerCase().replace(/\s+/g, "-")
         a.download = cleanBase ? `${cleanBase}-${label}-combination.png` : `${label}-combination.png`
         a.click()

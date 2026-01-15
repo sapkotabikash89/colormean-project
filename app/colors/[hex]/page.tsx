@@ -47,7 +47,7 @@ export async function generateStaticParams() {
   const allHexCodes = [...new Set([...hexCodes, ...commonColors])]
   
   return allHexCodes.map((hex) => ({
-    hex: hex.toLowerCase(),
+    hex: hex.toUpperCase(),
   }))
 }
 
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 
   // Load data to check if color exists in our database
   const data = (await import('@/lib/color-meaning.json')).default
-  const clean = normalizedHex.replace("#", "").toLowerCase()
+  const clean = normalizedHex.replace("#", "").toUpperCase()
   const upper = clean.toUpperCase()
   const meta: any = (data as any)[upper]
   const colorName: string | undefined = meta?.name || undefined
@@ -130,11 +130,11 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const breadcrumbItems = [
     { name: "ColorMean", item: "https://colormean.com" },
     { name: "Color Names", item: "https://colormean.com/colors" },
-    { name: normalizedHex, item: `https://colormean.com/colors/${hex}` },
+    { name: normalizedHex, item: `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
   ]
 
   const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : []
-  const pageUrl = `https://colormean.com/colors/${normalizedHex.replace("#", "").toLowerCase()}`
+  const pageUrl = `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}`
   const pageDescription = `Explore ${normalizedHex} color information, conversions, harmonies, variations, and accessibility.`
 
   // Determine if image is available from Gumlet CDN
@@ -181,7 +181,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
           <BreadcrumbNav
             items={[
               { label: "Color Names", href: "/colors" },
-              { label: normalizedHex, href: `/colors/${hex}` },
+              { label: normalizedHex, href: `/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
             ]}
           />
           <div className="text-center space-y-4">
