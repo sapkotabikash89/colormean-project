@@ -46,11 +46,34 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
       return
     }
     setLoading(true)
-    debounceRef.current = window.setTimeout(async () => {
+    debounceRef.current = window.setTimeout(() => {
       try {
-        const res = await fetch(`/api/color-search?q=${encodeURIComponent(searchQuery.trim())}`)
-        const data = await res.json()
-        setPreviewResults(data.results || [])
+        const query = searchQuery.trim().toLowerCase()
+        const results: Array<{ name: string; hex: string }> = []
+        
+        // Search through all colors
+        for (let i = 0; i < allColors.length; i++) {
+          const color = allColors[i]
+          const name = color.name.toLowerCase()
+          
+          if (name.startsWith(query)) {
+            results.push({ name: color.name, hex: color.hex })
+          }
+        }
+        
+        // Add contains matches (limit to 200 total results)
+        if (results.length < 200) {
+          for (let i = 0; i < allColors.length && results.length < 200; i++) {
+            const color = allColors[i]
+            const name = color.name.toLowerCase()
+            
+            if (name.includes(query) && !name.startsWith(query)) {
+              results.push({ name: color.name, hex: color.hex })
+            }
+          }
+        }
+        
+        setPreviewResults(results)
       } catch {
         setPreviewResults([])
       } finally {
@@ -60,7 +83,7 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
     return () => {
       if (debounceRef.current) window.clearTimeout(debounceRef.current)
     }
-  }, [searchQuery])
+  }, [searchQuery, allColors])
 
   useEffect(() => {
     setPage(1)
