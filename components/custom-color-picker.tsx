@@ -98,6 +98,10 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
     const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
     setHexInput(hex)
     setTempColor(hex)
+    
+    // Dispatch color update event for sidebar
+    const event = new CustomEvent("colorUpdate", { detail: { color: hex } })
+    window.dispatchEvent(event)
   }
 
   const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +111,10 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
     const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
     setHexInput(hex)
     setTempColor(hex)
+    
+    // Dispatch color update event for sidebar
+    const event = new CustomEvent("colorUpdate", { detail: { color: hex } })
+    window.dispatchEvent(event)
   }
 
   const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -84,14 +84,24 @@ export function HomeColorPicker() {
     setLightness(Math.max(0, Math.min(100, Math.round(newLightness))))
 
     const rgb = hslToRgb(hue, newSaturation, newLightness)
-    setSelectedColor(rgbToHex(rgb.r, rgb.g, rgb.b))
+    const newColor = rgbToHex(rgb.r, rgb.g, rgb.b)
+    setSelectedColor(newColor)
+    
+    // Dispatch color update event for sidebar
+    const event = new CustomEvent("colorUpdate", { detail: { color: newColor } })
+    window.dispatchEvent(event)
   }
 
   const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newHue = Number.parseInt(e.target.value)
     setHue(newHue)
     const rgb = hslToRgb(newHue, saturation, lightness)
-    setSelectedColor(rgbToHex(rgb.r, rgb.g, rgb.b))
+    const newColor = rgbToHex(rgb.r, rgb.g, rgb.b)
+    setSelectedColor(newColor)
+    
+    // Dispatch color update event for sidebar
+    const event = new CustomEvent("colorUpdate", { detail: { color: newColor } })
+    window.dispatchEvent(event)
   }
 
   const handleRandomColor = () => {
@@ -129,13 +139,13 @@ export function HomeColorPicker() {
 
       <div className="flex flex-col md:flex-row gap-4 sm:gap-6 px-1 sm:px-0">
         <div className="flex-shrink-0 space-y-4 w-full md:w-auto">
-          <div className="relative w-full">
+          <div className="relative w-full max-w-full">
             <canvas
               ref={canvasRef}
               width={320}
               height={240}
-              className="w-full max-w-full h-auto rounded-lg border-2 border-border cursor-crosshair touch-none"
-              style={{ maxWidth: '320px', height: 'auto' }}
+              className="w-full h-auto rounded-lg border-2 border-border cursor-crosshair touch-none"
+              style={{ height: 'auto', maxHeight: '240px' }}
               onClick={handleCanvasInteraction}
               onMouseMove={(e) => isDragging && handleCanvasInteraction(e)}
               onMouseDown={(e) => {

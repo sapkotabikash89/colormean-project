@@ -62,6 +62,7 @@ export function Header() {
     window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color: selectedColor } }))
 
     // Navigate to the appropriate color page using centralized linking logic
+    // For unknown colors, this will redirect to the HTML Color Picker page
     router.push(getColorPageLink(selectedColor))
   }
 
