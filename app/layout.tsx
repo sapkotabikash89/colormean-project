@@ -83,8 +83,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://colormean.gumlet.io" />
         <link rel="dns-prefetch" href="https://colormean.gumlet.io" />
-        <link rel="preconnect" href="https://cms.colormean.com" />
-        <link rel="dns-prefetch" href="https://cms.colormean.com" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <Script id="remove-generator-meta" strategy="beforeInteractive">
           {`document.querySelectorAll('meta[name="generator"]').forEach((el)=>el.remove());`}

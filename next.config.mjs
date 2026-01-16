@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true, // Add trailing slashes to all routes for compatibility
-  output: process.env.NEXT_EXPORT ? 'export' : undefined,
+  output: process.env.NEXT_EXPORT === '1' ? 'export' : undefined,
   images: {
     unoptimized: true, // Required for static exports since we can't use Next.js image optimization
     formats: ["image/webp"],
@@ -12,7 +12,6 @@ const nextConfig = {
       { pathname: "/colors/**" },
     ],
     remotePatterns: [
-      { protocol: "https", hostname: "cms.colormean.com", pathname: "/**" },
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
       { protocol: "https", hostname: "static.wixstatic.com", pathname: "/**" },
       { protocol: "https", hostname: "colormean.com", pathname: "/**" },
