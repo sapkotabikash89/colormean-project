@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -17,7 +17,7 @@ interface ColorData {
   hsl?: { h: number; s: number; l: number }
 }
 
-export default function ColorSearchPage() {
+function ColorSearchContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const hexParam = searchParams.get('hex') || ''
@@ -155,4 +155,12 @@ export default function ColorSearchPage() {
       <Footer />
     </div>
   )
+}
+
+export default function ColorSearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ColorSearchContent />
+    </Suspense>
+  );
 }

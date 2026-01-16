@@ -20,54 +20,68 @@ interface ColorPageProps {
   }>
 }
 
-export async function generateStaticParams() {
-  const data = (await import('@/lib/color-meaning.json')).default
-  const hexCodes = Object.keys(data)
-  
-  // Generate additional common color variations to improve coverage
-  const commonColors = [
-    // Grayscale
-    '000000', 'ffffff', '808080', 'c0c0c0', 
-    // Primary colors
-    'ff0000', '00ff00', '0000ff',
-    // Secondary colors  
-    'ffff00', 'ff00ff', '00ffff',
-    // Common web colors
-    'ff6b6b', '4ecdc4', '45b7d1', '96ceb4', 'ffeaa7', 'dda0dd', '98d8c8',
-    // Additional common colors to reduce 404s
-    'ff4757', '2ed573', '3742fa', 'ffa502', '70a1ff', '7bed9f', 'ff6b81',
-    '2f3542', 'a4b0be', 'ff3838', '3ae374', '67e6dc', '18dcff', '7d5fff',
-    'cd84f1', 'ffb8b8', 'ff9f43', '7efff5', '1bfff0', '7158e2', '3d3d3d',
-    'f7f1e3', '40407a', '706fd3', 'f5cd79', 'eccc68', 'ff793f', 'ffda79',
-    '33d9b2', '218c74', 'aaa69d', '2c2c54', '474787', 'ff5252', 'ff79ac',
-    'd1ccc0', 'ffb142', 'ffda79', 'b33939', 'cd6133', '84817a', 'cc8e35'
-  ]
-  
-  // Combine database colors with common colors, removing duplicates
-  const allHexCodes = [...new Set([...hexCodes, ...commonColors])]
-  
-  return allHexCodes.map((hex) => ({
-    hex: hex.toUpperCase(),
-  }))
-}
+// Temporarily disable static generation due to build issues
+// export async function generateStaticParams() {
+//   const data = (await import('@/lib/color-meaning.json')).default
+//   const hexCodes = Object.keys(data)
+//   
+//   // Generate additional common color variations to improve coverage
+//   const commonColors = [
+//     // Grayscale
+//     '000000', 'ffffff', '808080', 'c0c0c0', 
+//     // Primary colors
+//     'ff0000', '00ff00', '0000ff',
+//     // Secondary colors  
+//     'ffff00', 'ff00ff', '00ffff',
+//     // Common web colors
+//     'ff6b6b', '4ecdc4', '45b7d1', '96ceb4', 'ffeaa7', 'dda0dd', '98d8c8',
+//     // Additional common colors to reduce 404s
+//     'ff4757', '2ed573', '3742fa', 'ffa502', '70a1ff', '7bed9f', 'ff6b81',
+//     '2f3542', 'a4b0be', 'ff3838', '3ae374', '67e6dc', '18dcff', '7d5fff',
+//     'cd84f1', 'ffb8b8', 'ff9f43', '7efff5', '1bfff0', '7158e2', '3d3d3d',
+//     'f7f1e3', '40407a', '706fd3', 'f5cd79', 'eccc68', 'ff793f', 'ffda79',
+//     '33d9b2', '218c74', 'aaa69d', '2c2c54', '474787', 'ff5252', 'ff79ac',
+//     'd1ccc0', 'ffb142', 'ffda79', 'b33939', 'cd6133', '84817a', 'cc8e35'
+//   ]
+//   
+//   // Combine database colors with common colors, removing duplicates
+//   const allHexCodes = [...new Set([...hexCodes, ...commonColors])]
+//   
+//   return allHexCodes.map((hex) => ({
+//     hex: hex.toUpperCase(),
+//   }))
+// }
 
 
 export async function generateMetadata({ params }: ColorPageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  if (!resolvedParams || !resolvedParams.hex) {
+  // During static generation, params might be undefined or malformed
+  // We need to handle this gracefully
+  let hexValue: string | undefined;
+  
+  try {
+    const resolvedParams = await params;
+    if (resolvedParams && resolvedParams.hex) {
+      hexValue = resolvedParams.hex;
+    }
+  } catch (error) {
+    console.warn("Failed to resolve params in generateMetadata, this might be during static generation:", error);
+  }
+  
+  // If we don't have a hex value, return default metadata
+  if (!hexValue) {
     return {
       title: "Color - ColorMean",
     }
   }
-  const { hex } = resolvedParams;
-  const normalizedHex = normalizeHex(hex)
-
+  
+  const normalizedHex = normalizeHex(hexValue);
+  
   if (!isValidHex(normalizedHex)) {
     return {
       title: "Invalid Color - ColorMean",
     }
   }
-
+  
   // Load data to check if color exists in our database
   const data = (await import('@/lib/color-meaning.json')).default
   const clean = normalizedHex.replace("#", "").toUpperCase()
@@ -79,7 +93,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
   // Determine if image should be from Gumlet CDN
   const gumletImageUrl = getGumletImageUrl(normalizedHex);
   const imageUrl = gumletImageUrl || `https://colormean.com/opengraph-image.webp`; // Fallback for unknown colors
-
+  
   return {
     title: `${displayLabel} Color Meaning and Information - ColorMean`,
     description: `Explore ${normalizedHex} color information, meanings, conversions (RGB, HSL, CMYK, HSV, LAB), harmonies, variations, and accessibility. Professional color tools for designers and developers.`,
@@ -107,15 +121,28 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 }
 
 export default async function ColorPage({ params }: ColorPageProps) {
-  const resolvedParams = await params;
-  if (!resolvedParams || !resolvedParams.hex) {
+  // During static generation, params might be undefined or malformed
+  // We need to handle this gracefully
+  let hexValue: string | undefined;
+  
+  try {
+    const resolvedParams = await params;
+    if (resolvedParams && resolvedParams.hex) {
+      hexValue = resolvedParams.hex;
+    }
+  } catch (error) {
+    console.warn("Failed to resolve params, this might be during static generation:", error);
+  }
+  
+  // If we don't have a hex value, we can't render the page
+  if (!hexValue) {
     notFound();
   }
-  const { hex } = resolvedParams;
-  const normalizedHex = normalizeHex(hex)
+  
+  const normalizedHex = normalizeHex(hexValue);
 
   if (!isValidHex(normalizedHex)) {
-    notFound()
+    notFound();
   }
   
   // Load data dynamically for both static and dynamic rendering
@@ -130,23 +157,23 @@ export default async function ColorPage({ params }: ColorPageProps) {
   // Removed WordPress blog redirection - colors will stay on color pages
   const redirected = null
   if (redirected) {
-    redirect(redirected)
+    redirect(redirected);
   }
 
-  const contrastColor = getContrastColor(normalizedHex)
-  const rgb = hexToRgb(normalizedHex)
-  const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
-  const cmyk = rgb ? rgbToCmyk(rgb.r, rgb.g, rgb.b) : null
+  const contrastColor = getContrastColor(normalizedHex);
+  const rgb = hexToRgb(normalizedHex);
+  const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
+  const cmyk = rgb ? rgbToCmyk(rgb.r, rgb.g, rgb.b) : null;
 
   const breadcrumbItems = [
     { name: "ColorMean", item: "https://colormean.com" },
     { name: "Color Names", item: "https://colormean.com/colors" },
     { name: normalizedHex, item: `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
-  ]
+  ];
 
-  const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : []
-  const pageUrl = `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}`
-  const pageDescription = `Explore ${normalizedHex} color information, conversions, harmonies, variations, and accessibility.`
+  const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : [];
+  const pageUrl = `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}`;
+  const pageDescription = `Explore ${normalizedHex} color information, conversions, harmonies, variations, and accessibility.`;
 
   // Determine if image is available from Gumlet CDN
   const gumletImageUrl = getGumletImageUrl(normalizedHex);
