@@ -1,7 +1,9 @@
 import { NextRequest } from "next/server"
 import sharp from "sharp"
 
-export const dynamic = "force-dynamic"
+// For static export compatibility with revalidation
+export const dynamic = "force-static"
+export const revalidate = 0 // No caching, always fresh
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)

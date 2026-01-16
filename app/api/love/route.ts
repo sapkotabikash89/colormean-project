@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 
-export const dynamic = 'force-dynamic'
+// For static export compatibility with revalidation
+export const dynamic = 'force-static'
+export const revalidate = 0 // No caching, always fresh
 
 // In-memory storage for love counts (Note: This resets on server restart/cold boot)
 // For production, replace this with a database connection (e.g., Redis, Postgres, MongoDB)

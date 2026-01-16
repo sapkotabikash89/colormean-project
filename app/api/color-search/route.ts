@@ -1,4 +1,6 @@
-export const dynamic = 'force-dynamic'
+// For static export compatibility with revalidation
+export const dynamic = 'force-static'
+export const revalidate = 0 // No caching, always fresh
 
 // Cache the color data in memory to avoid repeated file reads
 let cachedColorData: any = null
