@@ -6,7 +6,7 @@
   "packageManager": "npm@10",
   "scripts": {
     "build": "next build",
-    "export": "next build",
+    "export": "NEXT_EXPORT=1 next build && rm -rf out && mkdir -p out && next export -o out",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "npx serve out",
