@@ -7,6 +7,7 @@ import { ColorPageContent } from "@/components/color-page-content"
 import { AnchorHashNav } from "@/components/anchor-hash-nav"
 import { normalizeHex, isValidHex, getContrastColor, hexToRgb, rgbToHsl, rgbToCmyk, getColorHarmony } from "@/lib/color-utils"
 import { getGumletImageUrl } from "@/lib/gumlet-utils"
+import { KNOWN_COLOR_HEXES } from "@/lib/known-colors-complete"
 import { notFound, redirect } from "next/navigation"
 import { BreadcrumbSchema, FAQSchema, ImageObjectSchema, WebPageSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
@@ -55,6 +56,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: ColorPageProps): Promise<Metadata> {
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
+  const cleanHex = normalizedHex.replace("#", "").toUpperCase()
 
   if (!isValidHex(normalizedHex)) {
     return {
@@ -64,9 +66,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 
   // Load data to check if color exists in our database
   const data = (await import('@/lib/color-meaning.json')).default
-  const clean = normalizedHex.replace("#", "").toUpperCase()
-  const upper = clean.toUpperCase()
-  const meta: any = (data as any)[upper]
+  const meta: any = (data as any)[cleanHex]
   const colorName: string | undefined = meta?.name || undefined
   const displayLabel = colorName ? `${colorName} (${normalizedHex})` : normalizedHex
   
@@ -74,28 +74,63 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
   const gumletImageUrl = getGumletImageUrl(normalizedHex);
   const imageUrl = gumletImageUrl || `https://colormean.com/opengraph-image.webp`; // Fallback for unknown colors
 
+  // Enhanced SEO metadata specifically for known colors
+  const isKnownColor = KNOWN_COLOR_HEXES.has(cleanHex);
+  
+  const baseTitle = isKnownColor 
+    ? `${displayLabel} Color Meaning, Symbolism & Psychology - ColorMean`
+    : `${displayLabel} Color Information & Tools - ColorMean`;
+    
+  const baseDescription = isKnownColor
+    ? `Discover the complete meaning, symbolism, psychology, and cultural significance of ${displayLabel}. Explore RGB, HEX, HSL conversions, color harmonies, and practical applications in design and branding.`
+    : `Explore ${normalizedHex} color information, meanings, conversions (RGB, HSL, CMYK, HSV, LAB), harmonies, variations, and accessibility. Professional color tools for designers and developers.`;
+
   return {
-    title: `${displayLabel} Color Meaning and Information - ColorMean`,
-    description: `Explore ${normalizedHex} color information, meanings, conversions (RGB, HSL, CMYK, HSV, LAB), harmonies, variations, and accessibility. Professional color tools for designers and developers.`,
+    title: baseTitle,
+    description: baseDescription,
     keywords: [
       `${normalizedHex} color`,
-      "color information",
+      ...(colorName ? [`${colorName} color`] : []),
       "color meaning",
-      "hex to rgb",
-      "color converter",
+      "color psychology",
+      "color symbolism",
+      "hex color",
+      "rgb converter",
       "color harmonies",
+      "web colors",
+      "design colors",
+      "brand colors",
     ],
     alternates: {
-      canonical: `https://colormean.com/colors/${clean}`,
+      canonical: `https://colormean.com/colors/${cleanHex}`,
     },
     openGraph: {
-      title: `${displayLabel} Color - ColorMean`,
-      description: `Detailed information about ${displayLabel} including conversions, harmonies, and meanings.`,
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: `${displayLabel} color swatch` }],
+      title: baseTitle,
+      description: baseDescription,
+      url: `https://colormean.com/colors/${cleanHex}`,
+      type: "website",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${displayLabel} - Professional color information and tools`,
+        }
+      ],
     },
     twitter: {
       card: "summary_large_image",
+      title: baseTitle,
+      description: baseDescription,
       images: [imageUrl],
+    },
+    // Additional SEO enhancements
+    robots: {
+      index: isKnownColor, // Only index known colors
+      follow: true,
+    },
+    verification: {
+      google: "your-google-verification-code", // Add actual verification code
     },
   }
 }
@@ -252,6 +287,15 @@ export default async function ColorPage({ params }: ColorPageProps) {
 }
 
 async function maybeRedirectToBlog(hex: string): Promise<string | null> {
+  const normalizedHex = normalizeHex(hex)
+  const cleanHex = normalizedHex.replace("#", "").toUpperCase()
+  
+  // CRITICAL: Never redirect known static colors
+  // These are authoritative static pages that must not redirect
+  if (KNOWN_COLOR_HEXES.has(cleanHex)) {
+    return null
+  }
+  
   const site = "https://colormean.com"
   const searchTerm = hex.toUpperCase()
   const clean = searchTerm.replace("#", "")
