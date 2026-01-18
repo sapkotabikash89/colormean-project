@@ -215,8 +215,23 @@ export default async function ColorPage({ params }: ColorPageProps) {
               { label: normalizedHex, href: `/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
             ]}
           />
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold">{displayLabel} Color Meaning and Information</h1>
+            
+            {/* Prominent Color Image for Google Image Search */}
+            {gumletImageUrl && (
+              <div className="flex justify-center my-6">
+                <img
+                  src={gumletImageUrl}
+                  alt={`${displayLabel} color swatch showing the color visually with RGB(${rgb?.r ?? 0},${rgb?.g ?? 0},${rgb?.b ?? 0}) values`}
+                  width="1200"
+                  height="630"
+                  loading="eager"
+                  className="rounded-lg shadow-lg max-w-full h-auto"
+                />
+              </div>
+            )}
+            
             <p className="max-w-3xl mx-auto text-sm md:text-base opacity-90">
               Everything you need to know about {displayLabel} including values, color harmonies, shades,
               meanings, and applications in design, branding, and everyday visuals.
