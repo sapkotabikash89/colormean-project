@@ -85,6 +85,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://colormean.gumlet.io" />
         <link rel="preconnect" href="https://cms.colormean.com" />
         <link rel="dns-prefetch" href="https://cms.colormean.com" />
+        <meta name="google-site-verification" content="tiT0KL3QCJ4bLgDI-k7s8vphX4Sx6LQCFmkflXUe4pU" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <Script id="remove-generator-meta" strategy="beforeInteractive">
           {`document.querySelectorAll('meta[name="generator"]').forEach((el)=>el.remove());`}

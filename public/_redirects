@@ -1,5 +1,5 @@
 # Redirect old color URL structure for backward compatibility only
-/color/:hex([0-9a-fA-F]{3,6})   /html-color-picker?hex=:hex  302
+/color/([0-9a-fA-F]{3,6}) /html-color-picker?hex=$1 302
 
 # NOTE: All other color routing is handled by Next.js static generation
 # Known colors (1534+) are pre-generated static pages

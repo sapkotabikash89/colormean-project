@@ -130,7 +130,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       follow: true,
     },
     verification: {
-      google: "your-google-verification-code", // Add actual verification code
+      google: "tiT0KL3QCJ4bLgDI-k7s8vphX4Sx6LQCFmkflXUe4pU",
     },
   }
 }

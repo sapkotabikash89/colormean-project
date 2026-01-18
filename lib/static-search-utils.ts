@@ -187,15 +187,30 @@ export function performStaticSearch(input: string, blogPosts: BlogPost[] = []): 
   // Rule #3: Known color JSON match second
   const jsonMatch = searchColorJson(input, inputType)
   if (jsonMatch) {
-    // Return color page URL
-    return `https://colormean.com${generateColorSlug(jsonMatch.hex.replace('#', ''))}`
+    // Check if this is a known static color
+    const cleanHex = jsonMatch.hex.replace('#', '').toUpperCase();
+    if (isKnownColor(cleanHex)) {
+      // Return static color page URL
+      return `https://colormean.com${generateColorSlug(cleanHex)}`;
+    } else {
+      // For colors not in static pages, return HTML color picker
+      return `https://colormean.com/html-color-picker?hex=${cleanHex.toLowerCase()}`;
+    }
   }
   
   // Rule #3: Unknown color fallback (last) - only for hex input
   if (inputType === 'hex') {
     // Validate hex format
     if (/^[0-9a-f]{3}$/.test(normalizedInput) || /^[0-9a-f]{6}$/.test(normalizedInput)) {
-      return `https://colormean.com/html-color-picker/?hex=${normalizedInput}`
+      // Check if this hex corresponds to a known static color
+      const cleanHex = normalizedInput.toUpperCase();
+      if (isKnownColor(cleanHex)) {
+        // Return static color page URL
+        return `https://colormean.com${generateColorSlug(cleanHex)}`;
+      } else {
+        // For unknown hex, return HTML color picker
+        return `https://colormean.com/html-color-picker/?hex=${normalizedInput}`;
+      }
     }
   }
   
@@ -231,15 +246,30 @@ export function performSimpleSearch(input: string): string | null {
   // Rule #3: Known color JSON match first
   const jsonMatch = searchColorJson(input, inputType)
   if (jsonMatch) {
-    // Return color page URL
-    return `https://colormean.com${generateColorSlug(jsonMatch.hex.replace('#', ''))}`
+    // Check if this is a known static color
+    const cleanHex = jsonMatch.hex.replace('#', '').toUpperCase();
+    if (isKnownColor(cleanHex)) {
+      // Return static color page URL
+      return `https://colormean.com${generateColorSlug(cleanHex)}`;
+    } else {
+      // For colors not in static pages, return HTML color picker
+      return `https://colormean.com/html-color-picker?hex=${cleanHex.toLowerCase()}`;
+    }
   }
   
   // Rule #3: Unknown color fallback (last) - only for hex input
   if (inputType === 'hex') {
     // Validate hex format
     if (/^[0-9a-f]{3}$/.test(normalizedInput) || /^[0-9a-f]{6}$/.test(normalizedInput)) {
-      return `https://colormean.com/html-color-picker/?hex=${normalizedInput}`
+      // Check if this hex corresponds to a known static color
+      const cleanHex = normalizedInput.toUpperCase();
+      if (isKnownColor(cleanHex)) {
+        // Return static color page URL
+        return `https://colormean.com${generateColorSlug(cleanHex)}`;
+      } else {
+        // For unknown hex, return HTML color picker
+        return `https://colormean.com/html-color-picker/?hex=${normalizedInput}`;
+      }
     }
   }
   
