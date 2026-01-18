@@ -40,8 +40,8 @@ export function Header() {
     const searchResult = await performDeterministicSearch(searchValue)
     
     if (searchResult) {
-      // Redirect to the determined URL
-      window.location.href = searchResult
+      // Use Next.js router for navigation to avoid Cloudflare redirects
+      router.push(searchResult.replace('https://colormean.com', ''))
     } else {
       // Fallback for empty/invalid input - do nothing
       return
@@ -63,12 +63,10 @@ export function Header() {
     window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color: selectedColor } }))
 
     // Navigate to the appropriate color page using centralized linking logic
-    // For unknown colors, this will redirect to the HTML Color Picker page
-    // Ensure immediate redirect on all devices (especially mobile)
+    // Use Next.js router to avoid Cloudflare redirects
     const link = getColorPageLink(selectedColor)
-    if (typeof window !== 'undefined') {
-      window.location.href = link
-    }
+    const relativeLink = link.replace('https://colormean.com', '')
+    router.push(relativeLink)
   }
 
   return (
