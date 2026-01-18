@@ -1,11 +1,7 @@
-# Redirect old color URL structure for backward compatibility
+# Redirect old color URL structure for backward compatibility only
 /color/:hex([0-9a-fA-F]{3,6})   /html-color-picker?hex=:hex  302
 
-# Redirect unknown hex color patterns that are NOT covered by static generation
-# More restrictive patterns to avoid catching known static colors
-# Only redirect very specific patterns that are unlikely to be static colors
-/colors/:hex([0-9a-fA-F]{6})/:splat*  /html-color-picker?hex=:hex  302
-/colors/:hex([0-9a-fA-F]{3})/:splat*  /html-color-picker?hex=:hex  302
-
-# Catch any remaining color patterns that slip through
-/colors/*/  /html-color-picker?hex=:splat  302
+# NOTE: All other color routing is handled by Next.js static generation
+# Known colors (1534+) are pre-generated static pages
+# Unknown colors are handled by the dynamic route /colors/[hex]/page.tsx
+# No additional redirects needed for color pages

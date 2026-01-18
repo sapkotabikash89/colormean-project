@@ -176,13 +176,9 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const gumletImageUrl = getGumletImageUrl(normalizedHex);
   const colorExistsInDb = !!meta;
   
-  // Only render the page if color exists in database
-  // Unknown colors will be handled by server-side redirects
-  if (!colorExistsInDb) {
-    // This should never be reached due to server-side redirects
-    // but we return notFound() as a safety fallback
-    notFound();
-  }
+  // Render the page regardless of whether color exists in database
+  // Known colors have full data, unknown colors will show minimal information
+  // This ensures all hex patterns render a page instead of 404 or redirecting
   
   return (
     <div className="flex flex-col min-h-screen">
