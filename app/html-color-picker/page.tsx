@@ -52,10 +52,32 @@ export default function HtmlColorPickerPage() {
       }
     };
     
+    // Listen for hashchange events as well for SPA navigation
+    const handleHashChange = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hexParam = urlParams.get('hex');
+      if (hexParam && isValidHex(`#${hexParam}`)) {
+        setInitialHex(`#${hexParam}`);
+      }
+    };
+    
     window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Listen for custom color update events from header
+    const handleColorUpdate = (e: CustomEvent) => {
+      const color = e.detail.color;
+      if (color && isValidHex(color)) {
+        setInitialHex(color);
+      }
+    };
+    
+    window.addEventListener('colorUpdate', handleColorUpdate as EventListener);
     
     return () => {
       window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('colorUpdate', handleColorUpdate as EventListener);
     };
   }, []);
   
@@ -84,11 +106,15 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
   // Update color when hex parameter changes
   useEffect(() => {
     setCurrentHex(initialHex);
+  }, [initialHex]);
+  
+  // Update URL when current hex changes
+  useEffect(() => {
     // Update URL to reflect current color
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('hex', initialHex.replace('#', ''));
+    newUrl.searchParams.set('hex', currentHex.replace('#', ''));
     window.history.replaceState({}, '', newUrl);
-  }, [initialHex]);
+  }, [currentHex]);
 
   // Derived values
   const rgb = hexToRgb(currentHex);
