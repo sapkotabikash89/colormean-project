@@ -13,7 +13,9 @@
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "sync": "node scripts/sync-wp.mjs",
+    "sync-enhanced": "node scripts/sync-wp-enhanced.mjs",
     "publish-new-posts": "node scripts/auto-publish.mjs",
+    "detect-and-deploy": "node scripts/detect-and-deploy-new-posts.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
