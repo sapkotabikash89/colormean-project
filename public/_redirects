@@ -1,8 +1,5 @@
 # Redirects
 /color/*  /colors/:splat  301
 
-# Redirect from Cloudflare Pages domain to custom domain
-https://colormean-project.pages.dev/*  https://colormean.com/:splat  301
-
 # Image rewrites try (might not work with mid-string wildcards)
 # /colors/*-image.webp /colors/:splat/image.webp 200
