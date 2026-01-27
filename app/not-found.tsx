@@ -16,7 +16,7 @@ export default function NotFound() {
     if (pathname && pathname.startsWith('/colors/')) {
       const parts = pathname.split('/')
       // Skip empty parts and "colors" segment
-      const hexPart = parts.find(p => p && p !== 'colors')
+      const hexPart = parts.find((p: string) => p && p !== 'colors')
 
       if (hexPart && /[A-Z]/.test(hexPart)) {
         // We found uppercase letters in the hex part, redirect to lowercase

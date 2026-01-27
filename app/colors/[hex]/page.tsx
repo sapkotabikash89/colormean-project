@@ -148,14 +148,8 @@ export default async function ColorPage({ params }: ColorPageProps) {
   
   // Validate hex format (3 or 6 hex digits)
   if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHex)) {
-    // Return 410 Gone for invalid hex formats
-    return new Response(null, {
-      status: 410,
-      statusText: 'Gone',
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    })
+    // For invalid hex formats, use notFound() which triggers 404 page
+    notFound()
   }
   
   // Load known colors from JSON to check if this is a known color
@@ -164,18 +158,8 @@ export default async function ColorPage({ params }: ColorPageProps) {
   
   // Check if this is an unknown color (not in color-meaning.json)
   if (!knownHexes.includes(cleanHex)) {
-    // IMPLEMENTATION: Return HTTP 410 Gone status for unknown colors
-    // - No HTML body
-    // - No JSX rendering
-    // - No metadata or layout
-    // - Server-side only handling
-    return new Response(null, {
-      status: 410,
-      statusText: 'Gone',
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    })
+    // For unknown colors, use notFound() which triggers 404 page
+    notFound()
   }
   
   // If we reach here, it's a known color - proceed with normal rendering
