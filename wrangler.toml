@@ -1,0 +1,19 @@
+name = "color-410-worker"
+main = "worker/worker.ts"
+compatibility_date = "2024-01-29"
+
+# Route pattern for the worker
+route = { pattern = "colormean.com/colors/*", zone_name = "colormean.com" }
+
+# Environment variables (if needed)
+[vars]
+# Add any environment variables here
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Development settings
+[dev]
+port = 8787
+local_protocol = "https"

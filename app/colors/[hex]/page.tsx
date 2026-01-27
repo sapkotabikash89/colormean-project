@@ -156,11 +156,9 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const colorData = (await import('@/lib/color-meaning.json')).default
   const knownHexes = Object.keys(colorData).map(h => h.toLowerCase())
   
-  // Check if this is an unknown color (not in color-meaning.json)
-  if (!knownHexes.includes(cleanHex)) {
-    // Use Next.js notFound() for unknown colors
-    notFound()
-  }
+  // NOTE: 410 handling for unknown colors is now handled by Cloudflare Worker
+  // This page component will only render for known colors or invalid formats
+  // Unknown valid hex codes will receive HTTP 410 from the worker before reaching here
   
   // If we reach here, it's a known color - proceed with normal rendering
   // KNOWN COLORS: Render normally with existing page JSX, metadata, and canonical tags intact.
