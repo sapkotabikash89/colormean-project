@@ -148,7 +148,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
   
   // Validate hex format (3 or 6 hex digits)
   if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHex)) {
-    // For invalid hex formats, use notFound() which triggers 404 page
+    // Use Next.js notFound() for invalid hex formats
     notFound()
   }
   
@@ -158,7 +158,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
   
   // Check if this is an unknown color (not in color-meaning.json)
   if (!knownHexes.includes(cleanHex)) {
-    // For unknown colors, use notFound() which triggers 404 page
+    // Use Next.js notFound() for unknown colors
     notFound()
   }
   
