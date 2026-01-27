@@ -41,17 +41,36 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: ColorPageProps): Promise<Metadata> {
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
-  const cleanHex = normalizedHex.replace("#", "").toUpperCase()
-
-  if (!isValidHex(normalizedHex)) {
+  const cleanHexOriginal = normalizedHex.replace("#", "").toLowerCase()
+  
+  // Validate hex format (3 or 6 hex digits)
+  if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHexOriginal)) {
+    // Return minimal metadata for invalid hex
     return {
       title: "Invalid Color - ColorMean",
+      robots: { index: false },
     }
   }
-
+  
+  // Load known colors from JSON to check if this is a known color
+  const colorData = (await import('@/lib/color-meaning.json')).default
+  const knownHexes = Object.keys(colorData).map(h => h.toLowerCase())
+  
+  // Check if this is an unknown color (not in color-meaning.json)
+  if (!knownHexes.includes(cleanHexOriginal)) {
+    // IMPLEMENTATION: Return minimal metadata for unknown colors
+    // - Prevent indexing by search engines
+    // - Will result in 410 response from page component
+    return {
+      title: "Color Not Found - ColorMean",
+      robots: { index: false, follow: false },
+    }
+  }
+  
+  const cleanHex = normalizedHex.replace("#", "").toUpperCase()
+  
   // Load data to check if color exists in our database
-  const data = (await import('@/lib/color-meaning.json')).default
-  const meta: any = (data as any)[cleanHex]
+  const meta: any = (colorData as any)[cleanHex]
   const colorName: string | undefined = meta?.name || undefined
   const displayLabel = colorName ? `${colorName} (${normalizedHex})` : normalizedHex
 
@@ -123,6 +142,44 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 export default async function ColorPage({ params }: ColorPageProps) {
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
+  
+  // Normalize hex: lowercase, strip leading #, validate length
+  const cleanHex = normalizedHex.replace('#', '').toLowerCase()
+  
+  // Validate hex format (3 or 6 hex digits)
+  if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHex)) {
+    // Return 410 Gone for invalid hex formats
+    return new Response(null, {
+      status: 410,
+      statusText: 'Gone',
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    })
+  }
+  
+  // Load known colors from JSON to check if this is a known color
+  const colorData = (await import('@/lib/color-meaning.json')).default
+  const knownHexes = Object.keys(colorData).map(h => h.toLowerCase())
+  
+  // Check if this is an unknown color (not in color-meaning.json)
+  if (!knownHexes.includes(cleanHex)) {
+    // IMPLEMENTATION: Return HTTP 410 Gone status for unknown colors
+    // - No HTML body
+    // - No JSX rendering
+    // - No metadata or layout
+    // - Server-side only handling
+    return new Response(null, {
+      status: 410,
+      statusText: 'Gone',
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    })
+  }
+  
+  // If we reach here, it's a known color - proceed with normal rendering
+  // KNOWN COLORS: Render normally with existing page JSX, metadata, and canonical tags intact.
 
   // Check if this is a known static color - ensure lowercase URL
   const lowerHex = normalizedHex.replace("#", "").toLowerCase();
@@ -132,14 +189,11 @@ export default async function ColorPage({ params }: ColorPageProps) {
     redirect(`/colors/${lowerHex}`);
   }
 
-  if (!isValidHex(normalizedHex)) {
-    notFound()
-  }
+  // Remove the old notFound() check since we now handle invalid hex above
 
-  // Load data dynamically for both static and dynamic rendering
-  const data = (await import('@/lib/color-meaning.json')).default
+  // Use the colorData already loaded above for dynamic rendering
   const upper = normalizedHex.replace("#", "").toUpperCase()
-  const meta: any = (data as any)[upper]
+  const meta: any = (colorData as any)[upper]
 
   // If the color doesn't exist in our JSON, we'll still render the page but with minimal data
   const colorName: string | undefined = meta?.name || undefined
