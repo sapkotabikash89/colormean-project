@@ -40,10 +40,11 @@ export function EzoicAdPlaceholder({
   useEffect(() => {
     // Ensure Ezoic can properly target this container
     if (typeof window !== 'undefined' && window.ezstandalone) {
-      window.ezstandalone.cmd.push(function() {
+      const ezstandalone = window.ezstandalone;
+      ezstandalone.cmd.push(function() {
         // Trigger Ezoic to check for new ad slots
-        if (window.ezstandalone.refresh) {
-          window.ezstandalone.refresh();
+        if (ezstandalone.refresh) {
+          ezstandalone.refresh();
         }
       });
     }
