@@ -158,7 +158,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
   return (
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
-        name={`${displayLabel} Color Information`}
+        name={`${displayLabel} Color Codes, Meaning, and All Information`}
         url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}`}
         description={`Explore ${currentHex} color information, conversions, harmonies, variations, and accessibility.`}
       />
@@ -189,7 +189,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
             ]}
           />
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold">{currentHex.toUpperCase()} Color Information</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">{currentHex.toUpperCase()} Color Codes, Meaning, and All Information</h1>
             <p className="max-w-3xl mx-auto text-sm md:text-base opacity-90">
               Everything you need to know about {currentHex.toUpperCase()} including values, color harmonies, shades,
               meanings, and applications in design, branding, and everyday visuals.
@@ -253,7 +253,7 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
 
               {/* Social Share Section */}
               <div className="flex justify-center py-4">
-                <ShareButtons url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}`} title={`${currentHex.toUpperCase()} Color Information - ColorMean`} />
+                <ShareButtons url={`https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}`} title={`${currentHex.toUpperCase()} Color Codes, Meaning, and All Information - ColorMean`} />
               </div>
 
               {/* Static color page sections (exact parity) */}
