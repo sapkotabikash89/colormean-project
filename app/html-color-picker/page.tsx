@@ -21,7 +21,7 @@ import {
   hslToRgb,
   rgbToHex
 } from "@/lib/color-utils";
-import { BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/structured-data";
+import { BreadcrumbSchema, FAQSchema, WebPageSchema, HowToSchema } from "@/components/structured-data";
 import { ShareButtons } from "@/components/share-buttons";
 
 const DEFAULT_HEX = "#5B6FD8";
@@ -249,6 +249,25 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
               <AdvancedColorPickerComponent
                 selectedColor={currentHex}
                 onColorChange={updateCurrentHex}
+              />
+
+              <div className="p-6 border-2 border-border rounded-lg space-y-4">
+                <h2 className="text-2xl font-bold">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li>Use the color spectrum to select a hue.</li>
+                  <li>Adjust saturation and lightness using the picker area.</li>
+                  <li>View the generated color codes and harmonies.</li>
+                  <li>Copy the Hex, RGB, or HSL values for your use.</li>
+                </ol>
+              </div>
+              <HowToSchema
+                name="How to use HTML Color Picker"
+                steps={[
+                  "Use the color spectrum to select a hue.",
+                  "Adjust saturation and lightness using the picker area.",
+                  "View the generated color codes and harmonies.",
+                  "Copy the Hex, RGB, or HSL values for your use.",
+                ]}
               />
 
               {/* Social Share Section */}

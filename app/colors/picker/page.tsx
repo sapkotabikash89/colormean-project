@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ColorSidebar } from "@/components/sidebar";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/structured-data";
+import { BreadcrumbSchema, FAQSchema, WebPageSchema, HowToSchema } from "@/components/structured-data";
 import { hexToRgb, rgbToHsl, getContrastColor, normalizeHex, isValidHex } from "@/lib/color-utils";
 import { CopyButton } from "@/components/copy-button";
 import { ColorPageContent } from "@/components/color-page-content";
@@ -218,6 +218,25 @@ function PickerContent() {
                   </div>
                 </div>
               </div>
+
+              <div className="p-6 border-2 border-border rounded-lg space-y-4">
+                <h2 className="text-2xl font-bold">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li>Enter a Hex code or pick a color from the visual selector.</li>
+                  <li>Explore the detailed color information and conversions.</li>
+                  <li>Check color meanings and psychological effects.</li>
+                  <li>Use the generated palettes for your design projects.</li>
+                </ol>
+              </div>
+              <HowToSchema
+                name="How to use Universal Color Picker"
+                steps={[
+                  "Enter a Hex code or pick a color from the visual selector.",
+                  "Explore the detailed color information and conversions.",
+                  "Check color meanings and psychological effects.",
+                  "Use the generated palettes for your design projects.",
+                ]}
+              />
 
               {/* Color Information - Expanded by default */}
               <details open className="border border-border rounded-lg p-6">
