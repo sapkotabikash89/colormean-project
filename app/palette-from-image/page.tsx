@@ -87,6 +87,16 @@ export default function PaletteFromImagePage() {
                 description="Palette Generator from Image Tool to create color palettes"
               />
               <PaletteFromImageClient />
+              <HowToSchema
+                name="How to use Palette Generator"
+                steps={[
+                  'Click "Upload Image" and select a photo or image from your device',
+                  "Wait a moment while we analyze the image and extract dominant colors",
+                  "View the extracted color palette with HEX codes",
+                  "Click on any color to explore it in detail",
+                  "Download the palette as a text file for future reference",
+                ]}
+              />
             </article>
             <ColorSidebar color="#5B6FD8" />
           </div>

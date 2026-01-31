@@ -87,22 +87,15 @@ export default function ScreenColorPickerPage() {
               />
               <ScreenColorPickerClient />
 
-              <div className="p-6 border-2 border-border rounded-lg space-y-4">
-                <h2 className="text-2xl font-bold">How to Use</h2>
-                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                  <li>Click the "Pick Color" button to activate the EyeDropper.</li>
-                  <li>Move your cursor to any pixel on your screen.</li>
-                  <li>Click to select the color.</li>
-                  <li>Copy the captured color code.</li>
-                </ol>
-              </div>
               <HowToSchema
                 name="How to use Screen Color Picker"
                 steps={[
-                  'Click the "Pick Color" button to activate the EyeDropper.',
-                  "Move your cursor to any pixel on your screen.",
-                  "Click to select the color.",
-                  "Copy the captured color code.",
+                  'Click the "Pick Color from Screen" button to activate the color picker',
+                  "Your cursor will change to a crosshair or color picker icon",
+                  "Move your cursor over any element on your screen",
+                  "Click to select the color at that exact pixel",
+                  "The selected color will be displayed with all format codes",
+                  "Click on any recently picked color to explore it further",
                 ]}
               />
               <div className="mt-8">

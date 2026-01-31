@@ -89,22 +89,14 @@ export default function ContrastCheckerPage() {
             />
             <ContrastCheckerClient />
 
-            <div className="p-6 border-2 border-border rounded-lg space-y-4">
-              <h2 className="text-2xl font-bold">How to Use</h2>
-              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                <li>Enter the foreground (text) color.</li>
-                <li>Enter the background color.</li>
-                <li>Check the contrast ratio and WCAG pass/fail status.</li>
-                <li>Adjust colors until they meet AA or AAA standards.</li>
-              </ol>
-            </div>
             <HowToSchema
               name="How to use Contrast Checker"
               steps={[
-                "Enter the foreground (text) color.",
-                "Enter the background color.",
-                "Check the contrast ratio and WCAG pass/fail status.",
-                "Adjust colors until they meet AA or AAA standards.",
+                "Select your foreground (text) color using the color picker or enter a hex code.",
+                "Select your background color.",
+                "View the contrast ratio and WCAG compliance levels instantly.",
+                "Use the swap button to quickly test the inverse combination.",
+                "Ensure your combination meets at least AA standards for accessibility.",
               ]}
             />
           </article>

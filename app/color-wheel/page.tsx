@@ -88,6 +88,16 @@ export default function ColorWheelPage() {
               description="Interactive Color Wheel Tool to select colors and generate palettes"
             />
             <ColorWheelClient />
+            <HowToSchema
+              name="How to use Color Wheel"
+              steps={[
+                "Select your base color using the color picker, or pick color from the color wheel",
+                "Choose a harmony type from the dropdown menu",
+                "View the generated color combinations on the wheel with white markers",
+                'Click on any color to explore it in detail. Click "Explore" button, or scroll down to see everything about the picked color in detail.',
+                "Use these harmonious colors in your design projects",
+              ]}
+            />
           </article>
           <ColorSidebar color="#5B6FD8" />
         </div>
