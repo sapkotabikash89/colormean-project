@@ -91,6 +91,25 @@ export default function ScreenColorPickerPage() {
                 description="Interactive Screen Color Picker Tool to sample colors anywhere on your display"
               />
               <ScreenColorPickerClient />
+
+              <div className="p-6 border-2 border-border rounded-lg space-y-4">
+                <h2 className="text-2xl font-bold">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li>Click the "Pick Color" button to activate the EyeDropper.</li>
+                  <li>Move your cursor to any pixel on your screen.</li>
+                  <li>Click to select the color.</li>
+                  <li>Copy the captured color code.</li>
+                </ol>
+              </div>
+              <HowToSchema
+                name="How to use Screen Color Picker"
+                steps={[
+                  'Click the "Pick Color" button to activate the EyeDropper.',
+                  "Move your cursor to any pixel on your screen.",
+                  "Click to select the color.",
+                  "Copy the captured color code.",
+                ]}
+              />
               <div className="mt-8">
                 <ShareButtons title="Screen Color Picker by ColorMean" />
               </div>

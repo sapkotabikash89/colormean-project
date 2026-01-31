@@ -3,7 +3,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
 import { ImageColorPickerClient } from "@/components/tool-wrappers"
 import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
@@ -93,6 +93,25 @@ export default function ImageColorPickerPage() {
               description="Image Color Picker Tool to extract colors from images"
             />
             <ImageColorPickerClient />
+
+            <div className="p-6 border-2 border-border rounded-lg space-y-4">
+              <h2 className="text-2xl font-bold">How to Use</h2>
+              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                <li>Upload an image from your device.</li>
+                <li>Click or tap anywhere on the image to select a color.</li>
+                <li>View the selected color's HEX, RGB, and HSL codes.</li>
+                <li>Copy the color codes to your clipboard.</li>
+              </ol>
+            </div>
+            <HowToSchema
+              name="How to use Image Color Picker"
+              steps={[
+                "Upload an image from your device.",
+                "Click or tap anywhere on the image to select a color.",
+                "View the selected color's HEX, RGB, and HSL codes.",
+                "Copy the color codes to your clipboard.",
+              ]}
+            />
           </article>
           <ColorSidebar color="#5B6FD8" />
         </div>

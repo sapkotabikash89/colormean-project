@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ToolApplicationSchema, WebPageSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
 import { ColorBlindnessSimulatorClient } from "@/components/tool-wrappers"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
@@ -92,6 +92,25 @@ export default function ColorBlindnessSimulatorPage() {
                 description="Color Blindness Simulator to test color visibility"
               />
               <ColorBlindnessSimulatorClient />
+
+              <div className="p-6 border-2 border-border rounded-lg space-y-4">
+                <h2 className="text-2xl font-bold">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li>Upload an image from your device or use the demo image.</li>
+                  <li>Select a color blindness type (e.g., Protanopia, Deuteranopia) from the dropdown.</li>
+                  <li>Observe the simulated image to see how colors appear to others.</li>
+                  <li>Compare the original and simulated views to identify accessibility issues.</li>
+                </ol>
+              </div>
+              <HowToSchema
+                name="How to use Color Blindness Simulator"
+                steps={[
+                  "Upload an image from your device or use the demo image.",
+                  "Select a color blindness type (e.g., Protanopia, Deuteranopia) from the dropdown.",
+                  "Observe the simulated image to see how colors appear to others.",
+                  "Compare the original and simulated views to identify accessibility issues.",
+                ]}
+              />
             </article>
             <ColorSidebar color="#5B6FD8" />
           </div>

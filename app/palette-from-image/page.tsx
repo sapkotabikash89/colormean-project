@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
 import { PaletteFromImageClient } from "@/components/tool-wrappers"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"

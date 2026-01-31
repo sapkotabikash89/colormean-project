@@ -3,9 +3,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
-import { ToolApplicationSchema, WebPageSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
 import { ContrastCheckerClient } from "@/components/tool-wrappers"
-import { BreadcrumbSchema, FAQSchema } from "@/components/structured-data"
 import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
@@ -94,6 +93,25 @@ export default function ContrastCheckerPage() {
               description="Contrast Checker Tool to verify color accessibility ratios"
             />
             <ContrastCheckerClient />
+
+            <div className="p-6 border-2 border-border rounded-lg space-y-4">
+              <h2 className="text-2xl font-bold">How to Use</h2>
+              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                <li>Enter the foreground (text) color.</li>
+                <li>Enter the background color.</li>
+                <li>Check the contrast ratio and WCAG pass/fail status.</li>
+                <li>Adjust colors until they meet AA or AAA standards.</li>
+              </ol>
+            </div>
+            <HowToSchema
+              name="How to use Contrast Checker"
+              steps={[
+                "Enter the foreground (text) color.",
+                "Enter the background color.",
+                "Check the contrast ratio and WCAG pass/fail status.",
+                "Adjust colors until they meet AA or AAA standards.",
+              ]}
+            />
           </article>
           <ColorSidebar color="#5B6FD8" />
         </div>
