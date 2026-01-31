@@ -5,7 +5,6 @@ import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowT
 import { ColorBlindnessSimulatorClient } from "@/components/tool-wrappers"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
-import { BreadcrumbSchema, FAQSchema } from "@/components/structured-data"
 import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
 export const metadata: Metadata = {
