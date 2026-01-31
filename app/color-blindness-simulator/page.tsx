@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, HowToSchema } from "@/components/structured-data"
 import { ColorBlindnessSimulatorClient } from "@/components/tool-wrappers"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
@@ -59,11 +59,6 @@ export default function ColorBlindnessSimulatorPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Color Blindness Simulator"
-        url="https://colormean.com/color-blindness-simulator"
-        description="Simulate how colors appear for different color vision deficiencies."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Color Blindness Simulator", item: "https://colormean.com/color-blindness-simulator" }

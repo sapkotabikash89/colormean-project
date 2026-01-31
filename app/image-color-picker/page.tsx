@@ -3,7 +3,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, HowToSchema } from "@/components/structured-data"
 import { ImageColorPickerClient } from "@/components/tool-wrappers"
 import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
@@ -60,11 +60,6 @@ export default function ImageColorPickerPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Image Color Picker"
-        url="https://colormean.com/image-color-picker"
-        description="Upload an image and extract exact color values from any pixel."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Image Color Picker", item: "https://colormean.com/image-color-picker" }

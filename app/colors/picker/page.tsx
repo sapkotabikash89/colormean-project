@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ColorSidebar } from "@/components/sidebar";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { BreadcrumbSchema, FAQSchema, WebPageSchema, HowToSchema } from "@/components/structured-data";
+import { BreadcrumbSchema, FAQSchema, HowToSchema } from "@/components/structured-data";
 import { hexToRgb, rgbToHsl, getContrastColor, normalizeHex, isValidHex } from "@/lib/color-utils";
 import { CopyButton } from "@/components/copy-button";
 import { ColorPageContent } from "@/components/color-page-content";
@@ -76,11 +76,6 @@ function PickerContent() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name={`${displayLabel} Color Information`}
-        url={`https://colormean.com/colors/picker?hex=${currentHex.replace("#", "")}`}
-        description={`Explore ${currentHex} color information, conversions, harmonies, variations, and accessibility.`}
-      />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
         { name: "Color Names", item: "https://colormean.com/colors" },

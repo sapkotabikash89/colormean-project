@@ -60,11 +60,6 @@ export default function ColorWheelPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Color Wheel"
-        url="https://colormean.com/color-wheel"
-        description="Interactive color wheel to explore harmonies, complementary, analogous, and triadic combinations."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Color Wheel", item: "https://colormean.com/color-wheel" }

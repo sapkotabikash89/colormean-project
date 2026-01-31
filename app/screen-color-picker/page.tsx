@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, HowToSchema } from "@/components/structured-data"
 import { ScreenColorPickerClient } from "@/components/tool-wrappers"
 import { ColorSidebar } from "@/components/sidebar"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
@@ -59,11 +59,6 @@ export default function ScreenColorPickerPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Screen Color Picker"
-        url="https://colormean.com/screen-color-picker"
-        description="Pick colors directly from your screen using the EyeDropper API."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Screen Color Picker", item: "https://colormean.com/screen-color-picker" }

@@ -3,7 +3,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
-import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, WebPageSchema, HowToSchema } from "@/components/structured-data"
+import { BreadcrumbSchema, FAQSchema, ToolApplicationSchema, HowToSchema } from "@/components/structured-data"
 import { ContrastCheckerClient } from "@/components/tool-wrappers"
 import { ExploreColorTools } from "@/components/tools/explore-color-tools"
 
@@ -60,11 +60,6 @@ export default function ContrastCheckerPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Contrast Checker"
-        url="https://colormean.com/contrast-checker"
-        description="Check color contrast ratios for accessibility compliance (WCAG AA and AAA)."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Contrast Checker", item: "https://colormean.com/contrast-checker" }

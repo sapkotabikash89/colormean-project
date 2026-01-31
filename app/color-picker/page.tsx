@@ -57,11 +57,6 @@ export default function ColorPickerPage() {
   ]
   return (
     <div className="flex flex-col min-h-screen">
-      <WebPageSchema
-        name="Color Picker"
-        url="https://colormean.com/color-picker"
-        description="Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly."
-      />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
         { name: "Color Picker", item: "https://colormean.com/color-picker" }
