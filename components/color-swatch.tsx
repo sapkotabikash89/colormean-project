@@ -3,10 +3,10 @@
 import type React from "react"
 
 import { useRef, useState } from "react"
-import { useRouter } from "next/navigation"
 import { useIsMobile } from "@/components/ui/use-mobile"
 import { CopyButton } from "@/components/copy-button"
 import { getColorPageLink } from "@/lib/color-linking-utils"
+import Link from "next/link"
 
 interface ColorSwatchProps {
   color: string
@@ -15,7 +15,6 @@ interface ColorSwatchProps {
 }
 
 export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProps) {
-  const router = useRouter()
   const isMobile = useIsMobile()
   const [showCopied, setShowCopied] = useState(false)
   const swatchRef = useRef<HTMLDivElement>(null)
@@ -59,36 +58,37 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
 
     if (onClick) {
       onClick()
-    } else {
-      // Use centralized linking logic for safe color navigation
-      router.push(getColorPageLink(color))
     }
+    // Note: When using Link, navigation is handled by the Link component
   }
 
-  const handleNavigate = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (onClick) {
-      onClick()
-    } else {
-      // Use centralized linking logic for safe color navigation
-      router.push(getColorPageLink(color))
-    }
-  }
+  const SwatchContent = (
+    <div
+      className="relative w-20 h-20 rounded-lg cursor-pointer hover:scale-105 transition-transform group"
+      style={{ backgroundColor: color }}
+      onClick={onClick ? handleSwatchClick : undefined}
+      ref={swatchRef}
+    >
+      {showCopied && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
+          <span className="text-white text-xs font-bold">Copied!</span>
+        </div>
+      )}
+    </div>
+  )
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <div
-        className="relative w-20 h-20 rounded-lg cursor-pointer hover:scale-105 transition-transform group"
-        style={{ backgroundColor: color }}
-        onClick={handleSwatchClick}
-        ref={swatchRef}
-      >
-        {showCopied && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
-            <span className="text-white text-xs font-bold">Copied!</span>
-          </div>
-        )}
-      </div>
+      {onClick ? (
+        SwatchContent
+      ) : (
+        <Link 
+          href={getColorPageLink(color)} 
+          onClick={() => window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color } }))}
+        >
+          {SwatchContent}
+        </Link>
+      )}
       {showHex && (
         <div className="relative">
           <CopyButton

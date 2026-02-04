@@ -7,6 +7,7 @@ import { SelectItem, SelectContent, SelectValue, SelectTrigger } from "@/compone
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -54,7 +55,6 @@ interface ColorPageContentProps {
 }
 
 export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsInDb, onColorChange, pageUrl }: ColorPageContentProps) {
-  const router = useRouter()
   const label = name ? `${name} (${hex})` : hex
   const [selectedHarmony, setSelectedHarmony] = useState("analogous")
   const [colorBlindnessType, setColorBlindnessType] = useState("protanopia")
@@ -232,11 +232,6 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
   // const palettes = generateColorPalette(hex)
 
   const contrastRatio = getContrastRatio(foreground, background)
-
-  const navigateToColor = (color: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(color))
-  }
 
   const defaultOpen = mode !== "sectionsOnly"
   const [openConversion, setOpenConversion] = useState(defaultOpen)
@@ -713,7 +708,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
               <div className="flex justify-center">
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 w-full">
                   {relatedColors.slice(0, 10).map((color, idx) => (
-                    <a
+                    <Link
                       key={`${color.hex}-${idx}`}
                       href={getColorPageLink(color.hex)}
                       className="group flex flex-col gap-2"
@@ -734,7 +729,7 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                           {color.name}
                         </span>
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -765,14 +760,14 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
       {mode !== "sectionsOnly" ? (
         <div className="flex flex-col gap-4 mt-6">
           <div className="flex justify-between items-center py-6 border-t border-b border-border">
-            <a href={getColorPageLink(prev)} className="flex flex-col items-start max-w-[45%] group">
+            <Link href={getColorPageLink(prev)} className="flex flex-col items-start max-w-[45%] group">
               <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">← Previous Color</span>
               <span className="font-medium group-hover:underline">{prev}</span>
-            </a>
-            <a href={getColorPageLink(next)} className="flex flex-col items-end max-w-[45%] text-right group">
+            </Link>
+            <Link href={getColorPageLink(next)} className="flex flex-col items-end max-w-[45%] text-right group">
               <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">Next Color →</span>
               <span className="font-medium group-hover:underline">{next}</span>
-            </a>
+            </Link>
           </div>
           <div className="flex justify-center">
             <ShareButtons url={pageUrl} title={`Color ${hex} - ColorMean`} />

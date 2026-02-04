@@ -8,14 +8,17 @@ import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 
+import Link from "next/link"
+
 interface CustomColorPickerProps {
   value: string
   onChange: (color: string) => void
   onApply?: (color: string) => void
   onClose: () => void
+  getHref?: (color: string) => string
 }
 
-export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomColorPickerProps) {
+export function CustomColorPicker({ value, onChange, onApply, onClose, getHref }: CustomColorPickerProps) {
   const [hue, setHue] = useState(0)
   const [saturation, setSaturation] = useState(100)
   const [lightness, setLightness] = useState(50)
@@ -267,9 +270,17 @@ export function CustomColorPicker({ value, onChange, onApply, onClose }: CustomC
             <Button variant="outline" className="flex-1" onClick={onClose}>
               Cancel
             </Button>
-            <Button className="flex-1" onClick={handleDone}>
-              Apply
-            </Button>
+            {getHref ? (
+              <Button className="flex-1" asChild onClick={handleDone}>
+                <Link href={getHref(tempColor)}>
+                  Apply
+                </Link>
+              </Button>
+            ) : (
+              <Button className="flex-1" onClick={handleDone}>
+                Apply
+              </Button>
+            )}
           </div>
         </div>
       </div>

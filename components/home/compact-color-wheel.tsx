@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -12,7 +11,6 @@ import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
 
 export function CompactColorWheel() {
-    const router = useRouter()
     const [baseColor, setBaseColor] = useState("#5B6FD8")
     const [harmonyType, setHarmonyType] = useState("complementary")
     const canvasRef = useRef<HTMLCanvasElement>(null)

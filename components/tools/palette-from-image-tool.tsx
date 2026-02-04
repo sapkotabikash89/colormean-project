@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -13,8 +12,9 @@ import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ShareButtons } from "@/components/share-buttons"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 
+import Link from "next/link"
+
 export function PaletteFromImageTool() {
-  const router = useRouter()
   const [image, setImage] = useState<string | null>(null)
   const [palette, setPalette] = useState<{ hex: string; percent: number }[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
@@ -164,14 +164,6 @@ export function PaletteFromImageTool() {
     }
   }
 
-
-  
-
-  const handleExplore = (color: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(color))
-  }
-
   const openExport = () => setExportOpen(true)
 
   
@@ -250,7 +242,7 @@ export function PaletteFromImageTool() {
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {palette.map((item, index) => (
-                        <div key={index} className="group cursor-pointer" onClick={() => handleExplore(item.hex)}>
+                        <Link key={index} href={getColorPageLink(item.hex)} className="group cursor-pointer block">
                           <div
                             className="w-full aspect-square rounded-lg hover:scale-105 transition-transform"
                             style={{ backgroundColor: item.hex }}
@@ -259,17 +251,17 @@ export function PaletteFromImageTool() {
                             <p className="text-sm font-mono">{item.hex} ({item.percent}%)</p>
                             <CopyButton value={item.hex} size="icon" />
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
 
                     <div className="flex rounded-lg overflow-hidden border-2 border-border h-16">
                       {palette.map((item, index) => (
-                        <div
+                        <Link
                           key={index}
-                          className="flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                          href={getColorPageLink(item.hex)}
+                          className="flex-1 cursor-pointer hover:opacity-80 transition-opacity block"
                           style={{ backgroundColor: item.hex }}
-                          onClick={() => handleExplore(item.hex)}
                           title={item.hex}
                         />
                       ))}

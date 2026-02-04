@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Palette, Shuffle, Pipette } from "lucide-react"
@@ -11,7 +10,6 @@ import Link from "next/link"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 
 export function HomeColorPicker() {
-  const router = useRouter()
   const [selectedColor, setSelectedColor] = useState("#5B6FD8")
   const [hue, setHue] = useState(230)
   const [saturation, setSaturation] = useState(70)
@@ -115,11 +113,6 @@ export function HomeColorPicker() {
       setLightness(hsl.l)
       setSelectedColor(randomHex)
     }
-  }
-
-  const handleExplore = () => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(selectedColor))
   }
 
   const rgb = hexToRgb(selectedColor)
@@ -252,9 +245,11 @@ export function HomeColorPicker() {
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2">
-            <Button onClick={handleExplore} size="lg" className="w-full gap-2 text-sm sm:text-base">
-              <Palette className="w-4 h-4" />
-              Apply & Explore
+            <Button asChild size="lg" className="w-full gap-2 text-sm sm:text-base">
+              <Link href={getColorPageLink(selectedColor)}>
+                <Palette className="w-4 h-4" />
+                Apply & Explore
+              </Link>
             </Button>
             <div className="grid grid-cols-2 gap-2">
               <Button
@@ -271,9 +266,12 @@ export function HomeColorPicker() {
                   variant="outline"
                   size="lg"
                   className="w-full gap-1 sm:gap-2 bg-transparent text-xs sm:text-sm px-2 sm:px-4"
+                  asChild
                 >
-                  <Pipette className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="truncate">Image</span>
+                  <div>
+                    <Pipette className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span className="truncate">Image</span>
+                  </div>
                 </Button>
               </Link>
             </div>

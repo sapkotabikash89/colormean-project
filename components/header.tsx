@@ -65,12 +65,6 @@ export function Header() {
 
     // Dispatch color update event for sidebar
     window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color: selectedColor } }))
-
-    // Navigate to the appropriate color page using centralized linking logic
-    // Use Next.js router to avoid Cloudflare redirects
-    const link = getColorPageLink(selectedColor)
-    const relativeLink = link.replace('https://colormean.com', '')
-    router.push(relativeLink)
   }
 
   return (
@@ -313,6 +307,7 @@ export function Header() {
           onChange={handleColorChange}
           onApply={handleColorApply}
           onClose={() => setShowCustomPicker(false)}
+          getHref={(color) => getColorPageLink(color)}
         />
       )}
     </header>

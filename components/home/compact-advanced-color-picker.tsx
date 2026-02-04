@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/copy-button"
@@ -11,7 +10,6 @@ import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
 
 export function CompactAdvancedColorPicker() {
-    const router = useRouter()
     const [selectedColor, setSelectedColor] = useState("#5B6FD8")
     const [hue, setHue] = useState(230)
     const [saturation, setSaturation] = useState(70)
@@ -88,10 +86,6 @@ export function CompactAdvancedColorPicker() {
         setHue(newHue)
         const rgb = hslToRgb(newHue, saturation, lightness)
         setSelectedColor(rgbToHex(rgb.r, rgb.g, rgb.b))
-    }
-
-    const handleExplore = () => {
-        router.push(getColorPageLink(selectedColor))
     }
 
     const rgb = hexToRgb(selectedColor)
@@ -175,8 +169,10 @@ export function CompactAdvancedColorPicker() {
                             {selectedColor.toUpperCase()}
                         </div>
 
-                        <Button onClick={handleExplore} className="w-full" size="lg">
-                            Explore This Color
+                        <Button asChild className="w-full" size="lg">
+                            <Link href={getColorPageLink(selectedColor)}>
+                                Explore This Color
+                            </Link>
                         </Button>
                     </div>
 

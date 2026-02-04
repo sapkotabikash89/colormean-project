@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload } from "lucide-react"
@@ -12,7 +11,6 @@ import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
 
 export function CompactImageColorPicker() {
-    const router = useRouter()
     const [image, setImage] = useState<string | null>(null)
     const [selectedColor, setSelectedColor] = useState("#5B6FD8")
     const [isCustomImage, setIsCustomImage] = useState(false)
@@ -262,10 +260,6 @@ export function CompactImageColorPicker() {
         setShowMagnifier(false)
     }
 
-    const handleExplore = (color: string) => {
-        router.push(getColorPageLink(color))
-    }
-
     const rgb = hexToRgb(selectedColor)
     const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
 
@@ -350,8 +344,10 @@ export function CompactImageColorPicker() {
                                             )}
                                         </>
                                     )}
-                                    <Button onClick={() => handleExplore(selectedColor)} variant="outline" className="w-full mt-2">
-                                        Explore This Color
+                                    <Button asChild variant="outline" className="w-full mt-2">
+                                        <Link href={getColorPageLink(selectedColor)}>
+                                            Explore This Color
+                                        </Link>
                                     </Button>
                                 </div>
                             </div>

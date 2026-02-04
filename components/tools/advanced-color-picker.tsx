@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/copy-button"
@@ -11,11 +10,11 @@ import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
 import { getColorPageLink } from "@/lib/color-linking-utils"
+import Link from "next/link"
 // OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
 // Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
 export function AdvancedColorPicker() {
-  const router = useRouter()
   const [selectedColor, setSelectedColor] = useState("#5B6FD8")
   const [hue, setHue] = useState(230)
   const [saturation, setSaturation] = useState(70)
@@ -97,11 +96,6 @@ export function AdvancedColorPicker() {
     setHue(newHue)
     const rgb = hslToRgb(newHue, saturation, lightness)
     setSelectedColor(rgbToHex(rgb.r, rgb.g, rgb.b))
-  }
-
-  const handleExplore = () => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(selectedColor))
   }
 
   const rgb = hexToRgb(selectedColor)
@@ -190,8 +184,10 @@ export function AdvancedColorPicker() {
                 {selectedColor.toUpperCase()}
               </div>
               
-              <Button onClick={handleExplore} className="w-full" size="lg">
-                Explore This Color
+              <Button asChild className="w-full" size="lg">
+                <Link href={getColorPageLink(selectedColor)}>
+                  Explore This Color
+                </Link>
               </Button>
             </div>
 

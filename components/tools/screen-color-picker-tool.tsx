@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -11,8 +10,9 @@ import { CopyButton } from "@/components/copy-button"
 import { ShareButtons } from "@/components/share-buttons"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 
+import Link from "next/link"
+
 export function ScreenColorPickerTool() {
-  const router = useRouter()
   const [selectedColor, setSelectedColor] = useState("#5B6FD8")
   const [pickedColors, setPickedColors] = useState<string[]>([])
   const [isSupported, setIsSupported] = useState(true)
@@ -33,11 +33,6 @@ export function ScreenColorPickerTool() {
     } else {
       setIsSupported(false)
     }
-  }
-
-  const handleExplore = (color: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(color))
   }
 
   const rgb = hexToRgb(selectedColor)
@@ -113,8 +108,10 @@ export function ScreenColorPickerTool() {
                     )}
                   </div>
                 </div>
-                <Button onClick={() => handleExplore(selectedColor)} variant="outline" className="w-full">
-                  Explore This Color
+                <Button asChild variant="outline" className="w-full">
+                  <Link href={getColorPageLink(selectedColor)}>
+                    Explore This Color
+                  </Link>
                 </Button>
               </div>
 
@@ -123,7 +120,11 @@ export function ScreenColorPickerTool() {
                   <h3 className="font-semibold">Recently Picked Colors</h3>
                   <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
                     {pickedColors.map((color, index) => (
-                      <div key={index} className="group cursor-pointer" onClick={() => handleExplore(color)}>
+                      <Link 
+                        key={index} 
+                        href={getColorPageLink(color)}
+                        className="group cursor-pointer block"
+                      >
                         <div
                           className="aspect-square rounded-md hover:scale-110 transition-transform"
                           style={{ backgroundColor: color }}
@@ -132,7 +133,7 @@ export function ScreenColorPickerTool() {
                         <p className="text-xs font-mono text-center mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {color}
                         </p>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                   <Button variant="outline" size="sm" onClick={() => setPickedColors([])} className="w-full">

@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -20,7 +19,6 @@ import { getColorPageLink } from "@/lib/color-linking-utils"
 // Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
 export function ColorWheelTool() {
-  const router = useRouter()
   const [baseColor, setBaseColor] = useState("#5B6FD8")
   const [tempColor, setTempColor] = useState("#5B6FD8")
   const [harmonyType, setHarmonyType] = useState("complementary")
@@ -255,11 +253,6 @@ export function ColorWheelTool() {
   }
 
   const harmonies = getColorHarmony(baseColor, harmonyType)
-
-  const navigateToColor = (hex: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(hex))
-  }
 
   const copyHex = (hex: string, e: React.MouseEvent) => {
     e.stopPropagation()

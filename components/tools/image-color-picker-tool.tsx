@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -16,8 +15,9 @@ import { ColorPageContent } from "@/components/color-page-content"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 import data from "@/lib/color-meaning.json"
 
+import Link from "next/link"
+
 export function ImageColorPickerTool() {
-  const router = useRouter()
   const [image, setImage] = useState<string | null>(null)
   const [selectedColor, setSelectedColor] = useState("#5B6FD8")
   const [pickedColors, setPickedColors] = useState<string[]>([])
@@ -378,11 +378,6 @@ export function ImageColorPickerTool() {
     setShowMagnifier(false)
   }
 
-  const handleExplore = (color: string) => {
-    // Use centralized linking logic for safe color navigation
-    router.push(getColorPageLink(color))
-  }
-
   const rgb = hexToRgb(selectedColor)
   const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null
 
@@ -458,11 +453,11 @@ export function ImageColorPickerTool() {
                     </div>
                     <div className="flex rounded-lg overflow-hidden border-2 border-border h-10">
                       {palette.map((color, index) => (
-                        <div
+                        <Link
                           key={index}
-                          className="flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                          href={getColorPageLink(color)}
+                          className="flex-1 cursor-pointer hover:opacity-80 transition-opacity block"
                           style={{ backgroundColor: color }}
-                          onClick={() => handleExplore(color)}
                           title={color}
                         />
                       ))}
@@ -508,8 +503,10 @@ export function ImageColorPickerTool() {
                           )}
                         </>
                       )}
-                      <Button onClick={() => handleExplore(selectedColor)} variant="outline" className="w-full mt-2">
-                        Explore This Color
+                      <Button asChild variant="outline" className="w-full mt-2">
+                        <Link href={getColorPageLink(selectedColor)}>
+                          Explore This Color
+                        </Link>
                       </Button>
                     </div>
                   </div>
@@ -520,7 +517,7 @@ export function ImageColorPickerTool() {
                     <h3 className="font-semibold">Picked Colors</h3>
                     <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
                       {pickedColors.map((color, index) => (
-                        <div key={index} className="group cursor-pointer" onClick={() => handleExplore(color)}>
+                        <Link key={index} href={getColorPageLink(color)} className="group cursor-pointer block">
                           <div
                             className="aspect-square rounded-md hover:scale-110 transition-transform"
                             style={{ backgroundColor: color }}
@@ -529,7 +526,7 @@ export function ImageColorPickerTool() {
                           <p className="text-xs font-mono text-center mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             {color}
                           </p>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                     <div className="flex gap-2">

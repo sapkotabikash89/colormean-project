@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { getContrastColor } from "@/lib/color-utils"
 import { getColorPageLink } from "@/lib/color-linking-utils"
+import Link from "next/link"
 
 export function ColorCombination({
   colors,
@@ -16,16 +17,8 @@ export function ColorCombination({
   height?: number
   onColorChange?: (color: string) => void
 }) {
-  const router = useRouter()
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
-  const navigate = (hex: string) => {
-    if (onColorChange) {
-      onColorChange(hex)
-    } else {
-      // Use centralized linking logic for safe color navigation
-      router.push(getColorPageLink(hex))
-    }
-  }
+  
   return (
     <div className="w-full rounded-2xl overflow-hidden flex" style={{ height }}>
       {colors.map((hex, i) => {
@@ -64,14 +57,9 @@ export function ColorCombination({
           setCopiedIndex(i)
           setTimeout(() => setCopiedIndex(null), 1500)
         }
-        return (
-          <button
-            key={`${hex}-${i}`}
-            className="flex-1 h-full relative"
-            style={{ backgroundColor: hex }}
-            onClick={() => navigate(hex)}
-            title={hex}
-          >
+
+        const content = (
+          <>
             {isOriginal ? (
               <span
                 className="absolute top-1 right-1 text-[10px] font-bold"
@@ -94,7 +82,33 @@ export function ColorCombination({
                 Copied!
               </div>
             )}
-          </button>
+          </>
+        )
+
+        if (onColorChange) {
+          return (
+            <button
+              key={`${hex}-${i}`}
+              className="flex-1 h-full relative"
+              style={{ backgroundColor: hex }}
+              onClick={() => onColorChange(hex)}
+              title={hex}
+            >
+              {content}
+            </button>
+          )
+        }
+
+        return (
+          <Link
+            key={`${hex}-${i}`}
+            href={getColorPageLink(hex)}
+            className="flex-1 h-full relative block"
+            style={{ backgroundColor: hex }}
+            title={hex}
+          >
+            {content}
+          </Link>
         )
       })}
     </div>
