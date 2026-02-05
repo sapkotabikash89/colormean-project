@@ -140,11 +140,12 @@ export function CustomColorPicker({ value, onChange, onApply, onClose, getHref }
 
   const handleDone = () => {
     onChange(tempColor)
-    if (onApply) {
+    // Only apply color manually if not navigating (getHref is undefined)
+    // If navigating, the new page will dispatch the color update event
+    if (onApply && !getHref) {
       onApply(tempColor)
-    } else {
-      onClose()
     }
+    onClose()
   }
 
   const [mounted, setMounted] = useState(false)

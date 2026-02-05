@@ -84,7 +84,8 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
       ) : (
         <Link 
           href={getColorPageLink(color)} 
-          onClick={() => window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color } }))}
+          // Removed manual dispatch to avoid potential navigation interference
+          // The target page will dispatch the update event upon mounting
         >
           {SwatchContent}
         </Link>

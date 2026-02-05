@@ -60,10 +60,11 @@ export function Header() {
   const handleColorApply = (color?: string) => {
     const selectedColor = typeof color === "string" ? color : tempColor
     setPickerColor(selectedColor)
-    const cleanHex = selectedColor.replace("#", "")
-    setShowCustomPicker(false)
-
-    // Dispatch color update event for sidebar
+    
+    // Only dispatch update if we're NOT closing (which happens via navigation usually)
+    // But since this is called by CustomColorPicker's onApply (which we just made conditional on !getHref),
+    // this will now only run when NOT navigating. 
+    // So we can keep the logic simple here for non-navigation cases.
     window.dispatchEvent(new CustomEvent("colorUpdate", { detail: { color: selectedColor } }))
   }
 
