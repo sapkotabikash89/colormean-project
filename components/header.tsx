@@ -45,13 +45,12 @@ export function Header() {
 
     if (searchResult) {
       // Use Next.js router for navigation to avoid Cloudflare redirects
-      const path = searchResult.replace('https://colormean.com', '')
-      const normalizedPath = path.includes('?')
-        ? path.replace('?', '/?')
-        : (path.endsWith('/') ? path : `${path}/`)
+      // Extract the path and handle potential double slashes
+      const url = new URL(searchResult)
+      const pathWithSearch = url.pathname + url.search
 
       startTransition(() => {
-        router.push(normalizedPath)
+        router.push(pathWithSearch)
       })
     } else {
       // Fallback for empty/invalid input - do nothing

@@ -80,22 +80,10 @@ export default function HtmlColorPickerPage() {
     };
   }, []);
 
-  // Don't render anything until we have the initial hex from URL
-  if (initialHex === null) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-current"></div>
-            <p className="mt-2 text-muted-foreground">Loading...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // No more blocking loading state - render with DEFAULT_HEX during SSR/SSG
+  // and update to initialHex once the client-side useEffect runs.
   return (
-    <PickerContent initialHex={initialHex} />
+    <PickerContent initialHex={initialHex || DEFAULT_HEX} />
   );
 }
 
@@ -158,8 +146,8 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Color Names", item: "https://colormean.com/colors" },
-        { name: currentHex.toUpperCase(), item: `https://colormean.com/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}` }
+        { name: "Color Names", item: "https://colormean.com/colors/" },
+        { name: currentHex.toUpperCase(), item: `https://colormean.com/html-color-picker/?hex=${currentHex.replace("#", "").toLowerCase()}` }
       ]} />
       <FAQSchema faqs={faqItems} />
 
@@ -178,8 +166,8 @@ function PickerContent({ initialHex = DEFAULT_HEX }: { initialHex?: string }) {
         <div className="container mx-auto">
           <BreadcrumbNav
             items={[
-              { label: "Color Names", href: "/colors" },
-              { label: currentHex.toUpperCase(), href: `/html-color-picker?hex=${currentHex.replace("#", "").toUpperCase()}` },
+              { label: "Color Names", href: "/colors/" },
+              { label: currentHex.toUpperCase(), href: `/html-color-picker/?hex=${currentHex.replace("#", "").toLowerCase()}` },
             ]}
           />
           <div className="text-center space-y-4">

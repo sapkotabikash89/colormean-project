@@ -194,7 +194,7 @@ export default async function ColorPage({ params }: ColorPageProps) {
   const breadcrumbItems = [
     { name: "ColorMean", item: "https://colormean.com" },
     { name: "Color Names", item: "https://colormean.com/colors/" },
-    { name: normalizedHex, item: `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}/` },
+    { name: normalizedHex, item: `https://colormean.com/colors/${lowerHex}/` },
   ]
 
   const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : []
