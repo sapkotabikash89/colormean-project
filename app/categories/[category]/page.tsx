@@ -118,6 +118,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
     },
     robots: {
       index: false,
+      follow: true,
     },
   };
 }

@@ -41,6 +41,10 @@ export async function generateMetadata({ params }: PaginatedCategoryPageProps): 
         alternates: {
             canonical: `/colors/category/${category}/page/${pageNum}`,
         },
+        robots: {
+            index: false,
+            follow: true,
+        }
     }
 }
 

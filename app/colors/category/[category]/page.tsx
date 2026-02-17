@@ -29,6 +29,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
         alternates: {
             canonical: `/colors/category/${category}`,
         },
+        robots: {
+            index: false,
+            follow: true,
+        }
     }
 }
 
