@@ -225,11 +225,9 @@ export function ColorLibrary({
         value={activeCategory}
         onValueChange={(value) => {
           setActiveCategory(value)
-          if (value === "all") {
-            router.push(normalizedBaseUrl)
-          } else {
-            router.push(`${normalizedBaseUrl}category/${value}/`)
-          }
+          setPage(1)
+          // Maintain a clean URL on the main library page
+          window.scrollTo({ top: 0, behavior: "smooth" })
         }}
         className="w-full"
       >
@@ -258,11 +256,19 @@ export function ColorLibrary({
                 <Pagination>
                   <PaginationContent className="flex-nowrap sm:flex-wrap">
                     <PaginationItem>
-                      <PaginationPrevious
-                        href={page > 1 ? (page === 2 ? currentBaseUrl : `${currentBaseUrl}page/${page - 1}/`) : "#"}
-                        aria-disabled={page <= 1}
-                        className={page <= 1 ? "pointer-events-none opacity-50" : ""}
-                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          if (page > 1) {
+                            setPage(page - 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                          }
+                        }}
+                        disabled={page <= 1}
+                        className={page <= 1 ? "pointer-events-none opacity-50" : "flex items-center gap-1 pl-2.5"}
+                      >
+                        <PaginationPrevious href="#" className="border-none hover:bg-transparent" />
+                      </Button>
                     </PaginationItem>
                     <div className="hidden sm:flex">
                       {desktop.map((n, idx) =>
@@ -273,7 +279,12 @@ export function ColorLibrary({
                         ) : (
                           <PaginationItem key={`n-${n}`}>
                             <PaginationLink
-                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPage(n as number)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
                               isActive={n === page}
                               className={n === page ? "bg-primary text-primary-foreground rounded-full" : ""}
                             >
@@ -292,7 +303,12 @@ export function ColorLibrary({
                         ) : (
                           <PaginationItem key={`mn-${idx}-${n}`}>
                             <PaginationLink
-                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPage(n as number)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
                             >
@@ -303,11 +319,19 @@ export function ColorLibrary({
                       )}
                     </div>
                     <PaginationItem>
-                      <PaginationNext
-                        href={page < pages ? `${currentBaseUrl}page/${page + 1}/` : "#"}
-                        aria-disabled={page >= pages}
-                        className={page >= pages ? "pointer-events-none opacity-50" : ""}
-                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          if (page < pages) {
+                            setPage(page + 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                          }
+                        }}
+                        disabled={page >= pages}
+                        className={page >= pages ? "pointer-events-none opacity-50" : "flex items-center gap-1 pr-2.5"}
+                      >
+                        <PaginationNext href="#" className="border-none hover:bg-transparent" />
+                      </Button>
                     </PaginationItem>
                   </PaginationContent>
                 </Pagination>
@@ -347,11 +371,19 @@ export function ColorLibrary({
                 <Pagination>
                   <PaginationContent className="flex-nowrap sm:flex-wrap">
                     <PaginationItem>
-                      <PaginationPrevious
-                        href={page > 1 ? (page === 2 ? currentBaseUrl : `${currentBaseUrl}page/${page - 1}/`) : "#"}
-                        aria-disabled={page <= 1}
-                        className={page <= 1 ? "pointer-events-none opacity-50" : ""}
-                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          if (page > 1) {
+                            setPage(page - 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                          }
+                        }}
+                        disabled={page <= 1}
+                        className={page <= 1 ? "pointer-events-none opacity-50" : "flex items-center gap-1 pl-2.5"}
+                      >
+                        <PaginationPrevious href="#" className="border-none hover:bg-transparent" />
+                      </Button>
                     </PaginationItem>
                     <div className="hidden sm:flex">
                       {nums.map((n, idx) =>
@@ -362,7 +394,12 @@ export function ColorLibrary({
                         ) : (
                           <PaginationItem key={`b-n-${n as number}`}>
                             <PaginationLink
-                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPage(n as number)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
                             >
@@ -381,7 +418,12 @@ export function ColorLibrary({
                         ) : (
                           <PaginationItem key={`b-mn-${idx}-${n}`}>
                             <PaginationLink
-                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPage(n as number)
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                              }}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
                             >
@@ -392,11 +434,19 @@ export function ColorLibrary({
                       )}
                     </div>
                     <PaginationItem>
-                      <PaginationNext
-                        href={page < pages ? `${currentBaseUrl}page/${page + 1}/` : "#"}
-                        aria-disabled={page >= pages}
-                        className={page >= pages ? "pointer-events-none opacity-50" : ""}
-                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          if (page < pages) {
+                            setPage(page + 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                          }
+                        }}
+                        disabled={page >= pages}
+                        className={page >= pages ? "pointer-events-none opacity-50" : "flex items-center gap-1 pr-2.5"}
+                      >
+                        <PaginationNext href="#" className="border-none hover:bg-transparent" />
+                      </Button>
                     </PaginationItem>
                   </PaginationContent>
                 </Pagination>
