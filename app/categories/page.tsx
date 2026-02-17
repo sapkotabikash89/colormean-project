@@ -31,7 +31,7 @@ export const metadata = {
   title: "Color Categories - Browse All Topics",
   description: "Explore all color categories and topics on ColorMean. Find articles about color meanings, psychology, and more.",
   alternates: {
-    canonical: "/categories",
+    canonical: "/categories/",
   },
   robots: {
     index: false,
@@ -46,7 +46,7 @@ export default async function AllCategoriesPage() {
   const activeCategories = categories.filter((category: any) => category.count > 0);
 
   const crumbs = [
-    { label: "Categories", href: "/categories" },
+    { label: "Categories", href: "/categories/" },
   ];
 
   return (
@@ -70,7 +70,7 @@ export default async function AllCategoriesPage() {
               {activeCategories.map((category: any, i: number) => (
                 <a
                   key={i}
-                  href={`/categories/${category.slug}`}
+                  href={`/categories/${category.slug}/`}
                   className="block p-6 bg-card border border-border rounded-lg hover:shadow-md transition-shadow"
                 >
                   <h2 className="text-xl font-bold mb-2">{category.name}</h2>

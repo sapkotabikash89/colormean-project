@@ -114,7 +114,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
     title: `${capitalizedCategory} - ColorMean`,
     description: `Explore ${capitalizedCategory.toLowerCase()} articles and guides on ColorMean. Latest posts about ${capitalizedCategory.toLowerCase()} meanings, psychology, and symbolism.`,
     alternates: {
-      canonical: `/categories/${categorySlug}`,
+      canonical: `/categories/${categorySlug}/`,
     },
     robots: {
       index: false,
@@ -129,7 +129,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   // Define breadcrumbs
   const crumbs = [
-    { label: categoryName, href: `/categories/${categorySlug}` },
+    { label: categoryName, href: `/categories/${categorySlug}/` },
   ];
 
   return (

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
         title: `${capitalized} Colors - Color Library | ColorMean`,
         description: `Browse our collection of ${category} colors in the Color Library. Find names, hex codes, and meanings for various ${category} shades.`,
         alternates: {
-            canonical: `/colors/category/${category}`,
+            canonical: `/colors/category/${category}/`,
         },
         robots: {
             index: false,
@@ -44,17 +44,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     const filteredData = colorLibraryData.filter(c => c.category === category);
     const pageItems = filteredData.slice(0, perPage).map((c) => ({
         name: c.name,
-        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
+        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}/`,
     }))
 
     return (
         <div className="flex flex-col min-h-screen">
-            <CollectionPageSchema name={`${capitalized} Colors`} url={`${baseUrl}/colors/category/${category}`} />
+            <CollectionPageSchema name={`${capitalized} Colors`} url={`${baseUrl}/colors/category/${category}/`} />
             <ItemListSchema items={pageItems} />
             <BreadcrumbSchema items={[
                 { name: "Home", item: "https://colormean.com" },
-                { name: "Color Library", item: "https://colormean.com/colors" },
-                { name: capitalized, item: `https://colormean.com/colors/category/${category}` }
+                { name: "Color Library", item: "https://colormean.com/colors/" },
+                { name: capitalized, item: `https://colormean.com/colors/category/${category}/` }
             ]} />
             <Header />
 
@@ -62,8 +62,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <div className="container mx-auto">
                     <BreadcrumbNav
                         items={[
-                            { label: "Color Library", href: "/colors" },
-                            { label: capitalized, href: `/colors/category/${category}` }
+                            { label: "Color Library", href: "/colors/" },
+                            { label: capitalized, href: `/colors/category/${category}/` }
                         ]}
                     />
                     <div className="text-center space-y-4">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Editorial Policy - ColorMean",
   description: "Editorial standards of ColorMean. Learn how we create, review, and maintain content.",
   alternates: {
-    canonical: "/editorial-policy",
+    canonical: "/editorial-policy/",
   },
 }
 
@@ -20,16 +20,16 @@ export default function EditorialPolicyPage() {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
         name="Editorial Policy"
-        url="https://colormean.com/editorial-policy"
+        url="https://colormean.com/editorial-policy/"
         description="Editorial standards of ColorMean. Learn how we create, review, and maintain content."
       />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Editorial Policy", item: "https://colormean.com/editorial-policy" }
+        { name: "Editorial Policy", item: "https://colormean.com/editorial-policy/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Editorial Policy", href: "/editorial-policy" }]} />
+        <BreadcrumbNav items={[{ label: "Editorial Policy", href: "/editorial-policy/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">Editorial Policy</h1>

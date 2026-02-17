@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PaginatedCategoryPageProps): 
         title: `${capitalized} Colors - Page ${pageNum} | Color Library | ColorMean`,
         description: `Browse ${category} colors in the Color Library. Page ${pageNum} of ${capitalized} shades with hex codes and names.`,
         alternates: {
-            canonical: `/colors/category/${category}/page/${pageNum}`,
+            canonical: `/colors/category/${category}/page/${pageNum}/`,
         },
         robots: {
             index: false,
@@ -60,18 +60,18 @@ export default async function PaginatedCategoryPage({ params }: PaginatedCategor
     const end = start + perPage
     const pageItems = filteredData.slice(start, end).map((c) => ({
         name: c.name,
-        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
+        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}/`,
     }))
 
     return (
         <div className="flex flex-col min-h-screen">
-            <CollectionPageSchema name={`${capitalized} Colors - Page ${pageNum}`} url={`${baseUrl}/colors/category/${category}/page/${pageNum}`} />
+            <CollectionPageSchema name={`${capitalized} Colors - Page ${pageNum}`} url={`${baseUrl}/colors/category/${category}/page/${pageNum}/`} />
             <ItemListSchema items={pageItems} />
             <BreadcrumbSchema items={[
                 { name: "Home", item: "https://colormean.com" },
-                { name: "Color Library", item: "https://colormean.com/colors" },
-                { name: capitalized, item: `https://colormean.com/colors/category/${category}` },
-                { name: `Page ${pageNum}`, item: `https://colormean.com/colors/category/${category}/page/${pageNum}` }
+                { name: "Color Library", item: "https://colormean.com/colors/" },
+                { name: capitalized, item: `https://colormean.com/colors/category/${category}/` },
+                { name: `Page ${pageNum}`, item: `https://colormean.com/colors/category/${category}/page/${pageNum}/` }
             ]} />
             <Header />
 
@@ -79,9 +79,9 @@ export default async function PaginatedCategoryPage({ params }: PaginatedCategor
                 <div className="container mx-auto">
                     <BreadcrumbNav
                         items={[
-                            { label: "Color Library", href: "/colors" },
-                            { label: capitalized, href: `/colors/category/${category}` },
-                            { label: `Page ${pageNum}`, href: `/colors/category/${category}/page/${pageNum}` }
+                            { label: "Color Library", href: "/colors/" },
+                            { label: capitalized, href: `/colors/category/${category}/` },
+                            { label: `Page ${pageNum}`, href: `/colors/category/${category}/page/${pageNum}/` }
                         ]}
                     />
                     <div className="text-center space-y-4">

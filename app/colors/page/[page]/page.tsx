@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PaginatedColorsPageProps): Pr
         title: `Color Library - Page ${pageNum} | ColorMean`,
         description: `Browse our comprehensive color library. Page ${pageNum} of ${totalPages} featuring color names, hex codes, and categories.`,
         alternates: {
-            canonical: `/colors/page/${pageNum}`,
+            canonical: `/colors/page/${pageNum}/`,
         },
     }
 }
@@ -47,17 +47,17 @@ export default async function PaginatedColorsPage({ params }: PaginatedColorsPag
     const end = start + perPage
     const pageItems = colorLibraryData.slice(start, end).map((c) => ({
         name: c.name,
-        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
+        url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}/`,
     }))
 
     return (
         <div className="flex flex-col min-h-screen">
-            <CollectionPageSchema name={`Color Library - Page ${pageNum}`} url={`${baseUrl}/colors/page/${pageNum}`} />
+            <CollectionPageSchema name={`Color Library - Page ${pageNum}`} url={`${baseUrl}/colors/page/${pageNum}/`} />
             <ItemListSchema items={pageItems} />
             <BreadcrumbSchema items={[
                 { name: "Home", item: "https://colormean.com" },
-                { name: "Color Library", item: "https://colormean.com/colors" },
-                { name: `Page ${pageNum}`, item: `https://colormean.com/colors/page/${pageNum}` }
+                { name: "Color Library", item: "https://colormean.com/colors/" },
+                { name: `Page ${pageNum}`, item: `https://colormean.com/colors/page/${pageNum}/` }
             ]} />
             <Header />
 
@@ -65,8 +65,8 @@ export default async function PaginatedColorsPage({ params }: PaginatedColorsPag
                 <div className="container mx-auto">
                     <BreadcrumbNav
                         items={[
-                            { label: "Color Library", href: "/colors" },
-                            { label: `Page ${pageNum}`, href: `/colors/page/${pageNum}` }
+                            { label: "Color Library", href: "/colors/" },
+                            { label: `Page ${pageNum}`, href: `/colors/page/${pageNum}/` }
                         ]}
                     />
                     <div className="text-center space-y-4">

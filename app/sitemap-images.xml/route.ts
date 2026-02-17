@@ -17,7 +17,7 @@ export async function GET() {
       // Only include colors that have Gumlet images
       if (!gumletUrl) return null
 
-      const pageUrl = `${baseUrl}/colors/${cleanHex.toLowerCase()}`
+      const pageUrl = `${baseUrl}/colors/${cleanHex.toLowerCase()}/`
       const title = colorMeaning[hex as keyof typeof colorMeaning]?.name || `#${cleanHex} Color`
 
       return `<url>

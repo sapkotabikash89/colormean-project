@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards for text, UI components, and graphics.",
   keywords: ["contrast checker", "WCAG compliance", "accessibility", "color contrast", "AA AAA standards"],
   alternates: {
-    canonical: "/contrast-checker",
+    canonical: "/contrast-checker/",
   },
   openGraph: {
     title: "Contrast Checker - WCAG Accessibility Tool | ColorMean",
     description:
       "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards for text, UI components, and graphics.",
-    url: "https://colormean.com/contrast-checker",
+    url: "https://colormean.com/contrast-checker/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -62,14 +62,14 @@ export default function ContrastCheckerPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Contrast Checker", item: "https://colormean.com/contrast-checker" }
+        { name: "Contrast Checker", item: "https://colormean.com/contrast-checker/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
 
       <section className="bg-muted/30 py-12 px-4">
         <div className="container mx-auto">
-          <BreadcrumbNav items={[{ label: "Contrast Checker", href: "/contrast-checker" }]} />
+          <BreadcrumbNav items={[{ label: "Contrast Checker", href: "/contrast-checker/" }]} />
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">Contrast Checker</h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">

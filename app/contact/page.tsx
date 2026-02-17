@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Contact Us - ColorMean",
   description: "Get in touch with ColorMean. Edit this sample content later.",
   alternates: {
-    canonical: "/contact",
+    canonical: "/contact/",
   },
 }
 
@@ -20,11 +20,11 @@ export default function ContactPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Contact", item: "https://colormean.com/contact" }
+        { name: "Contact", item: "https://colormean.com/contact/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Contact", href: "/contact" }]} />
+        <BreadcrumbNav items={[{ label: "Contact", href: "/contact/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">Contact Us</h1>

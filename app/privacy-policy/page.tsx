@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy - ColorMean",
   description: "Privacy practices of ColorMean. Learn how we collect, use, and protect your information.",
   alternates: {
-    canonical: "/privacy-policy",
+    canonical: "/privacy-policy/",
   },
 }
 
@@ -19,16 +19,16 @@ export default function PrivacyPolicyPage() {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
         name="Privacy Policy"
-        url="https://colormean.com/privacy-policy"
+        url="https://colormean.com/privacy-policy/"
         description="Privacy practices of ColorMean. Learn how we collect, use, and protect your information."
       />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Privacy Policy", item: "https://colormean.com/privacy-policy" }
+        { name: "Privacy Policy", item: "https://colormean.com/privacy-policy/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Privacy Policy", href: "/privacy-policy" }]} />
+        <BreadcrumbNav items={[{ label: "Privacy Policy", href: "/privacy-policy/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold">Privacy Policy</h1>

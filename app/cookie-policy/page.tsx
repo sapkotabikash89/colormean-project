@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Cookie Policy - ColorMean",
   description: "Cookie Policy for ColorMean. Learn how we use cookies to improve your experience.",
   alternates: {
-    canonical: "/cookie-policy",
+    canonical: "/cookie-policy/",
   },
 }
 
@@ -20,16 +20,16 @@ export default function CokiePolicyPage() {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
         name="Cookie Policy"
-        url="https://colormean.com/cookie-policy"
+        url="https://colormean.com/cookie-policy/"
         description="Cookie Policy for ColorMean. Learn how we use cookies to improve your experience."
       />
       <BreadcrumbSchema items={[
-        { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Cookie Policy", item: "https://colormean.com/cookie-policy" }
+        { name: "ColorMean", item: "https://colormean.com/" },
+        { name: "Cookie Policy", item: "https://colormean.com/cookie-policy/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Cookie Policy", href: "/cookie-policy" }]} />
+        <BreadcrumbNav items={[{ label: "Cookie Policy", href: "/cookie-policy/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">Cookie Policy</h1>

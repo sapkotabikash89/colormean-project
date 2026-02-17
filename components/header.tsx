@@ -88,7 +88,7 @@ export function Header() {
         <nav className="hidden md:flex items-center justify-between gap-1 flex-1 max-w-[500px] xl:max-w-none">
           {/* Tools submenu */}
           <div className="relative group">
-            <Link href="/color-wheel">
+            <Link href="/color-wheel/">
               <Button variant="ghost" size="sm" className="gap-2" aria-label="Tools">
                 <CircleDot className="w-4 h-4" aria-hidden="true" />
                 <span className="hidden xl:inline">Tools</span>

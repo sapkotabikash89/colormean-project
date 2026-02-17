@@ -37,7 +37,7 @@ export function CategoryPosts({ initialPosts, categoryName, categorySlug }: Cate
 
         return (
           <Card key={i} className="overflow-hidden hover:shadow-lg transition-shadow">
-            <Link href={post?.uri || "#"} className="block">
+            <Link href={post?.uri?.endsWith('/') ? post.uri : `${post.uri}/`} className="block">
               {img && (
                 <FeaturedImage
                   src={img}

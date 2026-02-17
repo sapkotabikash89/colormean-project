@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     "Explore our comprehensive color library with thousands of colors organized by category. Find the perfect color with hex codes, RGB values, and color names.",
   keywords: ["color library", "color names", "hex colors", "color palette", "color collection"],
   alternates: {
-    canonical: "/colors",
+    canonical: "/colors/",
   },
   openGraph: {
     title: "Color Library - Browse Thousands of Colors | ColorMean",
     description:
       "Explore our comprehensive color library with thousands of colors organized by category. Find the perfect color with hex codes, RGB values, and color names.",
-    url: "https://colormean.com/colors",
+    url: "https://colormean.com/colors/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -51,22 +51,22 @@ export default function ColorsPage() {
 
   const initialPageItems = colorLibraryData.slice(0, perPage).map((c) => ({
     name: c.name,
-    url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
+    url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}/`,
   }))
 
   return (
     <div className="flex flex-col min-h-screen">
-      <CollectionPageSchema name="Color Library" url={`${baseUrl}/colors`} />
+      <CollectionPageSchema name="Color Library" url={`${baseUrl}/colors/`} />
       <ItemListSchema items={initialPageItems} />
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Color Library", item: "https://colormean.com/colors" }
+        { name: "Color Library", item: "https://colormean.com/colors/" }
       ]} />
       <Header />
 
       <section className="bg-muted/30 py-12 px-4">
         <div className="container mx-auto">
-          <BreadcrumbNav items={[{ label: "Color Library", href: "/colors" }]} />
+          <BreadcrumbNav items={[{ label: "Color Library", href: "/colors/" }]} />
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">Color Library</h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
@@ -84,7 +84,7 @@ export default function ColorsPage() {
               initialPage={currentPage}
               initialCategory="all"
               perPage={perPage}
-              baseUrl="/colors"
+              baseUrl="/colors/"
             />
             <div className="mt-8 flex justify-center">
               <ShareButtons title="Check out the ColorMean Color Library" />

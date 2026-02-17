@@ -7,14 +7,14 @@ export async function GET() {
   const now = new Date().toISOString()
   const paths = [
     "/",
-    "/colors",
-    "/color-wheel",
-    "/color-picker",
-    "/contrast-checker",
-    "/color-blindness-simulator",
-    "/image-color-picker",
-    "/palette-from-image",
-    "/screen-color-picker",
+    "/colors/",
+    "/color-wheel/",
+    "/color-picker/",
+    "/contrast-checker/",
+    "/color-blindness-simulator/",
+    "/image-color-picker/",
+    "/palette-from-image/",
+    "/screen-color-picker/",
   ]
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>` +

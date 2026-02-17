@@ -106,12 +106,12 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       "brand colors",
     ],
     alternates: {
-      canonical: `/colors/${cleanHex.toLowerCase()}`,
+      canonical: `/colors/${cleanHex.toLowerCase()}/`,
     },
     openGraph: {
       title: baseTitle,
       description: baseDescription,
-      url: `https://colormean.com/colors/${cleanHex.toLowerCase()}`,
+      url: `https://colormean.com/colors/${cleanHex.toLowerCase()}/`,
       type: "website",
       images: [
         {
@@ -193,8 +193,8 @@ export default async function ColorPage({ params }: ColorPageProps) {
 
   const breadcrumbItems = [
     { name: "ColorMean", item: "https://colormean.com" },
-    { name: "Color Names", item: "https://colormean.com/colors" },
-    { name: normalizedHex, item: `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
+    { name: "Color Names", item: "https://colormean.com/colors/" },
+    { name: normalizedHex, item: `https://colormean.com/colors/${normalizedHex.replace("#", "").toUpperCase()}/` },
   ]
 
   const faqItems = rgb && hsl ? generateFAQs(normalizedHex, rgb, hsl) : []
@@ -239,8 +239,8 @@ export default async function ColorPage({ params }: ColorPageProps) {
         <div className="container mx-auto">
           <BreadcrumbNav
             items={[
-              { label: "Color Names", href: "/colors" },
-              { label: normalizedHex, href: `/colors/${normalizedHex.replace("#", "").toUpperCase()}` },
+              { label: "Color Names", href: "/colors/" },
+              { label: normalizedHex, href: `/colors/${normalizedHex.replace("#", "").toUpperCase()}/` },
             ]}
           />
           <div className="text-center space-y-6">

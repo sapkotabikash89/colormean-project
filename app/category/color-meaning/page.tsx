@@ -72,7 +72,7 @@ export const metadata = {
   description:
     "Explore color meanings, psychology, spirituality, and cultural symbolism. Curated articles from our headless WordPress CMS.",
   alternates: {
-    canonical: "/category/color-meaning",
+    canonical: "/category/color-meaning/",
   },
   robots: {
     index: false,
@@ -85,7 +85,7 @@ export default async function ColorMeaningCategoryPage() {
 
   // Define breadcrumbs
   const crumbs = [
-    { label: categoryName, href: "/categories/color-meaning" },
+    { label: categoryName, href: "/categories/color-meaning/" },
   ];
 
   return (

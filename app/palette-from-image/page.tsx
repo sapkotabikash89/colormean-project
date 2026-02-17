@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
   alternates: {
-    canonical: "/palette-from-image",
+    canonical: "/palette-from-image/",
   },
   openGraph: {
     title: "Palette from Image - ColorMean",
     description:
       "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
-    url: "https://colormean.com/palette-from-image",
+    url: "https://colormean.com/palette-from-image/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -62,12 +62,12 @@ export default function PaletteFromImagePage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Palette from Image", item: "https://colormean.com/palette-from-image" }
+        { name: "Palette from Image", item: "https://colormean.com/palette-from-image/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
-        <BreadcrumbNav items={[{ label: "Palette from Image", href: "/palette-from-image" }]} />
+        <BreadcrumbNav items={[{ label: "Palette from Image", href: "/palette-from-image/" }]} />
 
         <div className="mt-6 space-y-4">
           <div>

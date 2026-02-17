@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Terms and Conditions - ColorMean",
   description: "Terms and conditions for using ColorMean. Read our rules and guidelines.",
   alternates: {
-    canonical: "/terms-and-conditions",
+    canonical: "/terms-and-conditions/",
   },
 }
 
@@ -19,16 +19,16 @@ export default function TermsAndConditionsPage() {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
         name="Terms and Conditions"
-        url="https://colormean.com/terms-and-conditions"
+        url="https://colormean.com/terms-and-conditions/"
         description="Terms and conditions for using ColorMean. Read our rules and guidelines."
       />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Terms and Conditions", item: "https://colormean.com/terms-and-conditions" }
+        { name: "Terms and Conditions", item: "https://colormean.com/terms-and-conditions/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Terms and Conditions", href: "/terms-and-conditions" }]} />
+        <BreadcrumbNav items={[{ label: "Terms and Conditions", href: "/terms-and-conditions/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">Terms and Conditions</h1>

@@ -51,7 +51,7 @@ export function WebsiteSchema() {
     description: "Know your color - Explore color information, meanings, conversions, and professional tools",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://colormean.com/colors/{search_term_string}",
+      target: "https://colormean.com/colors/{search_term_string}/",
       "query-input": "required name=search_term_string",
     },
   }
@@ -135,7 +135,7 @@ export function ToolApplicationSchema({
   slug: string
   description: string
 }) {
-  const url = `https://www.colormean.com/${slug}`
+  const url = `https://www.colormean.com/${slug}/`
   const image = `https://www.colormean.com/tools/${slug}-snapshot.webp`
   const schema = {
     "@context": "https://schema.org",

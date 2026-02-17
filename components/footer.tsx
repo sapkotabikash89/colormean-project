@@ -56,7 +56,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/palette-from-image"
+                  href="/palette-from-image/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Palette from Image
@@ -70,17 +70,17 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/colors" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/colors/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Color Library
                 </Link>
               </li>
               <li>
-                <Link href="/category/color-meaning" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/category/color-meaning/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Color Meaning
                 </Link>
               </li>
               <li>
-                <Link href="/category/shades-meaning" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/category/shades-meaning/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Shades Meaning
                 </Link>
               </li>
@@ -97,41 +97,41 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Legal</h3>
             <ul className="grid grid-cols-2 gap-y-2 gap-x-6 text-sm">
               <li>
-                <Link href="/about-us" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/about-us/" className="text-muted-foreground hover:text-foreground transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/contact/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/privacy-policy/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/terms-and-conditions"
+                  href="/terms-and-conditions/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Terms and Conditions
                 </Link>
               </li>
               <li>
-                <Link href="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/disclaimer/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Disclaimer
                 </Link>
               </li>
               <li>
-                <Link href="/cookie-policy" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/cookie-policy/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Cookie Policy
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/editorial-policy"
+                  href="/editorial-policy/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Editorial Policy

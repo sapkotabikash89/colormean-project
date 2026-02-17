@@ -910,7 +910,7 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
     (node.seo?.twitterImage?.mediaItemUrl ? convertToGumletUrl(node.seo.twitterImage.mediaItemUrl) : undefined) ||
     (node.seo?.twitterImage?.sourceUrl ? convertToGumletUrl(node.seo.twitterImage.sourceUrl) : undefined) ||
     undefined
-  const canonical = node?.uri || undefined
+  const canonical = node?.uri ? (node.uri.endsWith("/") ? node.uri : `${node.uri}/`) : undefined
   const robotsIndex = node.seo?.metaRobotsNoindex === "noindex" ? false : true
   const robotsFollow = node.seo?.metaRobotsNofollow === "nofollow" ? false : true
   const adv = node.seo?.metaRobotsAdvanced || ""
@@ -996,8 +996,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
   }
   if (node.__typename === "Category") {
     const crumbs = [
-      { label: "Color Meanings", href: "/color-meanings" },
-      { label: node.name, href: node.uri },
+      { label: "Color Meanings", href: "/color-meanings/" },
+      { label: node.name, href: node.uri.endsWith('/') ? node.uri : `${node.uri}/` },
     ]
     const related = await fetchRandomPosts(12)
     return (
@@ -1017,7 +1017,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
               const src = p?.featuredImage?.node?.sourceUrl
               return (
                 <div key={i} className="rounded-lg overflow-hidden border-2 border-border hover:shadow-lg transition-shadow">
-                  <Link href={p.uri} className="block">
+                  <Link href={p.uri.endsWith('/') ? p.uri : `${p.uri}/`} className="block">
                     {src && (
                       <FeaturedImage
                         src={src}
@@ -1042,7 +1042,9 @@ export default async function WPPostPage({ params }: WPPageProps) {
   const alt = node?.featuredImage?.node?.altText || node?.title
   const schemaRaw = node?.seo?.schema?.raw || undefined
   const site = "https://colormean.com"
-  const canonical = node?.uri ? new URL(node.uri, site).toString() : undefined
+  const rawUri = node?.uri || ""
+  const normalizedUri = rawUri.endsWith("/") ? rawUri : `${rawUri}/`
+  const canonical = node?.uri ? new URL(normalizedUri, site).toString() : undefined
   const titleHasColor = hasColorInTitle(node.title)
   const titleHasExplicitHex = hasExplicitHexInTitle(node.title)
   const titleHex = titleHasColor ? detectColorFromTitle(node.title) : null  // Still use color names for actual hex value when needed for display
@@ -1081,10 +1083,10 @@ export default async function WPPostPage({ params }: WPPageProps) {
   let crumbs;
   if (firstCategory) {
     const categoryLabel = firstCategory.name
-    const categoryHref = `/category/${firstCategory.slug}`
+    const categoryHref = `/category/${firstCategory.slug}/`
     crumbs = [
       { label: categoryLabel, href: categoryHref },
-      { label: shortTitle(node.title), href: node.uri },
+      { label: shortTitle(node.title), href: node.uri.endsWith('/') ? node.uri : `${node.uri}/` },
     ]
   } else {
     // For posts without categories, we could either:
@@ -1093,8 +1095,8 @@ export default async function WPPostPage({ params }: WPPageProps) {
     // Following the requirement to not use generic placeholders like "Color Meanings"
     // and never use /blog/ as parent, let's default to a "General" category
     crumbs = [
-      { label: "Blog", href: "/blog" },
-      { label: shortTitle(node.title), href: node.uri },
+      { label: "Blog", href: "/blog/" },
+      { label: shortTitle(node.title), href: node.uri.endsWith('/') ? node.uri : `${node.uri}/` },
     ]
   }
   const catIds = (node?.categories?.nodes || []).map((c: any) => c.databaseId)
@@ -1137,7 +1139,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
       next: { title: related[1].title, uri: related[1].uri },
     }
   }
-  const moreLink = firstCategory ? `/category/${firstCategory.slug}` : "/blog"
+  const moreLink = firstCategory ? `/category/${firstCategory.slug}/` : "/blog/"
   const colorName = detectColorName(node, (effectiveHex || postColor)?.toUpperCase())
   const isSingleColor = !!colorName
 
@@ -1191,9 +1193,9 @@ export default async function WPPostPage({ params }: WPPageProps) {
             items={[
               { name: "ColorMean", item: site },
               ...(firstCategory
-                ? [{ name: firstCategory.name, item: `${site}/category/${firstCategory.slug}` }]
-                : [{ name: "Blog", item: `${site}/blog` }]),
-              { name: shortTitle(node.title), item: `${site}${node.uri}` },
+                ? [{ name: firstCategory.name, item: `${site}/category/${firstCategory.slug}/` }]
+                : [{ name: "Blog", item: `${site}/blog/` }]),
+              { name: shortTitle(node.title), item: `${site}${node.uri.endsWith('/') ? node.uri : `${node.uri}/`}` },
             ]}
           />
           <div className="text-center space-y-4">
@@ -1283,7 +1285,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
                       {hasColorUI && (
                         <BlogPostActions
                           loveKey={(effectiveHex || postColor).replace("#", "")}
-                          shareUrl={`${site}${node.uri}`}
+                          shareUrl={`${site}${node.uri.endsWith('/') ? node.uri : `${node.uri}/`}`}
                           shareTitle={node.title}
                         />
                       )}
@@ -1549,13 +1551,13 @@ export default async function WPPostPage({ params }: WPPageProps) {
             {titleHex && <RelatedColorsSection hex={effectiveHex} />}
             <div className="flex justify-between items-center py-6 border-t border-b border-border my-6">
               {prevNext.previous ? (
-                <Link href={prevNext.previous.uri} className="flex flex-col items-start max-w-[45%] group">
+                <Link href={prevNext.previous.uri.endsWith('/') ? prevNext.previous.uri : `${prevNext.previous.uri}/`} className="flex flex-col items-start max-w-[45%] group">
                   <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">← Previous Post</span>
                   <span className="font-medium text-purple-600 group-hover:underline line-clamp-2">{prevNext.previous.title}</span>
                 </Link>
               ) : <div></div>}
               {prevNext.next ? (
-                <Link href={prevNext.next.uri} className="flex flex-col items-end max-w-[45%] text-right group">
+                <Link href={prevNext.next.uri.endsWith('/') ? prevNext.next.uri : `${prevNext.next.uri}/`} className="flex flex-col items-end max-w-[45%] text-right group">
                   <span className="text-sm text-muted-foreground group-hover:text-foreground mb-1">Next Post →</span>
                   <span className="font-medium text-purple-600 group-hover:underline line-clamp-2">{prevNext.next.title}</span>
                 </Link>
@@ -1592,7 +1594,7 @@ export default async function WPPostPage({ params }: WPPageProps) {
                       const src = p?.featuredImage?.node?.sourceUrl || undefined
                       return (
                         <div key={i} className="rounded-lg overflow-hidden border-2 border-border hover:shadow-lg transition-shadow">
-                          <Link href={p.uri} className="block">
+                          <Link href={p.uri.endsWith('/') ? p.uri : `${p.uri}/`} className="block">
                             {src && (
                               <FeaturedImage
                                 src={src}

@@ -76,7 +76,7 @@ export function ColorLibraryPreview() {
                             {colors.map((color) => (
                                 <Link
                                     key={color.hex}
-                                    href={`/colors/${color.hex.replace("#", "")}`}
+                                    href={`/colors/${color.hex.replace("#", "").toLowerCase()}/`}
                                     className="group block space-y-2 transition-transform hover:-translate-y-1"
                                 >
                                     <div
@@ -97,7 +97,7 @@ export function ColorLibraryPreview() {
             {/* Link to Full Library */}
             <div className="pt-4 flex justify-start border-t">
                 <Link
-                    href="/colors"
+                    href="/colors/"
                     className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full font-semibold hover:bg-primary/90 transition-colors shadow-lg mt-4"
                 >
                     Browse full color library

@@ -78,8 +78,8 @@ function PickerContent() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Color Names", item: "https://colormean.com/colors" },
-        { name: currentHex, item: `https://colormean.com/colors/picker?hex=${currentHex.replace("#", "")}` }
+        { name: "Color Names", item: "https://colormean.com/colors/" },
+        { name: currentHex, item: `https://colormean.com/colors/picker/?hex=${currentHex.replace("#", "")}` }
       ]} />
       <FAQSchema faqs={faqItems} />
 
@@ -96,8 +96,8 @@ function PickerContent() {
         <div className="container mx-auto">
           <BreadcrumbNav
             items={[
-              { label: "Color Names", href: "/colors" },
-              { label: currentHex, href: `/colors/picker?hex=${currentHex.replace("#", "")}` },
+              { label: "Color Names", href: "/colors/" },
+              { label: currentHex, href: `/colors/picker/?hex=${currentHex.replace("#", "")}` },
             ]}
           />
           <div className="text-center space-y-4">

@@ -27,7 +27,11 @@ export async function GET() {
     const json = await res.json()
     const posts: Array<{ uri: string; date?: string }> = json?.data?.posts?.nodes || []
     const pages: Array<{ uri: string; date?: string }> = json?.data?.pages?.nodes || []
-    const normalize = (u: string) => (u?.startsWith("/") ? u : `/${u || ""}`)
+    const normalize = (u: string) => {
+      if (!u) return "/"
+      const p = u.startsWith("/") ? u : `/${u}`
+      return (p.endsWith("/") || p === "/") ? p : `${p}/`
+    }
     const entries = [...posts, ...pages]
       .map((p) => {
         const loc = `${baseUrl}${normalize(p.uri)}`

@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title: "Color Picker - ColorMean",
   description: "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
   alternates: {
-    canonical: "/color-picker",
+    canonical: "/color-picker/",
   },
   openGraph: {
     title: "Color Picker - ColorMean",
     description:
       "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
-    url: "https://colormean.com/color-picker",
+    url: "https://colormean.com/color-picker/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -59,12 +59,12 @@ export default function ColorPickerPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Color Picker", item: "https://colormean.com/color-picker" }
+        { name: "Color Picker", item: "https://colormean.com/color-picker/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
-        <BreadcrumbNav items={[{ label: "Color Picker", href: "/color-picker" }]} />
+        <BreadcrumbNav items={[{ label: "Color Picker", href: "/color-picker/" }]} />
 
         <div className="mt-6 space-y-4">
           <div>

@@ -12,13 +12,13 @@ export const metadata: Metadata = {
   description:
     "Simulate how colors appear to people with different types of color vision deficiency. Test your designs for accessibility.",
   alternates: {
-    canonical: "/color-blindness-simulator",
+    canonical: "/color-blindness-simulator/",
   },
   openGraph: {
     title: "Color Blindness Simulator - ColorMean",
     description:
       "Simulate how colors appear to people with different types of color vision deficiency. Test your designs for accessibility.",
-    url: "https://colormean.com/color-blindness-simulator",
+    url: "https://colormean.com/color-blindness-simulator/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -61,12 +61,12 @@ export default function ColorBlindnessSimulatorPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Color Blindness Simulator", item: "https://colormean.com/color-blindness-simulator" }
+        { name: "Color Blindness Simulator", item: "https://colormean.com/color-blindness-simulator/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
-        <BreadcrumbNav items={[{ label: "Color Blindness Simulator", href: "/color-blindness-simulator" }]} />
+        <BreadcrumbNav items={[{ label: "Color Blindness Simulator", href: "/color-blindness-simulator/" }]} />
 
         <div className="mt-6 space-y-4">
           <div>

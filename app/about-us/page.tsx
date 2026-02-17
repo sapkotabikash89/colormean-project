@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "About Us - ColorMean",
   description: "Learn about ColorMean. Edit this sample content later.",
   alternates: {
-    canonical: "/about-us",
+    canonical: "/about-us/",
   },
 }
 
@@ -20,11 +20,11 @@ export default function AboutUsPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "About Us", item: "https://colormean.com/about-us" }
+        { name: "About Us", item: "https://colormean.com/about-us/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "About Us", href: "/about-us" }]} />
+        <BreadcrumbNav items={[{ label: "About Us", href: "/about-us/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">About Us</h1>

@@ -28,7 +28,7 @@ export function LatestPosts() {
                             .substring(0, 120) + "...";
 
                         return (
-                            <Link key={post.id} href={post.uri} className="group flex flex-col h-full bg-background rounded-xl overflow-hidden border hover:shadow-lg transition-all hover:border-primary/50">
+                            <Link key={post.id} href={post.uri.endsWith('/') ? post.uri : `${post.uri}/`} className="group flex flex-col h-full bg-background rounded-xl overflow-hidden border hover:shadow-lg transition-all hover:border-primary/50">
                                 <div className="aspect-[4/3] overflow-hidden relative">
                                     <img
                                         src={img}
@@ -55,7 +55,7 @@ export function LatestPosts() {
                 </div>
 
                 <div className="text-center pt-4">
-                    <Link href="/blog">
+                    <Link href="/blog/">
                         <Button variant="outline" size="lg" className="h-12 px-8 rounded-full font-semibold">
                             View all posts
                         </Button>

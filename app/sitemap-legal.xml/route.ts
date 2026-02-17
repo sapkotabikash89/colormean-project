@@ -6,13 +6,13 @@ export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean.com"
   const now = new Date().toISOString()
   const paths = [
-    "/about-us",
-    "/contact",
-    "/privacy-policy",
-    "/terms-and-conditions",
-    "/disclaimer",
-    "/editorial-policy",
-    "/cookie-policy",
+    "/about-us/",
+    "/contact/",
+    "/privacy-policy/",
+    "/terms-and-conditions/",
+    "/disclaimer/",
+    "/editorial-policy/",
+    "/cookie-policy/",
   ]
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>` +

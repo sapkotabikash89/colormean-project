@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
   alternates: {
-    canonical: "/screen-color-picker",
+    canonical: "/screen-color-picker/",
   },
   openGraph: {
     title: "Screen Color Picker - ColorMean",
     description:
       "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
-    url: "https://colormean.com/screen-color-picker",
+    url: "https://colormean.com/screen-color-picker/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -61,12 +61,12 @@ export default function ScreenColorPickerPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Screen Color Picker", item: "https://colormean.com/screen-color-picker" }
+        { name: "Screen Color Picker", item: "https://colormean.com/screen-color-picker/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
       <main className="container mx-auto px-4 py-8 flex-1">
-        <BreadcrumbNav items={[{ label: "Screen Color Picker", href: "/screen-color-picker" }]} />
+        <BreadcrumbNav items={[{ label: "Screen Color Picker", href: "/screen-color-picker/" }]} />
 
         <div className="mt-6 space-y-4">
           <div>

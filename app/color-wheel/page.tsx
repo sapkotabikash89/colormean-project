@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations. Professional color theory tool for designers.",
   keywords: ["color wheel", "color harmony", "complementary colors", "analogous colors", "color theory"],
   alternates: {
-    canonical: "/color-wheel",
+    canonical: "/color-wheel/",
   },
   openGraph: {
     title: "Color Wheel - Interactive Color Harmony Tool | ColorMean",
     description:
       "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations. Professional color theory tool for designers.",
-    url: "https://colormean.com/color-wheel",
+    url: "https://colormean.com/color-wheel/",
     siteName: "ColorMean",
     type: "website",
     images: [
@@ -62,14 +62,14 @@ export default function ColorWheelPage() {
     <div className="flex flex-col min-h-screen">
       <BreadcrumbSchema items={[
         { name: "Home", item: "https://colormean.com" },
-        { name: "Color Wheel", item: "https://colormean.com/color-wheel" }
+        { name: "Color Wheel", item: "https://colormean.com/color-wheel/" }
       ]} />
       <FAQSchema faqs={faqs} />
       <Header />
 
       <section className="bg-muted/30 py-12 px-4">
         <div className="container mx-auto">
-          <BreadcrumbNav items={[{ label: "Color Wheel", href: "/color-wheel" }]} />
+          <BreadcrumbNav items={[{ label: "Color Wheel", href: "/color-wheel/" }]} />
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold">Color Wheel</h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">

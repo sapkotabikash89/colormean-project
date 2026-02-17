@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Disclaimer - ColorMean",
   description: "Disclaimer for ColorMean. Read our limitations of liability and information policies.",
   alternates: {
-    canonical: "/disclaimer",
+    canonical: "/disclaimer/",
   },
 }
 
@@ -20,16 +20,16 @@ export default function DisclaimerPage() {
     <div className="flex flex-col min-h-screen">
       <WebPageSchema
         name="Disclaimer"
-        url="https://colormean.com/disclaimer"
+        url="https://colormean.com/disclaimer/"
         description="Disclaimer for ColorMean. Read our limitations of liability and information policies."
       />
       <BreadcrumbSchema items={[
         { name: "ColorMean", item: "https://colormean.com" },
-        { name: "Disclaimer", item: "https://colormean.com/disclaimer" }
+        { name: "Disclaimer", item: "https://colormean.com/disclaimer/" }
       ]} />
       <Header />
       <main className="container mx-auto px-4 py-12 flex-1">
-        <BreadcrumbNav items={[{ label: "Disclaimer", href: "/disclaimer" }]} />
+        <BreadcrumbNav items={[{ label: "Disclaimer", href: "/disclaimer/" }]} />
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <article id="content" className="main-content grow-content flex-1 space-y-4">
             <h1 className="text-3xl font-bold mb-4">Disclaimer</h1>
