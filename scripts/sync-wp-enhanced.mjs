@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,23 +11,23 @@ const GRAPHQL_URL = 'https://cms.colormean.com/graphql';
 
 // Extract all image URLs from HTML content
 function extractImageUrlsFromContent(content) {
-  const urls = new Set();
-  const imgRegex = /<img[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/gi;
-  let match;
-  
-  while ((match = imgRegex.exec(content)) !== null) {
-    const url = match[1];
-    if (url && (url.includes('cms.colormean.com') || url.includes('colormean.com'))) {
-      urls.add(url);
+    const urls = new Set();
+    const imgRegex = /<img[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/gi;
+    let match;
+
+    while ((match = imgRegex.exec(content)) !== null) {
+        const url = match[1];
+        if (url && (url.includes('cms.colormean.com') || url.includes('colormean.com'))) {
+            urls.add(url);
+        }
     }
-  }
-  
-  return Array.from(urls);
+
+    return Array.from(urls);
 }
 
 // Generate content hash for change detection
 function generateContentHash(content) {
-  return crypto.createHash('md5').update(content || '').digest('hex');
+    return crypto.createHash('md5').update(content || '').digest('hex');
 }
 
 async function fetchGraphQL(query, variables = {}) {
@@ -150,7 +151,7 @@ async function sync() {
 
             const slug = item.uri.replace(/^\/|\/$/g, '').replace(/\//g, '-');
             const itemPath = path.join(postsDir, `${slug}.json`);
-            
+
             // Extract images from content
             const contentImages = extractImageUrlsFromContent(item.content);
             const featuredImageUrl = item.featuredImage?.node?.sourceUrl;
@@ -175,7 +176,7 @@ async function sync() {
                 // Check for content changes
                 const existingItem = JSON.parse(fs.readFileSync(itemPath, 'utf8'));
                 const existingHash = generateContentHash(existingItem.content + JSON.stringify(existingItem.featuredImage));
-                
+
                 if (contentHash !== existingHash) {
                     hasContentChanges = true;
                     updatedItemsCount++;
@@ -185,7 +186,7 @@ async function sync() {
                 // Check for image changes
                 const existingImages = imageTracking[slug] || [];
                 const newImageUrls = allImages.filter(img => !existingImages.includes(img));
-                
+
                 if (newImageUrls.length > 0) {
                     hasImageChanges = true;
                     newImagesCount += newImageUrls.length;
@@ -197,7 +198,7 @@ async function sync() {
 
             // Save the item data
             fs.writeFileSync(itemPath, JSON.stringify(item, null, 2));
-            
+
             // Update image tracking
             imageTracking[slug] = allImages;
         });
@@ -206,27 +207,34 @@ async function sync() {
         fs.writeFileSync(imageTrackingFile, JSON.stringify(imageTracking, null, 2));
 
         console.log(`Successfully saved ${items.length} items to ${postsDir}`);
-        
+
         if (newItemsCount > 0) {
             console.log(`\nDETECTED ${newItemsCount} NEW POSTS:`);
             newItems.forEach(title => console.log(` - ${title}`));
         }
-        
+
         if (updatedItemsCount > 0) {
             console.log(`\nDETECTED ${updatedItemsCount} UPDATED POSTS:`);
             updatedItems.forEach(title => console.log(` - ${title}`));
         }
-        
+
         if (newImagesCount > 0) {
             console.log(`\nDETECTED ${newImagesCount} NEW IMAGES:`);
             newImages.forEach(imgInfo => console.log(` - ${imgInfo}`));
         }
-        
+
         if (newItemsCount === 0 && updatedItemsCount === 0 && newImagesCount === 0) {
             console.log('\nNo new posts, updates, or images detected.');
         }
-        
+
         console.log('Sync complete!');
+
+        // Regenerate hex-to-blog mapping and known colors
+        console.log('\n--- Regenerating hex-to-blog mapping ---');
+        execSync('node scripts/map-hex-to-blog.mjs', { stdio: 'inherit' });
+
+        console.log('\n--- Regenerating known hex lists ---');
+        execSync('node scripts/generate-known-hexes.js', { stdio: 'inherit' });
 
         // Return summary for deployment script
         return {

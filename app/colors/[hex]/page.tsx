@@ -12,6 +12,7 @@ import { notFound, redirect } from "next/navigation"
 import { BreadcrumbSchema, FAQSchema, ImageObjectSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
 import { generateFAQs } from "@/lib/category-utils"
+import hexToBlog from "@/lib/hex-to-blog.json"
 
 // export const runtime = 'nodejs' // Not needed for static export
 
@@ -26,9 +27,12 @@ export async function generateStaticParams() {
   const meaningHexes = Object.keys(data)
   const knownHexes = Array.from(KNOWN_COLOR_HEXES)
 
-  // Combine all sources
+  // Create set of excluded hexes (those with blog posts)
+  const excludedHexes = new Set(Object.keys(hexToBlog).map(h => h.toUpperCase()))
+
+  // Combine all sources and filter out blog-mapped hexes
   const allHexes = new Set([
-    ...meaningHexes.map(h => h.toLowerCase()),
+    ...meaningHexes.filter(h => !excludedHexes.has(h.toUpperCase())).map(h => h.toLowerCase()),
     ...knownHexes.map(h => h.toLowerCase())
   ])
 

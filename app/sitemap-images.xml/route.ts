@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import colorMeaning from "@/lib/color-meaning.json"
 import { getGumletImageUrl } from "@/lib/gumlet-utils"
+import hexToBlog from "@/lib/hex-to-blog.json"
 
 export const dynamic = 'force-static'
 
@@ -8,8 +9,11 @@ export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean.com"
   const now = new Date().toISOString()
 
+  const excludedHexes = new Set(Object.keys(hexToBlog).map(h => h.toUpperCase()))
+
   // Generate image sitemap entries for all colors with Gumlet images
   const entries = Object.entries(colorMeaning)
+    .filter(([hex]: any) => !excludedHexes.has(String(hex).toUpperCase()))
     .map(([hex]: any) => {
       const cleanHex = String(hex).toUpperCase()
       const gumletUrl = getGumletImageUrl(`#${cleanHex}`)

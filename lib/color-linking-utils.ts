@@ -4,6 +4,7 @@
  */
 
 import { KNOWN_COLOR_HEXES } from './known-colors-complete';
+import hexToBlog from './hex-to-blog.json';
 
 // Use the existing known color set
 
@@ -25,6 +26,12 @@ export function isStaticColor(hex: string): boolean {
 export function getColorPageLink(hex: string): string {
   const cleanHex = hex.replace('#', '').toUpperCase();
 
+  // 1. Check if there's a dedicated blog post for this hex
+  if ((hexToBlog as any)[cleanHex]) {
+    return (hexToBlog as any)[cleanHex];
+  }
+
+  // 2. Check if it's a known static color page
   if (isStaticColor(hex)) {
     // Link to static color page - normalize to lowercase for URL consistency
     return `/colors/${cleanHex.toLowerCase()}/`;
