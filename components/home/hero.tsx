@@ -35,19 +35,19 @@ export function Hero() {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-4">
-                        <Link href="/color-picker">
+                        <Link href="/color-picker/">
                             <Button size="lg" className="h-14 px-8 text-base font-semibold gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all">
                                 <Palette className="w-5 h-5" />
                                 Color Picker
                             </Button>
                         </Link>
-                        <Link href="/color-wheel">
+                        <Link href="/color-wheel/">
                             <Button size="lg" variant="outline" className="h-14 px-8 text-base font-semibold gap-2 shadow-sm hover:bg-accent transition-all">
                                 <Grid className="w-5 h-5" />
                                 Tools
                             </Button>
                         </Link>
-                        <Link href="/colors">
+                        <Link href="/colors/">
                             <Button size="lg" variant="ghost" className="h-14 px-8 text-base font-semibold gap-2 transition-all">
                                 <BookOpen className="w-5 h-5" />
                                 Color Library

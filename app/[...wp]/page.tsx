@@ -12,7 +12,6 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { ColorSidebar } from "@/components/sidebar"
 import { WPColorContext } from "@/components/wp-color-context"
 import { ColorPageContent } from "@/components/color-page-content"
-import { WPSEOHead } from "@/components/wpseo-head"
 import { BreadcrumbSchema, ImageObjectSchema, ArticleSchema } from "@/components/structured-data"
 import { CopyButton } from "@/components/copy-button"
 import { getContrastColor, hexToRgb, rgbToHsl, rgbToCmyk } from "@/lib/color-utils"
@@ -911,7 +910,7 @@ export async function generateMetadata({ params }: WPPageProps): Promise<Metadat
     (node.seo?.twitterImage?.mediaItemUrl ? convertToGumletUrl(node.seo.twitterImage.mediaItemUrl) : undefined) ||
     (node.seo?.twitterImage?.sourceUrl ? convertToGumletUrl(node.seo.twitterImage.sourceUrl) : undefined) ||
     undefined
-  const canonical = node?.uri ? new URL(node.uri, site).toString() : node.seo?.canonical || node.seo?.opengraphUrl || undefined
+  const canonical = node?.uri || undefined
   const robotsIndex = node.seo?.metaRobotsNoindex === "noindex" ? false : true
   const robotsFollow = node.seo?.metaRobotsNofollow === "nofollow" ? false : true
   const adv = node.seo?.metaRobotsAdvanced || ""

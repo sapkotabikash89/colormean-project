@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Upload an image and extract color values by clicking anywhere on it. Get hex, RGB, and other color codes from your images instantly.",
   keywords: ["image color picker", "extract colors", "eyedropper tool", "color from image"],
   alternates: {
-    canonical: "https://colormean.com/image-color-picker",
+    canonical: "/image-color-picker",
   },
   openGraph: {
     title: "Image Color Picker - Extract Colors from Images | ColorMean",

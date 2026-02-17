@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Explore our comprehensive color library with thousands of colors organized by category. Find the perfect color with hex codes, RGB values, and color names.",
   keywords: ["color library", "color names", "hex colors", "color palette", "color collection"],
   alternates: {
-    canonical: "https://colormean.com/colors",
+    canonical: "/colors",
   },
   openGraph: {
     title: "Color Library - Browse Thousands of Colors | ColorMean",
@@ -42,26 +42,18 @@ export const metadata: Metadata = {
   },
 }
 
+import colorLibraryData from "@/lib/color-library-data.json"
+
 export default function ColorsPage() {
   const baseUrl = "https://colormean.com"
-  const allColors = (() => {
-    const entries: Array<{ name: string; hex: string }> = []
-    for (const key of Object.keys(data as any)) {
-      const item = (data as any)[key]
-      const hex = String(item?.hex || `#${key}`).toUpperCase()
-      const name = String(item?.name || `#${key}`)
-      entries.push({ name, hex })
-    }
-    return entries
-  })()
-  const q = "" // For static export, search is not supported
-  const filtered = q
-    ? allColors.filter((c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q))
-    : allColors
-  const initialPageItems = filtered.slice(0, 100).map((c) => ({
+  const perPage = 100
+  const currentPage = 1
+
+  const initialPageItems = colorLibraryData.slice(0, perPage).map((c) => ({
     name: c.name,
-    url: `${baseUrl}/colors/${c.hex.replace("#", "").toUpperCase()}`,
+    url: `${baseUrl}/colors/${c.hex.replace("#", "").toLowerCase()}`,
   }))
+
   return (
     <div className="flex flex-col min-h-screen">
       <CollectionPageSchema name="Color Library" url={`${baseUrl}/colors`} />
@@ -87,7 +79,13 @@ export default function ColorsPage() {
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <article id="content" className="main-content grow-content flex-1" itemProp="articleBody">
-            <ColorLibrary initialQuery="" />
+            <ColorLibrary
+              initialQuery=""
+              initialPage={currentPage}
+              initialCategory="all"
+              perPage={perPage}
+              baseUrl="/colors"
+            />
             <div className="mt-8 flex justify-center">
               <ShareButtons title="Check out the ColorMean Color Library" />
             </div>

@@ -8,7 +8,6 @@ export async function GET() {
   const paths = [
     "/",
     "/colors",
-    "/color-meanings",
     "/color-wheel",
     "/color-picker",
     "/contrast-checker",

@@ -11,31 +11,64 @@ import { getContrastColor } from "@/lib/color-utils"
 import { hexToRgb, rgbToHsl } from "@/lib/color-utils"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination"
 import { getColorPageLink } from "@/lib/color-linking-utils"
+import { useRouter } from "next/navigation"
 
 // Import the optimized color library data
 import colorLibraryData from "@/lib/color-library-data.json"
 
 type ColorItem = typeof colorLibraryData[number];
 
-export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
+interface ColorLibraryProps {
+  initialQuery?: string;
+  initialPage?: number;
+  initialCategory?: string;
+  perPage?: number;
+  baseUrl?: string;
+}
+
+export function ColorLibrary({
+  initialQuery = "",
+  initialPage = 1,
+  initialCategory = "all",
+  perPage = 100,
+  baseUrl = "/colors"
+}: ColorLibraryProps) {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState(initialQuery)
-  const [activeCategory, setActiveCategory] = useState("all")
+  const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [previewResults, setPreviewResults] = useState<Array<{ name: string; hex: string }>>([])
   const [loading, setLoading] = useState(false)
   const debounceRef = useRef<number | null>(null)
-  const [page, setPage] = useState(1)
-  const perPage = 100
-  
+  const [page, setPage] = useState(initialPage)
+
+  const isInitialMount = useRef(true);
+
+  // Update local page state when initialPage prop changes (for navigation)
+  useEffect(() => {
+    setPage(initialPage);
+    if (!isInitialMount.current) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [initialPage]);
+
+  useEffect(() => {
+    setActiveCategory(initialCategory);
+  }, [initialCategory]);
+
+  // Normalize baseUrl to end with slash
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+  const currentBaseUrl = activeCategory === "all"
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}category/${activeCategory}/`
+
   // All colors from the optimized data file
   const allColors = colorLibraryData;
-  const [isLoading, setIsLoading] = useState(false)
-  
+
   const buildMobileList = (pages: number) => {
     if (pages <= 4) return Array.from({ length: pages }, (_, i) => i + 1)
     return [1, 2, "ellipsis", pages - 1, pages]
   }
-
-
 
   useEffect(() => {
     if (debounceRef.current) {
@@ -51,29 +84,29 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
       try {
         const query = searchQuery.trim().toLowerCase()
         const results: Array<{ name: string; hex: string }> = []
-        
+
         // Search through all colors
         for (let i = 0; i < allColors.length; i++) {
           const color = allColors[i]
           const name = color.name.toLowerCase()
-          
+
           if (name.startsWith(query)) {
             results.push({ name: color.name, hex: color.hex })
           }
         }
-        
+
         // Add contains matches (limit to 200 total results)
         if (results.length < 200) {
           for (let i = 0; i < allColors.length && results.length < 200; i++) {
             const color = allColors[i]
             const name = color.name.toLowerCase()
-            
+
             if (name.includes(query) && !name.startsWith(query)) {
               results.push({ name: color.name, hex: color.hex })
             }
           }
         }
-        
+
         setPreviewResults(results)
       } catch {
         setPreviewResults([])
@@ -87,6 +120,10 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
   }, [searchQuery, allColors])
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     setPage(1)
   }, [searchQuery, activeCategory])
 
@@ -116,8 +153,6 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
     return "reds"
   }
 
-
-
   const highlight = (name: string, q: string) => {
     const idx = name.toLowerCase().indexOf(q.toLowerCase())
     if (idx === -1) return name
@@ -135,12 +170,9 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
 
   const filteredColors = () => {
     if (!searchQuery) {
-      // When no search query, we use the imported all colors
       if (activeCategory === "all") return allColors
       return allColors.filter((c) => c.category === activeCategory)
     }
-
-    // When there's a search query, we use the preview results
     return previewResults.map(result => ({
       name: result.name,
       hex: result.hex,
@@ -189,7 +221,18 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
         </div>
       </Card>
 
-      <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+      <Tabs
+        value={activeCategory}
+        onValueChange={(value) => {
+          setActiveCategory(value)
+          if (value === "all") {
+            router.push(normalizedBaseUrl)
+          } else {
+            router.push(`${normalizedBaseUrl}category/${value}/`)
+          }
+        }}
+        className="w-full"
+      >
         <TabsList className="w-full flex-wrap h-auto gap-2 justify-start">
           <TabsTrigger value="all">All Colors</TabsTrigger>
           <TabsTrigger value="reds">Reds</TabsTrigger>
@@ -216,11 +259,9 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                   <PaginationContent className="flex-nowrap sm:flex-wrap">
                     <PaginationItem>
                       <PaginationPrevious
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setPage((p) => Math.max(1, p - 1))
-                        }}
+                        href={page > 1 ? (page === 2 ? currentBaseUrl : `${currentBaseUrl}page/${page - 1}/`) : "#"}
+                        aria-disabled={page <= 1}
+                        className={page <= 1 ? "pointer-events-none opacity-50" : ""}
                       />
                     </PaginationItem>
                     <div className="hidden sm:flex">
@@ -232,18 +273,14 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                         ) : (
                           <PaginationItem key={`n-${n}`}>
                             <PaginationLink
-                              href="#"
+                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
                               isActive={n === page}
                               className={n === page ? "bg-primary text-primary-foreground rounded-full" : ""}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setPage(n as number)
-                              }}
                             >
                               {n as number}
                             </PaginationLink>
                           </PaginationItem>
-                        ),
+                        )
                       )}
                     </div>
                     <div className="flex sm:hidden">
@@ -255,27 +292,21 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                         ) : (
                           <PaginationItem key={`mn-${idx}-${n}`}>
                             <PaginationLink
-                              href="#"
+                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setPage(n as number)
-                              }}
                             >
                               {n as number}
                             </PaginationLink>
                           </PaginationItem>
-                        ),
+                        )
                       )}
                     </div>
                     <PaginationItem>
                       <PaginationNext
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setPage((p) => Math.min(pages, p + 1))
-                        }}
+                        href={page < pages ? `${currentBaseUrl}page/${page + 1}/` : "#"}
+                        aria-disabled={page >= pages}
+                        className={page >= pages ? "pointer-events-none opacity-50" : ""}
                       />
                     </PaginationItem>
                   </PaginationContent>
@@ -287,23 +318,23 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
             {filteredColors()
               .slice((page - 1) * perPage, page * perPage)
               .map((color, index) => (
-              <Link key={index} href={getColorPageLink(color.hex)}>
-                <Card className="group hover:shadow-lg transition-all hover:scale-105 cursor-pointer overflow-hidden">
-                  <div
-                    className="aspect-square flex items-center justify-center p-4 text-center font-mono text-sm font-semibold"
-                    style={{
-                      backgroundColor: color.hex,
-                      color: getContrastColor(color.hex),
-                    }}
-                  >
-                    {color.hex}
-                  </div>
-                  <div className="p-3 bg-card">
-                    <p className="text-sm font-medium text-center truncate">{color.name}</p>
-                  </div>
-                </Card>
-              </Link>
-            ))}
+                <Link key={index} href={getColorPageLink(color.hex)}>
+                  <Card className="group hover:shadow-lg transition-all hover:scale-105 cursor-pointer overflow-hidden">
+                    <div
+                      className="aspect-square flex items-center justify-center p-4 text-center font-mono text-sm font-semibold"
+                      style={{
+                        backgroundColor: color.hex,
+                        color: getContrastColor(color.hex),
+                      }}
+                    >
+                      {color.hex}
+                    </div>
+                    <div className="p-3 bg-card">
+                      <p className="text-sm font-medium text-center truncate">{color.name}</p>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
           </div>
           {(() => {
             const total = filteredColors().length
@@ -317,12 +348,9 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                   <PaginationContent className="flex-nowrap sm:flex-wrap">
                     <PaginationItem>
                       <PaginationPrevious
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setPage((p) => Math.max(1, p - 1))
-                          window.scrollTo({ top: 0, behavior: "smooth" })
-                        }}
+                        href={page > 1 ? (page === 2 ? currentBaseUrl : `${currentBaseUrl}page/${page - 1}/`) : "#"}
+                        aria-disabled={page <= 1}
+                        className={page <= 1 ? "pointer-events-none opacity-50" : ""}
                       />
                     </PaginationItem>
                     <div className="hidden sm:flex">
@@ -334,19 +362,14 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                         ) : (
                           <PaginationItem key={`b-n-${n as number}`}>
                             <PaginationLink
-                              href="#"
+                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setPage(n as number)
-                                window.scrollTo({ top: 0, behavior: "smooth" })
-                              }}
                             >
                               {n as number}
                             </PaginationLink>
                           </PaginationItem>
-                        ),
+                        )
                       )}
                     </div>
                     <div className="flex sm:hidden">
@@ -358,29 +381,21 @@ export function ColorLibrary({ initialQuery = "" }: { initialQuery?: string }) {
                         ) : (
                           <PaginationItem key={`b-mn-${idx}-${n}`}>
                             <PaginationLink
-                              href="#"
+                              href={n === 1 ? currentBaseUrl : `${currentBaseUrl}page/${n}/`}
                               isActive={(n as number) === page}
                               className={(n as number) === page ? "bg-primary text-primary-foreground rounded-full" : ""}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setPage(n as number)
-                                window.scrollTo({ top: 0, behavior: "smooth" })
-                              }}
                             >
                               {n as number}
                             </PaginationLink>
                           </PaginationItem>
-                        ),
+                        )
                       )}
                     </div>
                     <PaginationItem>
                       <PaginationNext
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setPage((p) => Math.min(pages, p + 1))
-                          window.scrollTo({ top: 0, behavior: "smooth" })
-                        }}
+                        href={page < pages ? `${currentBaseUrl}page/${page + 1}/` : "#"}
+                        aria-disabled={page >= pages}
+                        className={page >= pages ? "pointer-events-none opacity-50" : ""}
                       />
                     </PaginationItem>
                   </PaginationContent>

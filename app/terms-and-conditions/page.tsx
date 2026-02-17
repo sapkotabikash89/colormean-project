@@ -9,6 +9,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "Terms and Conditions - ColorMean",
   description: "Terms and conditions for using ColorMean. Read our rules and guidelines.",
+  alternates: {
+    canonical: "/terms-and-conditions",
+  },
 }
 
 export default function TermsAndConditionsPage() {

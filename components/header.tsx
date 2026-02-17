@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
+import { useEffect, startTransition } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -45,7 +45,14 @@ export function Header() {
 
     if (searchResult) {
       // Use Next.js router for navigation to avoid Cloudflare redirects
-      router.push(searchResult.replace('https://colormean.com', ''))
+      const path = searchResult.replace('https://colormean.com', '')
+      const normalizedPath = path.includes('?')
+        ? path.replace('?', '/?')
+        : (path.endsWith('/') ? path : `${path}/`)
+
+      startTransition(() => {
+        router.push(normalizedPath)
+      })
     } else {
       // Fallback for empty/invalid input - do nothing
       return
@@ -60,7 +67,7 @@ export function Header() {
   const handleColorApply = (color?: string) => {
     const selectedColor = typeof color === "string" ? color : tempColor
     setPickerColor(selectedColor)
-    
+
     // Only dispatch update if we're NOT closing (which happens via navigation usually)
     // But since this is called by CustomColorPicker's onApply (which we just made conditional on !getHref),
     // this will now only run when NOT navigating. 
@@ -88,37 +95,37 @@ export function Header() {
               </Button>
             </Link>
             <div className="absolute left-0 mt-2 w-[240px] bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-200">
-              <Link href="/color-wheel">
+              <Link href="/color-wheel/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Color Wheel">
                   <CircleDot className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Color Wheel
                 </Button>
               </Link>
-              <Link href="/color-picker">
+              <Link href="/color-picker/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Color Picker">
                   <Droplet className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Color Picker
                 </Button>
               </Link>
-              <Link href="/contrast-checker">
+              <Link href="/contrast-checker/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Contrast Checker">
                   <Contrast className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Contrast Checker
                 </Button>
               </Link>
-              <Link href="/color-blindness-simulator">
+              <Link href="/color-blindness-simulator/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Color Blindness Simulator">
                   <Eye className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Color Blindness Simulator
                 </Button>
               </Link>
-              <Link href="/image-color-picker">
+              <Link href="/image-color-picker/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Image Color Picker">
                   <ImageIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Image Color Picker
                 </Button>
               </Link>
-              <Link href="/palette-from-image">
+              <Link href="/palette-from-image/">
                 <Button variant="ghost" className="w-full justify-start gap-2 h-auto py-2 whitespace-normal text-left" aria-label="Palette from Image">
                   <Palette className="w-4 h-4 shrink-0" aria-hidden="true" />
                   Palette from Image
@@ -126,25 +133,25 @@ export function Header() {
               </Link>
             </div>
           </div>
-          <Link href="/colors">
+          <Link href="/colors/">
             <Button variant="ghost" size="sm" className="gap-2" aria-label="Color Library">
               <Palette className="w-4 h-4" aria-hidden="true" />
               <span className="hidden xl:inline">Color Library</span>
             </Button>
           </Link>
-          <Link href="/category/shades-meaning">
+          <Link href="/category/shades-meaning/">
             <Button variant="ghost" size="sm" className="gap-2" aria-label="Shades">
               <CircleDot className="w-4 h-4" aria-hidden="true" />
               <span className="hidden xl:inline">Shades</span>
             </Button>
           </Link>
-          <Link href="/category/color-meaning">
+          <Link href="/category/color-meaning/">
             <Button variant="ghost" size="sm" className="gap-2" aria-label="Color Meaning">
               <Droplet className="w-4 h-4" aria-hidden="true" />
               <span className="hidden xl:inline">Color Meaning</span>
             </Button>
           </Link>
-          <Link href="/contact">
+          <Link href="/contact/">
             <Button variant="ghost" size="sm" className="gap-2" aria-label="Contact">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4" aria-hidden="true">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -153,7 +160,7 @@ export function Header() {
               <span className="hidden xl:inline">Contact</span>
             </Button>
           </Link>
-          <Link href="/privacy-policy">
+          <Link href="/privacy-policy/">
             <Button variant="ghost" size="sm" className="gap-2" aria-hidden="true" aria-label="Privacy">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -222,61 +229,61 @@ export function Header() {
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
-                <Link href="/color-wheel">
+                <Link href="/color-wheel/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <CircleDot className="w-4 h-4" />
                     Color Wheel
                   </Button>
                 </Link>
-                <Link href="/color-picker">
+                <Link href="/color-picker/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Droplet className="w-4 h-4" />
                     Color Picker
                   </Button>
                 </Link>
-                <Link href="/contrast-checker">
+                <Link href="/contrast-checker/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Contrast className="w-4 h-4" />
                     Contrast Checker
                   </Button>
                 </Link>
-                <Link href="/color-blindness-simulator">
+                <Link href="/color-blindness-simulator/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Eye className="w-4 h-4" />
                     Color Blindness Simulator
                   </Button>
                 </Link>
-                <Link href="/image-color-picker">
+                <Link href="/image-color-picker/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <ImageIcon className="w-4 h-4" />
                     Image Color Picker
                   </Button>
                 </Link>
-                <Link href="/palette-from-image">
+                <Link href="/palette-from-image/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Palette className="w-4 h-4" />
                     Palette from Image
                   </Button>
                 </Link>
-                <Link href="/colors">
+                <Link href="/colors/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Palette className="w-4 h-4" />
                     Color Library
                   </Button>
                 </Link>
-                <Link href="/category/shades-meaning">
+                <Link href="/category/shades-meaning/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <CircleDot className="w-4 h-4" />
                     Shades
                   </Button>
                 </Link>
-                <Link href="/category/color-meaning">
+                <Link href="/category/color-meaning/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <Droplet className="w-4 h-4" />
                     Color Meaning
                   </Button>
                 </Link>
-                <Link href="/contact">
+                <Link href="/contact/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -285,7 +292,7 @@ export function Header() {
                     Contact
                   </Button>
                 </Link>
-                <Link href="/privacy-policy">
+                <Link href="/privacy-policy/">
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                       <circle cx="12" cy="12" r="10"></circle>

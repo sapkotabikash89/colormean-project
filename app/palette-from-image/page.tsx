@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Generate beautiful color palettes from any image. Extract dominant colors and create harmonious color schemes.",
   alternates: {
-    canonical: "https://colormean.com/palette-from-image",
+    canonical: "/palette-from-image",
   },
   openGraph: {
     title: "Palette from Image - ColorMean",

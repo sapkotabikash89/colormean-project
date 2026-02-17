@@ -10,6 +10,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "Cookie Policy - ColorMean",
   description: "Cookie Policy for ColorMean. Learn how we use cookies to improve your experience.",
+  alternates: {
+    canonical: "/cookie-policy",
+  },
 }
 
 export default function CokiePolicyPage() {

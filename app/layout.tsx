@@ -7,7 +7,6 @@ import { WebsiteSchema, OrganizationSchema, SoftwareApplicationSchema } from "@/
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import { GrowRefresh } from "@/components/grow-refresh"
-import { CanonicalTag } from "@/components/canonical-tag"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,9 +27,6 @@ export const metadata: Metadata = {
     "contrast checker",
   ],
   authors: [{ name: "ColorMean" }],
-  alternates: {
-    canonical: "https://colormean.com/",
-  },
   openGraph: {
     title: "ColorMean - Know Your Color",
     description: "Explore colors with detailed information, meanings, conversions, and professional tools.",
@@ -97,7 +93,6 @@ export default function RootLayout({
         <div className="max-w-[1200px] mx-auto">
           {children}
         </div>
-        <CanonicalTag />
 
         {/* Grow Script - Placed in body with afterInteractive strategy for safe loading */}
         <ScrollToTop />

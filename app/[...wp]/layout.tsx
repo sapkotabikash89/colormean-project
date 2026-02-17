@@ -27,9 +27,6 @@ export const metadata: Metadata = {
     "contrast checker",
   ],
   authors: [{ name: "ColorMean" }],
-  alternates: {
-    canonical: "https://colormean.com",
-  },
   openGraph: {
     title: "ColorMean - Know Your Color",
     description: "Explore colors with detailed information, meanings, conversions, and professional tools.",

@@ -152,7 +152,7 @@ export function searchColorJson(input: string, inputType: 'hex' | 'color-name'):
 
 // Generate color page slug from hex (Rule #4)
 export function generateColorSlug(hex: string): string {
-  return `/colors/${hex.toLowerCase()}`;
+  return `/colors/${hex.toLowerCase()}/`;
 }
 
 // Check if a color is known (exists in static color pages)
@@ -194,7 +194,7 @@ export function performStaticSearch(input: string, blogPosts: BlogPost[] = []): 
       return `https://colormean.com${generateColorSlug(cleanHex)}`;
     } else {
       // For colors not in static pages, return HTML color picker
-      return `https://colormean.com/html-color-picker?hex=${cleanHex.toLowerCase()}`;
+      return `https://colormean.com/html-color-picker/?hex=${cleanHex.toLowerCase()}`;
     }
   }
 
@@ -253,7 +253,7 @@ export function performSimpleSearch(input: string): string | null {
       return `https://colormean.com${generateColorSlug(cleanHex)}`;
     } else {
       // For colors not in static pages, return HTML color picker
-      return `https://colormean.com/html-color-picker?hex=${cleanHex.toLowerCase()}`;
+      return `https://colormean.com/html-color-picker/?hex=${cleanHex.toLowerCase()}`;
     }
   }
 

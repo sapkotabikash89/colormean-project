@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Simulate how colors appear to people with different types of color vision deficiency. Test your designs for accessibility.",
   alternates: {
-    canonical: "https://colormean.com/color-blindness-simulator",
+    canonical: "/color-blindness-simulator",
   },
   openGraph: {
     title: "Color Blindness Simulator - ColorMean",

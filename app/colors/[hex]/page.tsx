@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
   const cleanHexOriginal = normalizedHex.replace("#", "").toLowerCase()
-  
+
   // Validate hex format (3 or 6 hex digits)
   if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHexOriginal)) {
     // Return minimal metadata for invalid hex
@@ -51,11 +51,11 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       robots: { index: false },
     }
   }
-  
+
   // Load known colors from JSON to check if this is a known color
   const colorData = (await import('@/lib/color-meaning.json')).default
   const knownHexes = Object.keys(colorData).map(h => h.toLowerCase())
-  
+
   // Check if this is an unknown color (not in color-meaning.json)
   if (!knownHexes.includes(cleanHexOriginal)) {
     // IMPLEMENTATION: Return minimal metadata for unknown colors
@@ -66,9 +66,9 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       robots: { index: false, follow: false },
     }
   }
-  
+
   const cleanHex = normalizedHex.replace("#", "").toUpperCase()
-  
+
   // Load data to check if color exists in our database
   const meta: any = (colorData as any)[cleanHex]
   const colorName: string | undefined = meta?.name || undefined
@@ -106,7 +106,7 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       "brand colors",
     ],
     alternates: {
-      canonical: `https://colormean.com/colors/${cleanHex.toLowerCase()}`,
+      canonical: `/colors/${cleanHex.toLowerCase()}`,
     },
     openGraph: {
       title: baseTitle,
@@ -142,24 +142,24 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 export default async function ColorPage({ params }: ColorPageProps) {
   const { hex } = await params
   const normalizedHex = normalizeHex(hex)
-  
+
   // Normalize hex: lowercase, strip leading #, validate length
   const cleanHex = normalizedHex.replace('#', '').toLowerCase()
-  
+
   // Validate hex format (3 or 6 hex digits)
   if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHex)) {
     // Use Next.js notFound() for invalid hex formats
     notFound()
   }
-  
+
   // Load known colors from JSON to check if this is a known color
   const colorData = (await import('@/lib/color-meaning.json')).default
   const knownHexes = Object.keys(colorData).map(h => h.toLowerCase())
-  
+
   // NOTE: 410 handling for unknown colors is now handled by Cloudflare Worker
   // This page component will only render for known colors or invalid formats
   // Unknown valid hex codes will receive HTTP 410 from the worker before reaching here
-  
+
   // If we reach here, it's a known color - proceed with normal rendering
   // KNOWN COLORS: Render normally with existing page JSX, metadata, and canonical tags intact.
 

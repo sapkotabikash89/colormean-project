@@ -7,19 +7,19 @@ export const dynamic = 'force-static'
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://colormean.com"
   const now = new Date().toISOString()
-  
+
   // Generate image sitemap entries for all colors with Gumlet images
   const entries = Object.entries(colorMeaning)
     .map(([hex]: any) => {
       const cleanHex = String(hex).toUpperCase()
       const gumletUrl = getGumletImageUrl(`#${cleanHex}`)
-      
+
       // Only include colors that have Gumlet images
       if (!gumletUrl) return null
-      
-      const pageUrl = `${baseUrl}/colors/${cleanHex}`
+
+      const pageUrl = `${baseUrl}/colors/${cleanHex.toLowerCase()}`
       const title = colorMeaning[hex as keyof typeof colorMeaning]?.name || `#${cleanHex} Color`
-      
+
       return `<url>
   <loc>${pageUrl}</loc>
   <lastmod>${now}</lastmod>
@@ -40,7 +40,7 @@ export async function GET() {
     entries +
     `</urlset>`
 
-  return new NextResponse(body, { 
-    headers: { "Content-Type": "application/xml; charset=utf-8" } 
+  return new NextResponse(body, {
+    headers: { "Content-Type": "application/xml; charset=utf-8" }
   })
 }

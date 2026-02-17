@@ -10,29 +10,29 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
               <img src="/logo.webp" alt="ColorMean logo" className="h-8 w-auto rounded-lg" width="120" height="32" />
               <span>ColorMean</span>
-          </Link>
-          <p className="text-sm text-muted-foreground">
-            We created ColorMean to go deeper than hex codes and palettes. Our focus is the emotional, psychological, cultural, and spiritual meaning of color, backed by accurate technical data. If you enjoy using ColorMean or have ideas to share, we would love to hear from you.
-          </p>
-        </div>
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              We created ColorMean to go deeper than hex codes and palettes. Our focus is the emotional, psychological, cultural, and spiritual meaning of color, backed by accurate technical data. If you enjoy using ColorMean or have ideas to share, we would love to hear from you.
+            </p>
+          </div>
 
           {/* Tools */}
           <div>
             <h3 className="font-semibold mb-4">Color Tools</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/color-wheel" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/color-wheel/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Color Wheel
                 </Link>
               </li>
               <li>
-                <Link href="/color-picker" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/color-picker/" className="text-muted-foreground hover:text-foreground transition-colors">
                   Color Picker
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/contrast-checker"
+                  href="/contrast-checker/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Contrast Checker
@@ -40,7 +40,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/color-blindness-simulator"
+                  href="/color-blindness-simulator/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Color Blindness Simulator
@@ -48,7 +48,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/image-color-picker"
+                  href="/image-color-picker/"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Image Color Picker

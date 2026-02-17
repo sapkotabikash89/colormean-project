@@ -113,6 +113,12 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   return {
     title: `${capitalizedCategory} - ColorMean`,
     description: `Explore ${capitalizedCategory.toLowerCase()} articles and guides on ColorMean. Latest posts about ${capitalizedCategory.toLowerCase()} meanings, psychology, and symbolism.`,
+    alternates: {
+      canonical: `/categories/${categorySlug}`,
+    },
+    robots: {
+      index: false,
+    },
   };
 }
 

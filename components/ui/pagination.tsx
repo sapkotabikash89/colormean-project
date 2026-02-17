@@ -5,6 +5,7 @@ import {
   MoreHorizontalIcon,
 } from 'lucide-react'
 
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
 
@@ -49,7 +50,8 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <a
+    <Link
+      href={props.href ?? '#'}
       aria-current={isActive ? 'page' : undefined}
       data-slot="pagination-link"
       data-active={isActive}

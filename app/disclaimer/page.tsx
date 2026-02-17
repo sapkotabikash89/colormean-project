@@ -10,6 +10,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "Disclaimer - ColorMean",
   description: "Disclaimer for ColorMean. Read our limitations of liability and information policies.",
+  alternates: {
+    canonical: "/disclaimer",
+  },
 }
 
 export default function DisclaimerPage() {

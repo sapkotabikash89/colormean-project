@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: "Turn ideas into visuals with confidence. Access rich color details, meanings, psychology, symbolism, uses, precise conversions, and powerful tools made for creative minds.",
   keywords: ["color picker", "color converter", "color meanings", "color harmonies", "design tools", "color psychology"],
   alternates: {
-    canonical: "https://colormean.com",
+    canonical: "/",
   },
   openGraph: {
     title: "ColorMean: Know Your Color",

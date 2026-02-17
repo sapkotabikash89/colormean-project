@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Pick colors directly from your screen using the EyeDropper API. Extract colors from anywhere on your display.",
   alternates: {
-    canonical: "https://colormean.com/screen-color-picker",
+    canonical: "/screen-color-picker",
   },
   openGraph: {
     title: "Screen Color Picker - ColorMean",

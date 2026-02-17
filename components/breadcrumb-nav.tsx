@@ -12,10 +12,10 @@ interface BreadcrumbNavProps {
 
 export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
   // Check if the first item is already "ColorMean" to avoid duplication
-  const allItems: BreadcrumbItem[] = items[0]?.label === "ColorMean" 
-    ? items 
+  const allItems: BreadcrumbItem[] = items[0]?.label === "ColorMean"
+    ? items
     : [{ label: "ColorMean", href: "/" }, ...items]
-  
+
   return (
     <nav className="text-sm mb-6" aria-label="Breadcrumb" itemScope itemType="https://schema.org/BreadcrumbList">
       <ol className="flex flex-wrap items-center gap-x-1 gap-y-1">
@@ -34,7 +34,11 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
                   {item.label}
                 </span>
               ) : (
-                <Link href={item.href} className="hover:text-foreground transition-colors" itemProp="item">
+                <Link
+                  href={item.href === "/" ? "/" : (item.href.endsWith("/") ? item.href : `${item.href}/`)}
+                  className="hover:text-foreground transition-colors"
+                  itemProp="item"
+                >
                   <span itemProp="name">{item.label}</span>
                 </Link>
               )}

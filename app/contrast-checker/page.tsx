@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Check color contrast ratios for accessibility compliance. Ensure your designs meet WCAG AA and AAA standards for text, UI components, and graphics.",
   keywords: ["contrast checker", "WCAG compliance", "accessibility", "color contrast", "AA AAA standards"],
   alternates: {
-    canonical: "https://colormean.com/contrast-checker",
+    canonical: "/contrast-checker",
   },
   openGraph: {
     title: "Contrast Checker - WCAG Accessibility Tool | ColorMean",

@@ -10,6 +10,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "About Us - ColorMean",
   description: "Learn about ColorMean. Edit this sample content later.",
+  alternates: {
+    canonical: "/about-us",
+  },
 }
 
 export default function AboutUsPage() {

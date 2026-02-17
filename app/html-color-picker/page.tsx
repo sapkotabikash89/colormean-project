@@ -23,7 +23,6 @@ import {
 } from "@/lib/color-utils";
 import { BreadcrumbSchema, FAQSchema } from "@/components/structured-data";
 import { ShareButtons } from "@/components/share-buttons";
-
 const DEFAULT_HEX = "#5B6FD8";
 
 export default function HtmlColorPickerPage() {

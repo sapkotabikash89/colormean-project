@@ -30,6 +30,12 @@ async function fetchAllCategories() {
 export const metadata = {
   title: "Color Categories - Browse All Topics",
   description: "Explore all color categories and topics on ColorMean. Find articles about color meanings, psychology, and more.",
+  alternates: {
+    canonical: "/categories",
+  },
+  robots: {
+    index: false,
+  },
 };
 
 export default async function AllCategoriesPage() {

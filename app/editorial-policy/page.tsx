@@ -10,6 +10,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "Editorial Policy - ColorMean",
   description: "Editorial standards of ColorMean. Learn how we create, review, and maintain content.",
+  alternates: {
+    canonical: "/editorial-policy",
+  },
 }
 
 export default function EditorialPolicyPage() {

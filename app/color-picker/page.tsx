@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Color Picker - ColorMean",
   description: "Advanced color picker tool to select and explore colors. Get HEX, RGB, HSL color codes instantly.",
   alternates: {
-    canonical: "https://colormean.com/color-picker",
+    canonical: "/color-picker",
   },
   openGraph: {
     title: "Color Picker - ColorMean",

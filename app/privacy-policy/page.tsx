@@ -9,6 +9,9 @@ import { ShareButtons } from "@/components/share-buttons"
 export const metadata: Metadata = {
   title: "Privacy Policy - ColorMean",
   description: "Privacy practices of ColorMean. Learn how we collect, use, and protect your information.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
 }
 
 export default function PrivacyPolicyPage() {

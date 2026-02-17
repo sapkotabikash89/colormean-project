@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Explore the interactive color wheel to discover color harmonies, complementary colors, analogous colors, and triadic combinations. Professional color theory tool for designers.",
   keywords: ["color wheel", "color harmony", "complementary colors", "analogous colors", "color theory"],
   alternates: {
-    canonical: "https://colormean.com/color-wheel",
+    canonical: "/color-wheel",
   },
   openGraph: {
     title: "Color Wheel - Interactive Color Harmony Tool | ColorMean",

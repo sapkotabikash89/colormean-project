@@ -141,7 +141,10 @@ export function ColorSidebar({ color: initialColor, onColorChange, showColorSche
                   >
                     {idx + 1}
                   </span>
-                  <Link href={p.uri} className="hover:underline whitespace-normal break-words">
+                  <Link
+                    href={p.uri.endsWith('/') ? p.uri : `${p.uri}/`}
+                    className="hover:underline whitespace-normal break-words"
+                  >
                     {p.title}
                   </Link>
                 </li>

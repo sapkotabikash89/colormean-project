@@ -27,10 +27,10 @@ export function getColorPageLink(hex: string): string {
 
   if (isStaticColor(hex)) {
     // Link to static color page - normalize to lowercase for URL consistency
-    return `/colors/${cleanHex.toLowerCase()}`;
+    return `/colors/${cleanHex.toLowerCase()}/`;
   } else {
     // Link to universal color picker with query parameter
-    return `/html-color-picker?hex=${cleanHex.toLowerCase()}`;
+    return `/html-color-picker/?hex=${cleanHex.toLowerCase()}`;
   }
 }
 
