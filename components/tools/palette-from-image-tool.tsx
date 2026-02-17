@@ -11,8 +11,7 @@ import { CopyButton } from "@/components/copy-button"
 import { ColorExportDialog } from "@/components/color-export-dialog"
 import { ShareButtons } from "@/components/share-buttons"
 import { getColorPageLink } from "@/lib/color-linking-utils"
-
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function PaletteFromImageTool() {
   const [image, setImage] = useState<string | null>(null)
@@ -24,6 +23,7 @@ export function PaletteFromImageTool() {
   const [exportOpen, setExportOpen] = useState(false)
   const pieCanvasRef = useRef<HTMLCanvasElement>(null)
   const [colorCount, setColorCount] = useState(8)
+  const router = useRouter()
 
   const kMeansPalette = (imageData: ImageData, k: number): { hex: string; count: number }[] => {
     const data = imageData.data
@@ -242,27 +242,37 @@ export function PaletteFromImageTool() {
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {palette.map((item, index) => (
-                        <Link key={index} href={getColorPageLink(item.hex)} className="group cursor-pointer block">
+                        <button
+                          key={index}
+                          type="button"
+                          className="group cursor-pointer block"
+                          onClick={() => router.push(getColorPageLink(item.hex))}
+                          aria-label={`View ${item.hex} color page`}
+                        >
                           <div
                             className="w-full aspect-square rounded-lg hover:scale-105 transition-transform"
                             style={{ backgroundColor: item.hex }}
                           />
                           <div className="mt-2 flex items-center justify-between">
-                            <p className="text-sm font-mono">{item.hex} ({item.percent}%)</p>
+                            <p className="text-sm font-mono">
+                              {item.hex} ({item.percent}%)
+                            </p>
                             <CopyButton value={item.hex} size="icon" />
                           </div>
-                        </Link>
+                        </button>
                       ))}
                     </div>
 
                     <div className="flex rounded-lg overflow-hidden border-2 border-border h-16">
                       {palette.map((item, index) => (
-                        <Link
+                        <button
                           key={index}
-                          href={getColorPageLink(item.hex)}
+                          type="button"
                           className="flex-1 cursor-pointer hover:opacity-80 transition-opacity block"
                           style={{ backgroundColor: item.hex }}
                           title={item.hex}
+                          onClick={() => router.push(getColorPageLink(item.hex))}
+                          aria-label={`View ${item.hex} color page`}
                         />
                       ))}
                     </div>

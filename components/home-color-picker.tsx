@@ -8,6 +8,7 @@ import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { CopyButton } from "@/components/copy-button"
 import Link from "next/link"
 import { getColorPageLink } from "@/lib/color-linking-utils"
+import { useRouter } from "next/navigation"
 
 export function HomeColorPicker() {
   const [selectedColor, setSelectedColor] = useState("#5B6FD8")
@@ -16,6 +17,7 @@ export function HomeColorPicker() {
   const [lightness, setLightness] = useState(60)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const event = new CustomEvent("colorUpdate", { detail: { color: selectedColor } })
@@ -245,11 +247,13 @@ export function HomeColorPicker() {
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2">
-            <Button asChild size="lg" className="w-full gap-2 text-sm sm:text-base">
-              <Link href={getColorPageLink(selectedColor)}>
-                <Palette className="w-4 h-4" />
-                Apply & Explore
-              </Link>
+            <Button
+              size="lg"
+              className="w-full gap-2 text-sm sm:text-base"
+              onClick={() => router.push(getColorPageLink(selectedColor))}
+            >
+              <Palette className="w-4 h-4" />
+              Apply & Explore
             </Button>
             <div className="grid grid-cols-2 gap-2">
               <Button

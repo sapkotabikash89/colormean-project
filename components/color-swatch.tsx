@@ -7,17 +7,20 @@ import { useIsMobile } from "@/components/ui/use-mobile"
 import { CopyButton } from "@/components/copy-button"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface ColorSwatchProps {
   color: string
   onClick?: () => void
   showHex?: boolean
+  useButton?: boolean
 }
 
-export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProps) {
+export function ColorSwatch({ color, onClick, showHex = false, useButton = false }: ColorSwatchProps) {
   const isMobile = useIsMobile()
   const [showCopied, setShowCopied] = useState(false)
   const swatchRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const handleCopy = async (e?: React.MouseEvent) => {
     e?.stopPropagation()
@@ -58,6 +61,9 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
 
     if (onClick) {
       onClick()
+    } else if (useButton) {
+      // Client-side navigation for button mode
+      router.push(getColorPageLink(color))
     }
     // Note: When using Link, navigation is handled by the Link component
   }
@@ -66,7 +72,7 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
     <div
       className="relative w-20 h-20 rounded-lg cursor-pointer hover:scale-105 transition-transform group"
       style={{ backgroundColor: color }}
-      onClick={onClick ? handleSwatchClick : undefined}
+      onClick={onClick || useButton ? handleSwatchClick : undefined}
       ref={swatchRef}
     >
       {showCopied && (
@@ -79,13 +85,19 @@ export function ColorSwatch({ color, onClick, showHex = false }: ColorSwatchProp
 
   return (
     <div className="flex flex-col items-center gap-1">
-      {onClick ? (
-        SwatchContent
+      {onClick || useButton ? (
+        <button
+          className="border-0 bg-transparent p-0 m-0 cursor-pointer"
+          aria-label={`View ${color} color page`}
+          type="button"
+        >
+          {SwatchContent}
+        </button>
       ) : (
-        <Link 
-          href={getColorPageLink(color)} 
-          // Removed manual dispatch to avoid potential navigation interference
-          // The target page will dispatch the update event upon mounting
+        <Link
+          href={getColorPageLink(color)}
+        // Removed manual dispatch to avoid potential navigation interference
+        // The target page will dispatch the update event upon mounting
         >
           {SwatchContent}
         </Link>

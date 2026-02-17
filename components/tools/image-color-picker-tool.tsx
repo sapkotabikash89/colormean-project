@@ -14,8 +14,7 @@ import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 import data from "@/lib/color-meaning.json"
-
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function ImageColorPickerTool() {
   const [image, setImage] = useState<string | null>(null)
@@ -35,6 +34,7 @@ export function ImageColorPickerTool() {
   const [exportTitle, setExportTitle] = useState("")
   const [exportLabel, setExportLabel] = useState("")
   const [exportColors, setExportColors] = useState<string[]>([])
+  const router = useRouter()
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -453,12 +453,14 @@ export function ImageColorPickerTool() {
                     </div>
                     <div className="flex rounded-lg overflow-hidden border-2 border-border h-10">
                       {palette.map((color, index) => (
-                        <Link
+                        <button
                           key={index}
-                          href={getColorPageLink(color)}
+                          type="button"
                           className="flex-1 cursor-pointer hover:opacity-80 transition-opacity block"
                           style={{ backgroundColor: color }}
                           title={color}
+                          onClick={() => router.push(getColorPageLink(color))}
+                          aria-label={`View ${color} color page`}
                         />
                       ))}
                     </div>
@@ -503,10 +505,12 @@ export function ImageColorPickerTool() {
                           )}
                         </>
                       )}
-                      <Button asChild variant="outline" className="w-full mt-2">
-                        <Link href={getColorPageLink(selectedColor)}>
-                          Explore This Color
-                        </Link>
+                      <Button
+                        variant="outline"
+                        className="w-full mt-2"
+                        onClick={() => router.push(getColorPageLink(selectedColor))}
+                      >
+                        Explore This Color
                       </Button>
                     </div>
                   </div>
@@ -517,7 +521,13 @@ export function ImageColorPickerTool() {
                     <h3 className="font-semibold">Picked Colors</h3>
                     <div className="grid grid-cols-5 sm:grid-cols-8 gap-2">
                       {pickedColors.map((color, index) => (
-                        <Link key={index} href={getColorPageLink(color)} className="group cursor-pointer block">
+                        <button
+                          key={index}
+                          type="button"
+                          className="group cursor-pointer block"
+                          onClick={() => router.push(getColorPageLink(color))}
+                          aria-label={`View ${color} color page`}
+                        >
                           <div
                             className="aspect-square rounded-md hover:scale-110 transition-transform"
                             style={{ backgroundColor: color }}
@@ -526,7 +536,7 @@ export function ImageColorPickerTool() {
                           <p className="text-xs font-mono text-center mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             {color}
                           </p>
-                        </Link>
+                        </button>
                       ))}
                     </div>
                     <div className="flex gap-2">

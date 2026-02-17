@@ -9,6 +9,7 @@ import { hexToRgb, rgbToHsl } from "@/lib/color-utils"
 import { CopyButton } from "@/components/copy-button"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function CompactImageColorPicker() {
     const [image, setImage] = useState<string | null>(null)
@@ -21,6 +22,7 @@ export function CompactImageColorPicker() {
     const [showMagnifier, setShowMagnifier] = useState(false)
     const [magnifierPos, setMagnifierPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
     const [imageLoaded, setImageLoaded] = useState(false)
+    const router = useRouter()
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -344,10 +346,12 @@ export function CompactImageColorPicker() {
                                             )}
                                         </>
                                     )}
-                                    <Button asChild variant="outline" className="w-full mt-2">
-                                        <Link href={getColorPageLink(selectedColor)}>
-                                            Explore This Color
-                                        </Link>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full mt-2"
+                                        onClick={() => router.push(getColorPageLink(selectedColor))}
+                                    >
+                                        Explore This Color
                                     </Button>
                                 </div>
                             </div>

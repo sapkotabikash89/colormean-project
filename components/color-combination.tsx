@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { getContrastColor } from "@/lib/color-utils"
 import { getColorPageLink } from "@/lib/color-linking-utils"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function ColorCombination({
   colors,
@@ -17,7 +17,8 @@ export function ColorCombination({
   onColorChange?: (color: string) => void
 }) {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
-  
+  const router = useRouter()
+
   return (
     <div className="w-full rounded-2xl overflow-hidden flex" style={{ height }}>
       {colors.map((hex, i) => {
@@ -57,6 +58,14 @@ export function ColorCombination({
           setTimeout(() => setCopiedIndex(null), 1500)
         }
 
+        const handleClick = () => {
+          if (onColorChange) {
+            onColorChange(hex)
+          } else {
+            router.push(getColorPageLink(hex))
+          }
+        }
+
         const content = (
           <>
             {isOriginal ? (
@@ -84,30 +93,18 @@ export function ColorCombination({
           </>
         )
 
-        if (onColorChange) {
-          return (
-            <button
-              key={`${hex}-${i}`}
-              className="flex-1 h-full relative"
-              style={{ backgroundColor: hex }}
-              onClick={() => onColorChange(hex)}
-              title={hex}
-            >
-              {content}
-            </button>
-          )
-        }
-
         return (
-          <Link
+          <button
             key={`${hex}-${i}`}
-            href={getColorPageLink(hex)}
-            className="flex-1 h-full relative block"
+            className="flex-1 h-full relative border-0 p-0 m-0 cursor-pointer"
             style={{ backgroundColor: hex }}
+            onClick={handleClick}
             title={hex}
+            aria-label={`View ${hex} color page`}
+            type="button"
           >
             {content}
-          </Link>
+          </button>
         )
       })}
     </div>

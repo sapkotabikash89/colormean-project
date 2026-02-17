@@ -10,7 +10,7 @@ import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { ShareButtons } from "@/components/share-buttons"
 import { ColorPageContent } from "@/components/color-page-content"
 import { getColorPageLink } from "@/lib/color-linking-utils"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 // OPTIMIZATION: Removed direct import of large JSON file to reduce bundle size
 // Data is fetched via API when needed to avoid loading 1.5MB JSON in client bundle
 
@@ -21,6 +21,7 @@ export function AdvancedColorPicker() {
   const [lightness, setLightness] = useState(60)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const router = useRouter()
   const [isDragging, setIsDragging] = useState(false)
 
   useEffect(() => {
@@ -183,11 +184,13 @@ export function AdvancedColorPicker() {
               >
                 {selectedColor.toUpperCase()}
               </div>
-              
-              <Button asChild className="w-full" size="lg">
-                <Link href={getColorPageLink(selectedColor)}>
-                  Explore This Color
-                </Link>
+
+              <Button
+                className="w-full"
+                size="lg"
+                onClick={() => router.push(getColorPageLink(selectedColor))}
+              >
+                Explore This Color
               </Button>
             </div>
 

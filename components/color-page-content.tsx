@@ -432,7 +432,13 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {tints.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
+                      <Swatch
+                        key={`${c}-${idx}`}
+                        color={c}
+                        showHex
+                        onClick={onColorChange ? () => onColorChange(c) : undefined}
+                        useButton={!onColorChange}
+                      />
                     ))}
                   </div>
                 </div>
@@ -441,7 +447,13 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {shades.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
+                      <Swatch
+                        key={`${c}-${idx}`}
+                        color={c}
+                        showHex
+                        onClick={onColorChange ? () => onColorChange(c) : undefined}
+                        useButton={!onColorChange}
+                      />
                     ))}
                   </div>
                 </div>
@@ -450,7 +462,13 @@ export function ColorPageContent({ hex, mode = "full", faqs, name, colorExistsIn
                 <div className="flex justify-center">
                   <div className="grid w-fit grid-cols-5 xl:grid-cols-10 gap-1">
                     {tones.slice(0, 10).map((c, idx) => (
-                      <Swatch key={`${c}-${idx}`} color={c} showHex onClick={onColorChange ? () => onColorChange(c) : undefined} />
+                      <Swatch
+                        key={`${c}-${idx}`}
+                        color={c}
+                        showHex
+                        onClick={onColorChange ? () => onColorChange(c) : undefined}
+                        useButton={!onColorChange}
+                      />
                     ))}
                   </div>
                 </div>
