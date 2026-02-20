@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/colors/",
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: "Color Library - Browse Thousands of Colors | ColorMean",
     description:

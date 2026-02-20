@@ -8,7 +8,6 @@ import { CopyButton } from "@/components/copy-button"
 import { hexToRgb, rgbToHsl, hslToRgb, rgbToHex } from "@/lib/color-utils"
 import { getColorPageLink } from "@/lib/color-linking-utils"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 export function CompactAdvancedColorPicker() {
     const [selectedColor, setSelectedColor] = useState("#5B6FD8")
@@ -17,7 +16,6 @@ export function CompactAdvancedColorPicker() {
     const [lightness, setLightness] = useState(60)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [isDragging, setIsDragging] = useState(false)
-    const router = useRouter()
 
     useEffect(() => {
         const event = new CustomEvent("colorUpdate", { detail: { color: selectedColor } })
@@ -170,12 +168,10 @@ export function CompactAdvancedColorPicker() {
                         >
                             {selectedColor.toUpperCase()}
                         </div>
-                        <Button
-                            className="w-full"
-                            size="lg"
-                            onClick={() => router.push(getColorPageLink(selectedColor))}
-                        >
-                            Explore This Color
+                        <Button asChild className="w-full" size="lg">
+                            <Link href={getColorPageLink(selectedColor)}>
+                                Explore This Color
+                            </Link>
                         </Button>
                     </div>
 

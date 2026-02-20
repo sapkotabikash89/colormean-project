@@ -49,10 +49,9 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 
   // Validate hex format (3 or 6 hex digits)
   if (!/^[0-9a-f]{3}$|^[0-9a-f]{6}$/.test(cleanHexOriginal)) {
-    // Return minimal metadata for invalid hex
     return {
       title: "Invalid Color - ColorMean",
-      robots: { index: false },
+      robots: { index: false, follow: true },
     }
   }
 
@@ -62,12 +61,9 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
 
   // Check if this is an unknown color (not in color-meaning.json)
   if (!knownHexes.includes(cleanHexOriginal)) {
-    // IMPLEMENTATION: Return minimal metadata for unknown colors
-    // - Prevent indexing by search engines
-    // - Will result in 410 response from page component
     return {
       title: "Color Not Found - ColorMean",
-      robots: { index: false, follow: false },
+      robots: { index: false, follow: true },
     }
   }
 
@@ -132,9 +128,8 @@ export async function generateMetadata({ params }: ColorPageProps): Promise<Meta
       description: baseDescription,
       images: [imageUrl],
     },
-    // Additional SEO enhancements
     robots: {
-      index: isKnownColor, // Only index known colors
+      index: false,
       follow: true,
     },
     verification: {
