@@ -7,7 +7,6 @@ export async function GET() {
   const now = new Date().toISOString()
   const paths = [
     "/",
-    "/colors/",
     "/color-wheel/",
     "/color-picker/",
     "/contrast-checker/",

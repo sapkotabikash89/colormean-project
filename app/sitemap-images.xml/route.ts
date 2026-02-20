@@ -11,32 +11,7 @@ export async function GET() {
 
   const excludedHexes = new Set(Object.keys(hexToBlog).map(h => h.toUpperCase()))
 
-  // Generate image sitemap entries for all colors with Gumlet images
-  const entries = Object.entries(colorMeaning)
-    .filter(([hex]: any) => !excludedHexes.has(String(hex).toUpperCase()))
-    .map(([hex]: any) => {
-      const cleanHex = String(hex).toUpperCase()
-      const gumletUrl = getGumletImageUrl(`#${cleanHex}`)
-
-      // Only include colors that have Gumlet images
-      if (!gumletUrl) return null
-
-      const pageUrl = `${baseUrl}/colors/${cleanHex.toLowerCase()}/`
-      const title = colorMeaning[hex as keyof typeof colorMeaning]?.name || `#${cleanHex} Color`
-
-      return `<url>
-  <loc>${pageUrl}</loc>
-  <lastmod>${now}</lastmod>
-  <image:image>
-    <image:loc>${gumletUrl}</image:loc>
-    <image:caption>${title} color swatch</image:caption>
-    <image:title>${title} Color</image:title>
-    <image:geo_location>Global</image:geo_location>
-  </image:image>
-</url>`
-    })
-    .filter(Boolean) // Remove null entries
-    .join("")
+  const entries = ""
 
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>` +

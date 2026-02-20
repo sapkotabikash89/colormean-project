@@ -10,13 +10,7 @@ export async function GET() {
 
   const excludedHexes = new Set(Object.keys(hexToBlog).map(h => h.toUpperCase()))
 
-  const entries = Object.entries(colorMeaning)
-    .filter(([hex, v]: any) => v?.hex && v?.meaning && !excludedHexes.has(String(hex).toUpperCase()))
-    .map(([hex]: any) => {
-      const loc = `${baseUrl}/colors/${String(hex).toLowerCase()}/`
-      return `<url><loc>${loc}</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`
-    })
-    .join("")
+  const entries = ""
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` +

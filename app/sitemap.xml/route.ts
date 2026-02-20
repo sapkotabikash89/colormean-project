@@ -8,9 +8,7 @@ export async function GET() {
   const sitemaps = [
     `${baseUrl}/sitemap-legal.xml`,
     `${baseUrl}/sitemap-tools.xml`,
-    `${baseUrl}/sitemap-colors.xml`,
     `${baseUrl}/sitemap-posts.xml`,
-    `${baseUrl}/sitemap-images.xml`,
   ]
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>` +
